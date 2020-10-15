@@ -33,12 +33,6 @@ const Constantes = {
   "SCTRSALUDEPS": 1,
   "DIASCOMPTBASE": 30,
   "MAXADELANTO": 30,
-  "mensajeNuevoTipoPlanillaConf": 'Esta cambiando la categoria de la planilla.               Si guardas los cambios todos los trabajadores asignados a esta planilla seran retirados y quedaran libres',
-  "genPlanillaMasiva":"Selecciona un periodo para generar planilla masiva",
-  "genAsistenciaMasiva":"Selecciona un periodo para generar excel de asistencia masiva",
-  "genAsistencia":"Selecciona un periodo para generar excel de asistencia por tipo de planilla",
-  "genReporteCueCon":"Selecciona un periodo para generar el reporte de cuentas contables",
-  "genPlanilla":"Selecciona un periodo para generar planilla",
   "JUSTIFICADO": [{
     "descripcion": "No Justificado",
     "valor": 0
@@ -219,56 +213,6 @@ const Constantes = {
       "descripcion": "5ta"
     }
   ],
-  "lsconcepto":[
-    {
-      "iidConceptoPlanilla":1,
-      "sdescripcion":"A",
-      "cuentaHaberProvision":{
-        "iidCuentaContable":3,
-        "sdescripcion":"Caja de beneficios de seguridad social del pescador",
-        "icodigoCuenta":125
-      },
-      "cuentaDebeProvision":{
-        "iidCuentaContable":2,
-        "sdescripcion":"Seguros particulares de prestaciones de salud – EPS y otros particulares",
-        "icodigoCuenta":124
-      },
-      "cuentaHaberPago":{
-        "iidCuentaContable":1,
-        "sdescripcion":"Seguro complementario de trabajo de riesgo, accidentes de trabajo y enfermedades profesionales",
-        "icodigoCuenta":123
-      },
-      "cuentaDebePago":{
-        "iidCuentaContable":3,
-        "sdescripcion":"Caja de beneficios de seguridad social del pescador",
-        "icodigoCuenta":125
-      }
-    },
-    {
-      "iidConceptoPlanilla":2,
-      "sdescripcion":"B",
-      "cuentaHaberProvision":{
-        "iidCuentaContable":3,
-        "sdescripcion":"Caja de beneficios de seguridad social del pescador",
-        "icodigoCuenta":125
-      },
-      "cuentaDebeProvision":{
-        "iidCuentaContable":2,
-        "sdescripcion":"Seguros particulares de prestaciones de salud – EPS y otros particulares",
-        "icodigoCuenta":124
-      },
-      "cuentaHaberPago":{
-        "iidCuentaContable":1,
-        "sdescripcion":"Seguro complementario de trabajo de riesgo, accidentes de trabajo y enfermedades profesionales",
-        "icodigoCuenta":123
-      },
-      "cuentaDebePago":{
-        "iidCuentaContable":3,
-        "sdescripcion":"Caja de beneficios de seguridad social del pescador",
-        "icodigoCuenta":125
-      }
-    }
-  ],
 
   "unidadDeTiempo":[
     {
@@ -280,15 +224,6 @@ const Constantes = {
       "descripcion": "Meses"
     }
   ],
-
-
-  /* "SOLICITUDREVISION": [
-    {
-      "iestado":2,
-      "abrev":"R"
-    }
-
-  ], */
 
 }
 export default Constantes;

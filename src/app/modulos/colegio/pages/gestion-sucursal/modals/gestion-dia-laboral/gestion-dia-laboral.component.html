@@ -1,0 +1,67 @@
+<div class="modal-header color-page-modal">
+    <h2 class="modal-title text-center" style="color: white;">Gestión día laboral</h2>
+</div>
+<div class="modal-body">
+    <table class="table table-bordered" style="border: 1px solid #dbdde0;">
+        <thead class="color-page-button">
+            <tr style="color: white;">
+                <th class="text-center">Día</th>
+                <th class="text-center" style="width: 50px;">Laboral</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center;">
+            <tr style="font-size: 12px">
+                <td>Lunes</td>
+                <td class="text-center">
+                    <input class="form-check-input" (ngModelChange)="gestionDia($event,1)" [(ngModel)]="lunes" type="checkbox" name="lunes" id="lun" required>
+                    <label class="form-check-label" for="lun"></label>
+                </td>
+            </tr>
+            <tr style="font-size: 12px">
+                <td>Martes</td>
+                <td class="text-center">
+                    <input class="form-check-input" (ngModelChange)="gestionDia($event,2)" [(ngModel)]="martes" type="checkbox" name="martes" id="mar" required>
+                    <label class="form-check-label" for="mar"></label>
+                </td>
+            </tr>
+            <tr style="font-size: 12px">
+                <td>Miercoles</td>
+                <td class="text-center">
+                    <input class="form-check-input" (ngModelChange)="gestionDia($event,3)" [(ngModel)]="miercoles" type="checkbox" name="miercoles" id="mie" required>
+                    <label class="form-check-label" for="mie"></label>
+                </td>
+            </tr>
+            <tr style="font-size: 12px">
+                <td>Jueves</td>
+                <td class="text-center">
+                    <input class="form-check-input" (ngModelChange)="gestionDia($event,4)" [(ngModel)]="jueves" type="checkbox" name="jueves" id="jue" required>
+                    <label class="form-check-label" for="jue"></label>
+                </td>
+            </tr>
+            <tr style="font-size: 12px">
+                <td>Viernes</td>
+                <td class="text-center">
+                    <input class="form-check-input" (ngModelChange)="gestionDia($event,5)" [(ngModel)]="viernes" type="checkbox" name="viernes" id="vie" required>
+                    <label class="form-check-label" for="vie"></label>
+                </td>
+            </tr>
+            <tr style="font-size: 12px">
+                <td>Sabado</td>
+                <td class="text-center">
+                    <input class="form-check-input" (ngModelChange)="gestionDia($event,6)" [(ngModel)]="sabado" type="checkbox" name="sabado" id="sab" required>
+                    <label class="form-check-label" for="sab"></label>
+                </td>
+            </tr>
+            <tr style="font-size: 12px">
+                <td>Domingo</td>
+                <td class="text-center">
+                    <input class="form-check-input" (ngModelChange)="gestionDia($event,7)" [(ngModel)]="domingo" type="checkbox" name="domingo" id="dom" required>
+                    <label class="form-check-label" for="dom"></label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+</div>

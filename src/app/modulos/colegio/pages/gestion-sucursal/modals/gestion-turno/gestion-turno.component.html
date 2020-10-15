@@ -1,0 +1,91 @@
+<div class="modal-header color-page-modal">
+    <h2 class="modal-title text-center" style="color: white;">Gestión turno</h2>
+</div>
+<div class="modal-body">
+    <div *ngIf="lsTurno?.length == 0">
+        <div style="text-align: center; font-size: 20px; margin: 10px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+            No hay ningún turno registrado para esta sucursal
+        </div>
+    </div>
+    <table *ngIf="lsTurno?.length > 0" class="table table-bordered" style="border: 1px solid #dbdde0;">
+        <thead>
+            <tr class="color-page-tr" style="color: white;">
+                <th class="text-center" colspan="2">Descripcion</th>
+                <th class="text-center">Hora inicio</th>
+                <th class="text-center">Hora fin</th>
+                <th class="text-center">Actualizar</th>
+                <th class="text-center">Eliminar</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center;" *ngFor="let turno of lsTurno">
+            <tr style="font-size: 12px">
+                <td class="text-center" style="padding: 10px  0px 0px 0px">
+                    <a *ngIf="turno.expanded" (click)="turno.expanded = false;" class="efecctrotatecont">
+                        <i class="mdi mdi-arrow-up-drop-circle color-page-i efecctrotate" style="font-size: 23px; cursor: pointer;"></i>
+                    </a>
+                    <a *ngIf="!turno.expanded" (click)="turno.expanded = true; listarReceso(turno)" class="efecctrotatecont">
+                        <i class="mdi mdi-arrow-down-drop-circle color-page-i efecctrotate" style="font-size: 23px; cursor: pointer;"></i>
+                    </a>
+                </td>
+                <td>{{turno.descripcion}}</td>
+                <td>{{turno.horaInicio | date:'hh:mm aa'}}</td>
+                <td>{{turno.horaFin | date:'hh:mm aa'}}</td>
+                <td>
+                    <i class="mdi mdi-pencil color-page-i" (click)="actualizarTurno(turno)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                </td>
+                <td>
+                    <i class="mdi mdi-delete color-page-i" (click)="eliminarTurno(turno)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                </td>
+            </tr>
+            <tr *ngIf="turno.expanded" style="font-size: 12px">
+                <td colspan="6">
+
+                    <div class="form-row col-12 mt-2" style="padding: 0px 0px 5px 0px; margin: 0px;">
+                        <div class="col-8">
+                            <h2 class="modal-title">Gestion Receso</h2>
+                        </div>
+                        <div class="col-4">
+                            <i class="mdi mdi-plus-circle color-page-i" (click)="nuevoReceso(turno)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                        </div>
+                    </div>
+                    <div class=" form-rowcol-12" *ngIf="turno.lsReceso?.length == 0">
+                        <div style="text-align: center; font-size: 18px; margin: 5px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            No hay ningún receso registrado
+                        </div>
+                    </div>
+                    <div class="form-row col-12" *ngIf="turno.lsReceso?.length > 0" style="margin: 0 auto;">
+
+                        <table class="table table-bordered" style="border: 1px solid #dbdde0;">
+                            <thead style="background: #ebeff5;" style="color: white;">
+                                <tr class="color-page-tr">
+                                    <th class="text-center">Descripcion</th>
+                                    <th class="text-center">Hora inicio</th>
+                                    <th class="text-center">Hora fin</th>
+                                    <th class="text-center">Actualizar</th>
+                                    <th class="text-center">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr style="font-size: 12px" *ngFor="let receso of turno.lsReceso">
+                                    <td>{{receso.descripcion}}</td>
+                                    <td>{{receso.horaInicio| date:'hh:mm aa'}}</td>
+                                    <td>{{receso.horaFin| date:'hh:mm aa'}}</td>
+                                    <td>
+                                        <i class="mdi mdi-pencil color-page-i" (click)="actualizarReceso(turno, receso)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                                    </td>
+                                    <td>
+                                        <i class="mdi mdi-delete color-page-i" (click)="eliminarReceso(receso)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+    <button (click)="nuevoTurno()" type="button" id="continuar" class="btn btn-sm color-page-button" style="margin: 0px 5px; ">Nuevo Turno</button>
+</div>

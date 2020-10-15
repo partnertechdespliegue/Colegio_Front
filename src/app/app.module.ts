@@ -36,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MaterialModule } from './material.module';
 import { ColegioComponent } from './modulos/colegio/colegio.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 registerLocaleData(localesPE,'es-Pe');
 
@@ -64,9 +65,8 @@ registerLocaleData(localesPE,'es-Pe');
     BsDatepickerModule.forRoot(),
     DatepickerModule.forRoot(),
     BrowserAnimationsModule,
-    MaterialModule
-
-
+    MaterialModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [
       {

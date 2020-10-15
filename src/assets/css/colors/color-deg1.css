@@ -210,7 +210,9 @@ a.link:focus {
 }
 
 .color-page-button {
+    color: white;
     background: #6ecc3f !important;
+    color: white;
 }
 
 @media (min-width: 768px) {

@@ -36,7 +36,7 @@
                         <a class="has-arrow waves-effect waves-light " (click)="toggleCollapse(menu.idModulo)" [attr.aria-expanded]="menu.open">
                             <!-- <i [class]="menu.icono"></i> -->
                             <img src="../../assets/images/icon/svg/{{menu.icono}}" alt="i" style="width: 30px; opacity: 0.7" />
-                            <span class="hide-menu pl-1">{{menu.descripcion}}</span>
+                            <span class="hide-menu ml-2">{{menu.descripcion}}</span>
                         </a>
                         <ul [class.collapse]="!menu.open" aria-expanded="false" class="collapse">
                             <cdk-virtual-scroll-viewport [itemSize]="18 * 9" class="example-viewport">
@@ -44,7 +44,7 @@
                                     <a routerLinkActive="active" [routerLink]="[ submenu.url ]">
                                         <!-- <i [class]="submenu.icono"></i> -->
                                         <img src="../../assets/images/icon/svg/paginaSVG/{{submenu.icono}}" alt="i" style="width: 30px; opacity: 0.7" />
-                                        <span class="pl-1" style="color: white;">{{submenu.descripcion}}</span>
+                                        <span class="ml-2" style="color: white;">{{submenu.descripcion}}</span>
                                     </a>
                                 </li>
                             </cdk-virtual-scroll-viewport>

@@ -10,7 +10,6 @@ export class HeaderService {
     public http: HttpClient
   ) { }
 
-
   listarColegio(){
     return this.http.get(URL_SERVICIOSBACK + 'colegio/listar')
   }

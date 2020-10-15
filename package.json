@@ -49,6 +49,7 @@
         "ng4-loading-spinner": "1.2.3",
         "ngx-bootstrap": "4.3.0",
         "ngx-filter-pipe": "2.1.2",
+        "ngx-material-timepicker": "^5.5.3",
         "ngx-pagination": "^5.0.0",
         "public-ip": "^4.0.1",
         "rxjs": "6.5.4",

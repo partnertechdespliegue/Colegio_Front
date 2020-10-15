@@ -1,0 +1,51 @@
+<form #sucursalForm="ngForm" ngNativeValidate>
+
+    <div class="modal-header color-page-modal">
+        <h2 class="modal-title text-center" style="color: white;">{{input_sucursal!=null?"Actualizar":"Registrar"}} Sucursal</h2>
+    </div>
+    <div class="modal-body">
+        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+            <div class="col-6" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px 20px;flex: 0 0 48%; margin: 0px 5px;">
+                <div class="form-row col-12">
+                    <div class="col-12 mb-3">
+                        <label for="dep">Departamento *</label>
+                        <ng-select [items]="lsDepartamento" bindLabel="descripcion" bindValue="idDepartamento" placeholder="Departamento" id="dep" [(ngModel)]="departamento" name="#departamento" (ngModelChange)="obtenerProvincias($event)" style="width: 100%; margin-right: 10px;"
+                            required></ng-select>
+                    </div>
+                </div>
+                <div class="form-row col-12">
+                    <div class="col-12 mb-3">
+                        <label for="prov">Provincia *</label>
+                        <ng-select [items]="lsProvincia" bindLabel="descripcion" bindValue="idProvincia" placeholder="Provincia" id="prov" [(ngModel)]="provincia" name="#provincia" (ngModelChange)="obtenerDistrito($event)" style="width: 100%; margin-right: 10px;" required></ng-select>
+                    </div>
+                </div>
+                <div class="form-row col-12">
+                    <div class="col-12 mb-3">
+                        <label for="dis">Distrito *</label>
+                        <ng-select [items]="lsDistrito" bindLabel="descripcion" bindValue="idDistrito" placeholder="Distrito" id="dis" [(ngModel)]="distrito" name="#distrito" style="width: 100%; margin-right: 10px;" required></ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px 0px;flex: 0 0 48%; margin: 0px 5px;">
+                <div class="col-12 mb-3">
+                    <label for="nameuser">Direccion:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="150" id="nomCole" name="#sucursal.direccion" [(ngModel)]="sucursal.direccion" required>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="horainicio">Hora inicio atención:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="fullTime" [format]="12" name="#horaIni" [(ngModel)]="horaIni" readonly required>
+                    <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+                </div>
+                <div class="col-12 mb-3">
+                    <label for="horafin">Hora fin atención:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="fullTime2" [format]="12" name="#horaFin" [(ngModel)]="horaFin" readonly required>
+                    <ngx-material-timepicker #fullTime2></ngx-material-timepicker>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="sucursalForm.form.invalid" style="margin: 0px 5px; ">Confirmar</button>
+    </div>
+</form>

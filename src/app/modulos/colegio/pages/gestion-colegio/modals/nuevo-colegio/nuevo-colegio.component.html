@@ -1,0 +1,24 @@
+<form #colegioForm="ngForm" ngNativeValidate>
+
+    <div class="modal-header color-page-modal">
+        <h2 class="modal-title text-center" style="color: white;">{{input_colegio!=null?"Actualizar":"Registrar"}} Colegio</h2>
+    </div>
+    <div class="modal-body">
+        <div class="col-12 mr-3" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px 20px;">
+            <div class="form-row col-12" style="padding-top: 20px;">
+                <div class="col-6 mb-3">
+                    <label for="nameuser">Nombre del colegio:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="150" id="nomCole" name="#colegio.nombre" [(ngModel)]="colegio.nombre" required>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="email">Codigo Ugel:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="50" id="codCole" name="#colegio.codUgel" [(ngModel)]="colegio.codUgel">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="colegioForm.form.invalid" style="margin: 0px 5px; ">Confirmar</button>
+    </div>
+</form>

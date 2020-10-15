@@ -210,6 +210,7 @@ a.link:focus {
 }
 
 .color-page-button {
+    color: white;
     background: #b81924 !important;
 }
 

@@ -1,0 +1,35 @@
+<form #recesoForm="ngForm" ngNativeValidate>
+
+    <div class="modal-header color-page-modal">
+        <h2 class="modal-title text-center" style="color: white;">{{input_receso!=null?"Actualizar":"Registrar"}} Receso</h2>
+    </div>
+    <div class="modal-body">
+        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+            <div class="form-row col-12">
+                <div class="col-12 mb-3">
+                    <label for="dscp">Descripcion:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="150" id="dscp" name="#receso.descripcion" [(ngModel)]="receso.descripcion" required>
+                </div>
+            </div>
+            <div class="form-row col-12">
+                <div class="col-12 mb-3">
+                    <label for="horainicio">Hora inicio atención:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time2" [format]="12" [min]="horaIniTur" [max]="horaFinTur" name="#horaIni" [(ngModel)]="horaIni" readonly required>
+                    <ngx-material-timepicker #time2></ngx-material-timepicker>
+                </div>
+            </div>
+            <div class="form-row col-12">
+                <div class="col-12 mb-1">
+                    <label for="horafin">Hora fin atención:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time2II" [format]="12" [min]="horaIni" [max]="horaFinTur" name="#horaFin" [(ngModel)]="horaFin" readonly required>
+                    <ngx-material-timepicker #time2II></ngx-material-timepicker>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="recesoForm.form.invalid" style="margin: 0px 5px; ">Confirmar</button>
+    </div>
+</form>

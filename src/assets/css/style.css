@@ -83,6 +83,14 @@ File: scss
     outline: none;
 }
 
+.timepicker-overlay {
+    z-index: 10000000 !important;
+}
+
+.timepicker-backdrop-overlay {
+    z-index: 10000000 !important;
+}
+
 .modalMD>.modal-dialog {
     max-width: 470px !important;
     min-width: 332px !important;

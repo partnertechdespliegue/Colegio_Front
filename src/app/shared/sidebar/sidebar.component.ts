@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { SidebarService } from '../../services/service.index';
-import { Usuario } from '../../models/usuario.model';
 import { UsuarioService } from '../../modulos/administracion/services/usuarios/usuario.service';
 
 @Component({
@@ -26,20 +25,8 @@ export class SidebarComponent implements OnInit {
     this.cargaPaginasPorModulo();
   }
 
-
-
   cargaPaginasPorModulo() {
-    var perfil: any;
-    // if(token!=''){
-    //    perfil={
-    //     "idPerfil":token.id_perfil
-    //   }
-    // }else{
-    //    perfil={
-    //     "idPerfil":1
-    //   }
-    // }
-    perfil = {
+     var perfil = {
       "idPerfil": this.token.id_perfil
     }
     this._sidebar.cargarPaginasPerfil(perfil).subscribe(resp => {
@@ -53,12 +40,10 @@ export class SidebarComponent implements OnInit {
   }
 
   collapsePerfil() {
-
     if (this.openPerfil) {
       this.openPerfil = !this.openPerfil;
     }
   }
-
 
   toggleCollapse(modulo: number) {
     for (let index = 0; index < this.lsmenu.length; index++) {
@@ -79,9 +64,7 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-
     this._usuarioService.logout();
-
   }
 
 }

@@ -1,0 +1,146 @@
+<form #turnoForm="ngForm" ngNativeValidate>
+    <div class="modal-header color-page-modal">
+        <h2 class="modal-title text-center" style="color: white;">{{input_turno!=null?"Actualizar":"Registrar"}} Turno</h2>
+    </div>
+    <div class="modal-body">
+        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+            <div class="form-row col-12">
+                <div class="col-4 mb-2">
+                    <label for="nameuser">Descripcion:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="150" id="nomCole" name="#turno.descripcion" [(ngModel)]="turno.descripcion" required>
+                </div>
+                <div class="col-4 mb-2">
+                    <label for="horainicio">Hora inicio atención:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="fullTime" [format]="12" [min]="horaIniSucu" [max]="horaFinSucu" name="#horaIni" [(ngModel)]="horaIni" readonly required>
+                    <ngx-material-timepicker #fullTime></ngx-material-timepicker>
+                </div>
+                <div class="col-4 mb-2">
+                    <label for="horafin">Hora fin atención:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="fullTime2" [format]="12" [min]="horaIni" [max]="horaFinSucu" name="#horaFin" [(ngModel)]="horaFin" readonly required>
+                    <ngx-material-timepicker #fullTime2></ngx-material-timepicker>
+                </div>
+            </div>
+            <div *ngIf="input_turno == null" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+                <div class="form-row col-12" style="padding: 0px 0px 5px 0px; margin: 0px;">
+                    <div class="col-10">
+                        <h2 class="modal-title">Gestion Receso</h2>
+                    </div>
+                    <div class="col-2">
+                        <i *ngIf="5 > lsReceso?.length" class="mdi mdi-plus-circle float-right color-page-i" (click)="agregarReceso()" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </div>
+                </div>
+                <div class="col-12 modal-body">
+                    <hr style="margin: 0px  0px  10px  0px; padding: 0px;">
+                    <div class="card example-1 square scrollbar-cyan bordered-cyan" style="height: 190px;">
+                        <div style="padding: 0px 10px;">
+                            <div *ngIf="lsReceso?.length == 0">
+                                <div style="text-align: center; font-size: 20px; margin: 10px;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                                    No ha agregado ningún receso aún
+                                </div>
+                            </div>
+                            <div *ngIf="lsReceso?.length >= 1" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px; margin-bottom: 5px;">
+                                <div class="col-3">
+                                    <label for="dscp">Descripcion:</label>
+                                    <input class="form-control form-control-sm" type="text" maxlength="150" id="dscp" name="#lsReceso[0].descripcion" [(ngModel)]="lsReceso[0].descripcion" required>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horainicio">Hora inicio atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaIni1" [(ngModel)]="horaIni1" readonly required>
+                                    <ngx-material-timepicker #time></ngx-material-timepicker>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horafin">Hora fin atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="timeII" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaFin1" [(ngModel)]="horaFin1" readonly required>
+                                    <ngx-material-timepicker #timeII></ngx-material-timepicker>
+                                </div>
+                                <div class="col-1">
+                                    <i class="mdi mdi-close float-right color-page-i" (click)="quitarReceso(0)" aria-hidden="true" style="cursor: pointer; font-size: 30px; margin-top: 15px;"></i>
+                                </div>
+                            </div>
+                            <div *ngIf="lsReceso?.length >= 2" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px; margin-bottom: 5px;">
+                                <div class="col-3">
+                                    <label for="dscp">Descripcion:</label>
+                                    <input class="form-control form-control-sm" type="text" maxlength="150" id="dscp" name="#lsReceso[1].descripcion" [(ngModel)]="lsReceso[1].descripcion" required>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horainicio">Hora inicio atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time2" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaIni2" [(ngModel)]="horaIni2" readonly required>
+                                    <ngx-material-timepicker #time2></ngx-material-timepicker>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horafin">Hora fin atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time2II" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaFin2" [(ngModel)]="horaFin2" readonly required>
+                                    <ngx-material-timepicker #time2II></ngx-material-timepicker>
+                                </div>
+                                <div class="col-1">
+                                    <i class="mdi mdi-close float-right color-page-i" (click)="quitarReceso(1)" aria-hidden="true" style="cursor: pointer; font-size: 30px; margin-top: 15px;"></i>
+                                </div>
+                            </div>
+                            <div *ngIf="lsReceso?.length >= 3" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px; margin-bottom: 5px;">
+                                <div class="col-3">
+                                    <label for="dscp">Descripcion:</label>
+                                    <input class="form-control form-control-sm" type="text" maxlength="150" id="dscp" name="#lsReceso[2].descripcion" [(ngModel)]="lsReceso[2].descripcion" required>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horainicio">Hora inicio atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time3" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaIni3" [(ngModel)]="horaIni3" readonly required>
+                                    <ngx-material-timepicker #time3></ngx-material-timepicker>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horafin">Hora fin atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time3II" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaFin3" [(ngModel)]="horaFin3" readonly required>
+                                    <ngx-material-timepicker #time3II></ngx-material-timepicker>
+                                </div>
+                                <div class="col-1">
+                                    <i class="mdi mdi-close float-right color-page-i" (click)="quitarReceso(2)" aria-hidden="true" style="cursor: pointer; font-size: 30px; margin-top: 15px;"></i>
+                                </div>
+                            </div>
+                            <div *ngIf="lsReceso?.length >= 4" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px; margin-bottom: 5px;">
+                                <div class="col-3">
+                                    <label for="dscp">Descripcion:</label>
+                                    <input class="form-control form-control-sm" type="text" maxlength="150" id="dscp" name="#lsReceso[3].descripcion" [(ngModel)]="lsReceso[3].descripcion" required>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horainicio">Hora inicio atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time4" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaIni4" [(ngModel)]="horaIni4" readonly required>
+                                    <ngx-material-timepicker #time4></ngx-material-timepicker>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horafin">Hora fin atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time4II" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaFin4" [(ngModel)]="horaFin4" readonly required>
+                                    <ngx-material-timepicker #time4II></ngx-material-timepicker>
+                                </div>
+                                <div class="col-1">
+                                    <i class="mdi mdi-close float-right color-page-i" (click)="quitarReceso(3)" aria-hidden="true" style="cursor: pointer; font-size: 30px; margin-top: 15px;"></i>
+                                </div>
+                            </div>
+                            <div *ngIf="lsReceso?.length >= 5" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px; margin-bottom: 5px;">
+                                <div class="col-3">
+                                    <label for="dscp">Descripcion:</label>
+                                    <input class="form-control form-control-sm" type="text" maxlength="150" id="dscp" name="#lsReceso[4].descripcion" [(ngModel)]="lsReceso[4].descripcion" required>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horainicio">Hora inicio atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time5" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaIni5" [(ngModel)]="horaIni5" readonly required>
+                                    <ngx-material-timepicker #time5></ngx-material-timepicker>
+                                </div>
+                                <div class="col-4">
+                                    <label for="horafin">Hora fin atención:</label>
+                                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time5II" [format]="12" [min]="horaIni" [max]="horaFin" name="#horaFin5" [(ngModel)]="horaFin5" readonly required>
+                                    <ngx-material-timepicker #time5II></ngx-material-timepicker>
+                                </div>
+                                <div class="col-1">
+                                    <i class="mdi mdi-close float-right color-page-i" (click)="quitarReceso(4)" aria-hidden="true" style="cursor: pointer; font-size: 30px; margin-top: 15px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button" class="btn btn-warning btn-sm min" style="margin: 0px 5px;">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="turnoForm.form.invalid" style="margin: 0px 5px;">Confirmar</button>
+    </div>
+</form>
