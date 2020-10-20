@@ -1,0 +1,80 @@
+<form #turnoForm="ngForm" ngNativeValidate>
+    <div class="modal-header color-page-modal">
+        <h2 class="modal-title text-center" style="color: white;">{{curso!=null?"Actualizar":"Registrar"}} Curso</h2>
+    </div>
+    <div class="modal-body">
+        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+            <div class="form-row col-12">
+                <div class="col-4 mb-2">
+                    <label for="desc">Descripcion:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="150" id="desc" name="#curso.descripcion" [(ngModel)]="curso.descripcion" required>
+                </div>
+                <div class="col-4 mb-2">
+                    <label for="hrsem">Horas semanales:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="2" id="hrsem" name="#curso.horaSemanal" [(ngModel)]="curso.horaSemanal" (keypress)="verificarNumero($event)" required>
+                </div>
+                <div class="col-4 mb-2">
+                    <label for="tipc">Tipo curso:</label>
+                    <ng-select [items]="lsTipoCurso" bindLabel="descripcion" bindValue="idTipoCurso" placeholder="Seleccione.." id="tipc" [(ngModel)]="tipoCurso.idTipoCurso" name="#tipoCurso.idTipoCurso" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarTemaPorTipoCurso($event)"
+                        required></ng-select>
+                </div>
+            </div>
+            <div class="form-row col-12">
+                <div class="col-4 mb-2">
+                    <label for="nivedu">Nivel educativo:</label>
+                    <ng-select [items]="lsNivelEduc" bindLabel="descripcion" bindValue="idNivelEducativo" placeholder="Seleccione.." id="nivedu" name="#nivelEduc.idNivelEducativo" [(ngModel)]="nivelEduc.idNivelEducativo" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarGrado($event)"
+                        required></ng-select>
+                </div>
+                <div class="col-4 mb-2">
+                    <label for="grado">Grado:</label>
+                    <ng-select [items]="lsGrado" bindLabel="descripcion" bindValue="idGrado" placeholder="Seleccione.." id="grado" name="#grado.idGrado" [(ngModel)]="grado.idGrado" style="width: 100%; margin-right: 10px;" required></ng-select>
+                </div>
+                <div class="col-4 mb-2">
+                    <label for="prof">Profesor:</label>
+                    <ng-select [items]="lsProfesor" bindLabel="nombre" bindValue="id" placeholder="Seleccione.." id="prof" style="width: 100%; margin-right: 10px;" required></ng-select>
+                </div>
+            </div>
+            <div *ngIf="input_curso == null" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+                <div class="form-row col-12" style="padding: 0px 0px 5px 0px; margin: 0px;">
+                    <div class="col-4 mt-1">
+                        <h2 class="modal-title">Gestion Temas:</h2>
+                    </div>
+                    <div class="col-6">
+                        <!-- <label for="temtc">Tema:</label> -->
+                        <ng-select [items]="lsTemaTipoCurso" bindLabel="descripcion" bindValue="idTema" placeholder="Seleccione un tipo curso" id="temtc" name="#idTemaTipCu" [(ngModel)]="idTemaTipCu" style="width: 100%; margin-right: 10px;"></ng-select>
+                    </div>
+                    <div class="col-2 pr-5">
+                        <i class="mdi mdi-plus-circle float-right color-page-i" (click)="agregarTema()" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </div>
+                </div>
+                <div class="col-12 modal-body">
+                    <hr style="margin: 0px  0px  10px  0px; padding: 0px;">
+                    <div class="card example-1 square scrollbar-cyan bordered-cyan" style="height: 160px;">
+                        <div style="padding: 0px 10px;">
+                            <div *ngIf="lsTemaAgregado?.length == 0">
+                                <div style="text-align: center; font-size: 20px; margin: 10px;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                                    No ha agregado ningún tema aún
+                                </div>
+                            </div>
+                            <div class="form-row col-12" *ngFor="let tema of lsTemaAgregado; let i = index">
+                                <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px 20px; margin-bottom: 5px;">
+                                    <div class="col-10">
+                                        <p style="margin: 10px 30px; font-size: 14px;">{{tema.descripcion}}</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <i class="mdi mdi-close float-right color-page-i" (click)="quitarTema(i)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button" class="btn btn-warning btn-sm min" style="margin: 0px 5px;">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="turnoForm.form.invalid" style="margin: 0px 5px;">Confirmar</button>
+    </div>
+</form>

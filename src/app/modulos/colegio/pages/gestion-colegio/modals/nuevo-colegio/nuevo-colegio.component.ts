@@ -37,7 +37,6 @@ export class NuevoColegioComponent implements OnInit, OnDestroy {
     }
   }
 
-
   close() {
     this.activemodal.dismiss('Cancelado');
   }

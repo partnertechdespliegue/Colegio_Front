@@ -150,27 +150,14 @@ const Constantes = {
     }
 
   ],
-  "tipoCuenta":[
+  "tipoSalon":[
     {
       "id":1,
-      "descripcion":"AHORRO"
+      "desc":"Unico"
     },
     {
       "id":2,
-      "descripcion":"CORRIENTE"
-    },{
-      "id":3,
-      "descripcion":"INTERBANCARIA"
-    }
-  ],
-  "tipoCuentaEmp":[
-    {
-      "id":1,
-      "descripcion":"MAESTRA"
-    },
-    {
-      "id":2,
-      "descripcion":"CORRIENTE"
+      "desc":"Compartido"
     }
   ],
   "tipoModena":[
@@ -193,16 +180,6 @@ const Constantes = {
       "descripcion":"PRIVADO"
     }
   ],
-  "tipoRem":[
-    {
-      "id":1,
-      "descripcion":"MONTO FIJO"
-    },
-    {
-      "id":2,
-      "descripcion":"FORMULA"
-    }
-  ],
   "tipoCategoria":[
     {
       "id": 4,
@@ -211,17 +188,6 @@ const Constantes = {
     {
       "id": 5,
       "descripcion": "5ta"
-    }
-  ],
-
-  "unidadDeTiempo":[
-    {
-      "unidad_tiempo": "A",
-      "descripcion": "Años"
-    },
-    {
-      "unidad_tiempo": "M",
-      "descripcion": "Meses"
     }
   ],
 

@@ -1,29 +1,33 @@
-import { ColegioService } from './../../../../services/colegio/colegio.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ColegioService } from '../../../../services/colegio/colegio.service';
 import { Router } from '@angular/router';
 import Constantes from '../../../../../../models/Constantes';
 import Swal from 'sweetalert2';
+import { Tema } from '../../../../../../models/Tema';
+import { TipoCurso } from '../../../../../../models/TipoCurso';
 
 @Component({
-  selector: 'app-confirmar-turno',
-  templateUrl: './confirmar-turno.component.html',
+  selector: 'app-confirmar-tema',
+  templateUrl: './confirmar-tema.component.html',
   styles: []
 })
-export class ConfirmarTurnoComponent implements OnInit {
+export class ConfirmarTemaComponent implements OnInit {
 
-  @Input() input_turnoDTO;
+  @Input() input_tema;
+  @Input() input_tipoCurso;
 
-  turnoDTO: any;
+  tema: any = new Tema();
+  tipoCurso: any = new TipoCurso();
 
   constructor(
     public activemodal: NgbActiveModal,
-    public router: Router,
-    public colegioService: ColegioService
-  ) { }
+    public colegioService: ColegioService,
+    public router: Router) { }
 
-  ngOnInit() { debugger
-    this.turnoDTO = this.input_turnoDTO;
+  ngOnInit() {
+    this.tema = this.input_tema;
+    this.tipoCurso = this.input_tipoCurso;
   }
 
   close() {
@@ -31,17 +35,21 @@ export class ConfirmarTurnoComponent implements OnInit {
   }
 
   crud() {
-    switch (this.turnoDTO.accion) {
-      case Constantes.ACTUALIZAR: this.actualizarTurno();
+    switch (this.tema.accion) {
+      case Constantes.ACTUALIZAR: this.actualizarTema();
         break;
-      case Constantes.ELIMINAR: this.eliminarTurno();
+      case Constantes.ELIMINAR: this.eliminarTema();
         break;
-      default: this.registrarTurno();
+      default: this.registrarTema();
     }
   }
 
-  registrarTurno() {
-    this.colegioService.registrarTurno(this.turnoDTO).subscribe((resp: any) => {
+  registrarTema() {
+    var dto = {
+      "tipoCurso": this.tipoCurso,
+      "tema": this.tema
+    }
+    this.colegioService.registrarTema(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
         Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
         this.refrescar(this.router.url);
@@ -53,8 +61,9 @@ export class ConfirmarTurnoComponent implements OnInit {
     this.activemodal.dismiss();
   }
 
-  actualizarTurno() {
-    this.colegioService.actualizarTurno(this.turnoDTO).subscribe((resp: any) => {
+  actualizarTema() {
+    this.tema.tipoCurso = this.tipoCurso;
+    this.colegioService.actualizarTema(this.tema).subscribe((resp: any) => {
       if (resp.estado == 1) {
         Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
         this.refrescar(this.router.url);
@@ -66,8 +75,8 @@ export class ConfirmarTurnoComponent implements OnInit {
     this.activemodal.dismiss();
   }
 
-  eliminarTurno() {
-    this.colegioService.eliminarTurno(this.turnoDTO.idTurno).subscribe((resp: any) => {
+  eliminarTema() {
+    this.colegioService.eliminarTema(this.tema.idTema).subscribe((resp: any) => {
       if (resp.estado == 1) {
         Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
         this.refrescar(this.router.url)
@@ -83,5 +92,4 @@ export class ConfirmarTurnoComponent implements OnInit {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate([url]));
   }
-
 }

@@ -1,0 +1,43 @@
+<div class="modal-header color-page-modal">
+    <h2 class="modal-title text-center" style="color: white;">Temario</h2>
+</div>
+<div class="form-row col-12" style="padding: 10px 5px; margin: 0px;">
+    <div class="col-2 mt-1">
+        <p class="modal-title">Temas:</p>
+    </div>
+    <div class="col-8">
+        <!-- <label for="temtc">Tema:</label> -->
+        <ng-select [items]="lsTema" bindLabel="descripcion" bindValue="idTema" placeholder="Seleccione un tipo curso" id="temtc" name="#idTema" [(ngModel)]="idTema" style="width: 100%; margin-right: 10px;"></ng-select>
+    </div>
+    <div class="col-2">
+        <i class="mdi mdi-plus-circle float-right color-page-i" (click)="validarNuevoTemario()" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <hr style="margin: 0px  0px  10px  0px; padding: 0px;">
+    <div *ngIf="lsTemario?.length == 0">
+        <div style="text-align: center; font-size: 18px; margin: 10px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+            No hay ningún tema registrado
+        </div>
+    </div>
+    <table *ngIf="lsTemario?.length > 0" class="table table-bordered" style="border: 1px solid #dbdde0;">
+        <thead>
+            <tr class="color-page-tr" style="color: white;">
+                <th class="text-center">Tema</th>
+                <th class="text-center" style="width: 80px;">Eliminar</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center;" *ngFor="let temario of lsTemario">
+            <tr style="font-size: 12px">
+                <td>{{temario.tema.descripcion}}</td>
+                <td>
+                    <i class="mdi mdi-delete color-page-i" (click)="eliminarTemario(temario)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+    <!-- <button (click)="nuevoTemario()" type="button" id="continuar" class="btn btn-sm color-page-button" style="margin: 0px 5px; ">Agregar tema</button> -->
+</div>

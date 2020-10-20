@@ -26,6 +26,20 @@ import { NuevoTurnoComponent } from './pages/gestion-sucursal/modals/nuevo-turno
 import { ConfirmarTurnoComponent } from './pages/gestion-sucursal/modals/confirmar-turno/confirmar-turno.component';
 import { NuevoRecesoComponent } from './pages/gestion-sucursal/modals/nuevo-receso/nuevo-receso.component';
 import { ConfirmarRecesoComponent } from './pages/gestion-sucursal/modals/confirmar-receso/confirmar-receso.component';
+import { GestionSalonComponent } from './pages/gestion-salon/gestion-salon.component';
+import { NuevoSalonComponent } from './pages/gestion-salon/modals/nuevo-salon/nuevo-salon.component';
+import { ConfirmarSalonComponent } from './pages/gestion-salon/modals/confirmar-salon/confirmar-salon.component';
+import { GestionCursoComponent } from './pages/gestion-curso/gestion-curso.component';
+import { NuevoTipoCursoComponent } from './pages/gestion-curso/modals/nuevo-tipo-curso/nuevo-tipo-curso.component';
+import { ConfirmarTipoCursoComponent } from './pages/gestion-curso/modals/confirmar-tipo-curso/confirmar-tipo-curso.component';
+import { NuevoTemaComponent } from './pages/gestion-curso/modals/nuevo-tema/nuevo-tema.component';
+import { ConfirmarTemaComponent } from './pages/gestion-curso/modals/confirmar-tema/confirmar-tema.component';
+import { NuevoCursoComponent } from './pages/gestion-curso/modals/nuevo-curso/nuevo-curso.component';
+import { ConfirmarCursoComponent } from './pages/gestion-curso/modals/confirmar-curso/confirmar-curso.component';
+import { GestionTemarioComponent } from './pages/gestion-curso/modals/gestion-temario/gestion-temario.component';
+import { HorarioSalonComponent } from './pages/gestion-salon/modals/horario-salon/horario-salon.component';
+import { NuevoHorarioSalonComponent } from './pages/gestion-salon/modals/nuevo-horario-salon/nuevo-horario-salon.component';
+import { ConfirmarHorarioSalonComponent } from './pages/gestion-salon/modals/confirmar-horario-salon/confirmar-horario-salon.component';
 
 @NgModule({
   imports: [
@@ -55,7 +69,21 @@ import { ConfirmarRecesoComponent } from './pages/gestion-sucursal/modals/confir
     NuevoTurnoComponent,
     ConfirmarTurnoComponent,
     NuevoRecesoComponent,
-    ConfirmarRecesoComponent],
+    ConfirmarRecesoComponent,
+    GestionSalonComponent,
+    NuevoSalonComponent,
+    ConfirmarSalonComponent,
+    GestionCursoComponent,
+    NuevoTipoCursoComponent,
+    ConfirmarTipoCursoComponent,
+    NuevoTemaComponent,
+    ConfirmarTemaComponent,
+    NuevoCursoComponent,
+    ConfirmarCursoComponent,
+    GestionTemarioComponent,
+    HorarioSalonComponent,
+    NuevoHorarioSalonComponent,
+    ConfirmarHorarioSalonComponent],
 
   entryComponents: [
     NuevoColegioComponent,
@@ -68,7 +96,19 @@ import { ConfirmarRecesoComponent } from './pages/gestion-sucursal/modals/confir
     NuevoTurnoComponent,
     ConfirmarTurnoComponent,
     NuevoRecesoComponent,
-    ConfirmarRecesoComponent
+    ConfirmarRecesoComponent,
+    NuevoSalonComponent,
+    ConfirmarSalonComponent,
+    NuevoTipoCursoComponent,
+    ConfirmarTipoCursoComponent,
+    NuevoTemaComponent,
+    ConfirmarTemaComponent,
+    NuevoCursoComponent,
+    ConfirmarCursoComponent,
+    GestionTemarioComponent,
+    HorarioSalonComponent,
+    NuevoHorarioSalonComponent,
+    ConfirmarHorarioSalonComponent
   ],
 
   providers: [

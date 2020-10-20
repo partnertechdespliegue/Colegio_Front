@@ -1,0 +1,282 @@
+<div class="modal-header color-page-modal">
+    <h2 class="modal-title text-center" style="color: white;">Gestión horario salon</h2>
+</div>
+<div class="modal-body">
+    <div *ngIf="lsDiaLaboral?.length == 0">
+        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+            No hay ningún turno registrado para esta sucursal
+        </div>
+    </div>
+    <div class="card example-1 square" style="height: 425px;">
+
+        <table *ngIf="lsDiaLaboral?.length > 0" class="table table-bordered" style="border: 1px solid #dbdde0;">
+            <thead>
+                <tr class="color-page-tr" style="color: white;">
+                    <th class="text-center" style="width: 50px;">Día</th>
+                    <th class="text-center" style="width: 600px;">Horario</th>
+                    <th class="text-center" style="width: 50px;">Agregar</th>
+                </tr>
+            </thead>
+            <tbody style="text-align: center;">
+
+                <tr style="font-size: 12px">
+                    <td>
+                        <div class="texto-vertical">Lunes</div>
+                    </td>
+                    <td *ngIf="lunes" style="padding-top: 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-3" style="padding: 2px 5px" *ngFor="let lu of lsLunes">
+                                <div class="card text-white bg-success" style="border-radius: 10px;">
+                                    <div class="card-header" style="padding: 6px 0px;">
+                                        <div class="btn-group">
+                                            <div style="padding: 4px 0px; font-size: 13px;">
+                                                {{lu.curso.descripcion}}
+                                            </div>
+                                            <button type="button" class="btn dropdown-toggle dropdown-r dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item pointer" (click)="eliminarHorarioSalon(lu)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 10px 0px;">
+                                        <p class="card-text">{{lu.horaInicio | date:'hh:mm aa'}} - {{lu.horaFin | date:'hh:mm aa'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td *ngIf="!lunes">
+                        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            Día no laboral
+                        </div>
+                    </td>
+                    <td>
+                        <i *ngIf="lunes" class="mdi  mdi-plus-circle color-page-i" (click)="nuevoHorarioSalon(1)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </td>
+                </tr>
+                <tr style="font-size: 12px">
+                    <td>
+                        <div class="texto-vertical">Martes</div>
+                    </td>
+                    <td *ngIf="martes" style="padding-top: 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-3" style="padding: 2px 5px" *ngFor="let ma of lsMartes">
+                                <div class="card text-white bg-success" style="border-radius: 10px;">
+                                    <div class="card-header" style="padding: 6px 0px;">
+                                        <div class="btn-group">
+                                            <div style="padding: 4px 0px; font-size: 13px;">
+                                                {{ma.curso.descripcion}}
+                                            </div>
+                                            <button type="button" class="btn dropdown-toggle dropdown-r dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item pointer" (click)="eliminarHorarioSalon(ma)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 10px 0px;">
+                                        <p class="card-text">{{ma.horaInicio | date:'hh:mm aa'}} - {{ma.horaFin | date:'hh:mm aa'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td *ngIf="!martes">
+                        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            Día no laboral
+                        </div>
+                    </td>
+                    <td>
+                        <i *ngIf="martes" class="mdi  mdi-plus-circle color-page-i" (click)="nuevoHorarioSalon(2)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </td>
+                </tr>
+                <tr style="font-size: 12px">
+                    <td>
+                        <div class="texto-vertical">Miercoles</div>
+                    </td>
+                    <td *ngIf="miercoles" style="padding-top: 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-3" style="padding: 2px 5px" *ngFor="let mi of lsMiercoles">
+                                <div class="card text-white bg-success" style="border-radius: 10px;">
+                                    <div class="card-header" style="padding: 6px 0px;">
+                                        <div class="btn-group">
+                                            <div style="padding: 4px 0px; font-size: 13px;">
+                                                {{mi.curso.descripcion}}
+                                            </div>
+                                            <button type="button" class="btn dropdown-toggle dropdown-r dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item pointer" (click)="eliminarHorarioSalon(mi)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 10px 0px;">
+                                        <p class="card-text">{{mi.horaInicio | date:'hh:mm aa'}} - {{mi.horaFin | date:'hh:mm aa'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td *ngIf="!miercoles">
+                        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            Día no laboral
+                        </div>
+                    </td>
+                    <td>
+                        <i *ngIf="miercoles" class="mdi  mdi-plus-circle color-page-i" (click)="nuevoHorarioSalon(3)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </td>
+                </tr>
+                <tr style="font-size: 12px">
+                    <td>
+                        <div class="texto-vertical">Jueves</div>
+                    </td>
+                    <td *ngIf="jueves" style="padding-top: 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-3" style="padding: 2px 5px" *ngFor="let ju of lsJueves">
+                                <div class="card text-white bg-success" style="border-radius: 10px;">
+                                    <div class="card-header" style="padding: 6px 0px;">
+                                        <div class="btn-group">
+                                            <div style="padding: 4px 0px; font-size: 13px;">
+                                                {{ju.curso.descripcion}}
+                                            </div>
+                                            <button type="button" class="btn dropdown-toggle dropdown-r dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item pointer" (click)="eliminarHorarioSalon(ju)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 10px 0px;">
+                                        <p class="card-text">{{ju.horaInicio | date:'hh:mm aa'}} - {{ju.horaFin | date:'hh:mm aa'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td *ngIf="!jueves">
+                        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            Día no laboral
+                        </div>
+                    </td>
+                    <td>
+                        <i *ngIf="jueves" class="mdi  mdi-plus-circle color-page-i" (click)="nuevoHorarioSalon(4)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </td>
+                </tr>
+                <tr style="font-size: 12px">
+                    <td>
+                        <div class="texto-vertical">Viernes</div>
+                    </td>
+                    <td *ngIf="viernes" style="padding-top: 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-3" style="padding: 2px 5px" *ngFor="let vi of lsViernes">
+                                <div class="card text-white bg-success" style="border-radius: 10px;">
+                                    <div class="card-header" style="padding: 6px 0px;">
+                                        <div class="btn-group">
+                                            <div style="padding: 4px 0px; font-size: 13px;">
+                                                {{vi.curso.descripcion}}
+                                            </div>
+                                            <button type="button" class="btn dropdown-toggle dropdown-r dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item pointer" (click)="eliminarHorarioSalon(vi)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 10px 0px;">
+                                        <p class="card-text">{{vi.horaInicio | date:'hh:mm aa'}} - {{vi.horaFin | date:'hh:mm aa'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td *ngIf="!viernes">
+                        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            Día no laboral
+                        </div>
+                    </td>
+                    <td>
+                        <i *ngIf="viernes" class="mdi  mdi-plus-circle color-page-i" (click)="nuevoHorarioSalon(5)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </td>
+                </tr>
+                <tr style="font-size: 12px">
+                    <td>
+                        <div class="texto-vertical">Sabado</div>
+                    </td>
+                    <td *ngIf="sabado" style="padding-top: 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-3" style="padding: 2px 5px" *ngFor="let sa of lsSabado">
+                                <div class="card text-white bg-success" style="border-radius: 10px;">
+                                    <div class="card-header" style="padding: 6px 0px;">
+                                        <div class="btn-group">
+                                            <div style="padding: 4px 0px; font-size: 13px;">
+                                                {{sa.curso.descripcion}}
+                                            </div>
+                                            <button type="button" class="btn dropdown-toggle dropdown-r dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item pointer" (click)="eliminarHorarioSalon(sa)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 10px 0px;">
+                                        <p class="card-text">{{sa.horaInicio | date:'hh:mm aa'}} - {{sa.horaFin | date:'hh:mm aa'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td *ngIf="!sabado">
+                        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            Día no laboral
+                        </div>
+                    </td>
+                    <td>
+                        <i *ngIf="sabado" class="mdi  mdi-plus-circle color-page-i" (click)="nuevoHorarioSalon(6)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </td>
+                </tr>
+                <tr style="font-size: 12px">
+                    <td>
+                        <div class="texto-vertical">Domingo</div>
+                    </td>
+                    <td *ngIf="domingo" style="padding-top: 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-3" style="padding: 2px 5px" *ngFor="let do of lsDomingo">
+                                <div class="card text-white bg-success" style="border-radius: 10px;">
+                                    <div class="card-header" style="padding: 6px 0px;">
+                                        <div class="btn-group">
+                                            <div style="padding: 4px 0px; font-size: 13px;">
+                                                {{do.curso.descripcion}}
+                                            </div>
+                                            <button type="button" class="btn dropdown-toggle dropdown-r dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item pointer" (click)="eliminarHorarioSalon(do)">Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 10px 0px;">
+                                        <p class="card-text">{{do.horaInicio | date:'hh:mm aa'}} - {{do.horaFin | date:'hh:mm aa'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td *ngIf="!domingo">
+                        <div style="text-align: center; font-size: 20px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            Día no laboral
+                        </div>
+                    </td>
+                    <td>
+                        <i *ngIf="domingo" class="mdi  mdi-plus-circle color-page-i" (click)="nuevoHorarioSalon(7)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+    <!-- <button (click)="nuevoTurno()" type="button" id="continuar" class="btn btn-sm color-page-button" style="margin: 0px 5px; ">Nuevo Turno</button> -->
+</div>

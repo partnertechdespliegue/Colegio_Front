@@ -16,13 +16,13 @@ export class ConfirmarSucursalComponent implements OnInit {
 
   @Input() input_sucursalDTO;
 
+  sucursalDTO: any;
+
   constructor(
     public activemodal: NgbActiveModal,
     public colegioService: ColegioService,
-    public router: Router,
+    public router: Router
   ) { }
-
-  sucursalDTO: any;
 
   ngOnInit() {
     this.sucursalDTO = this.input_sucursalDTO;

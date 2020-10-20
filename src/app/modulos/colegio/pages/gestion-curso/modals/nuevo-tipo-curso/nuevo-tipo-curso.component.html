@@ -1,0 +1,17 @@
+<form #tipoCursoForm="ngForm" ngNativeValidate>
+    <div class="modal-header color-page-modal">
+        <h2 class="modal-title text-center" style="color: white;">{{tipoCurso!=null?"Actualizar":"Registrar"}} Tipo Curso</h2>
+    </div>
+    <div class="modal-body">
+        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+            <div class="col-12 mb-3">
+                <label for="desc">Descripcion:</label>
+                <input class="form-control form-control-sm" type="text" maxlength="200" id="desc" name="#tipoCurso.descripcion" [(ngModel)]="tipoCurso.descripcion" required>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="tipoCursoForm.form.invalid" style="margin: 0px 5px; ">Confirmar</button>
+    </div>
+</form>

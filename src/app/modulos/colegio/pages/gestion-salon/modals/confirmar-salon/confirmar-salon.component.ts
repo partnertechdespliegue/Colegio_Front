@@ -1,20 +1,21 @@
-import { ColegioService } from './../../../../services/colegio/colegio.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input } from '@angular/core';
+import { Salon } from '../../../../../../models/Salon';
+import { ColegioService } from '../../../../services/colegio/colegio.service';
 import { Router } from '@angular/router';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Constantes from '../../../../../../models/Constantes';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-confirmar-turno',
-  templateUrl: './confirmar-turno.component.html',
+  selector: 'app-confirmar-salon',
+  templateUrl: './confirmar-salon.component.html',
   styles: []
 })
-export class ConfirmarTurnoComponent implements OnInit {
+export class ConfirmarSalonComponent implements OnInit {
 
-  @Input() input_turnoDTO;
+  @Input() input_salon;
 
-  turnoDTO: any;
+  salon = new Salon();
 
   constructor(
     public activemodal: NgbActiveModal,
@@ -22,26 +23,27 @@ export class ConfirmarTurnoComponent implements OnInit {
     public colegioService: ColegioService
   ) { }
 
-  ngOnInit() { debugger
-    this.turnoDTO = this.input_turnoDTO;
-  }
-
-  close() {
-    this.activemodal.close();
+  ngOnInit() {
+    this.salon = this.input_salon;
   }
 
   crud() {
-    switch (this.turnoDTO.accion) {
-      case Constantes.ACTUALIZAR: this.actualizarTurno();
+    switch (this.salon.accion) {
+      case Constantes.ACTUALIZAR: this.actualizarSalon();
         break;
-      case Constantes.ELIMINAR: this.eliminarTurno();
+      case Constantes.ELIMINAR: this.eliminarSalon();
         break;
-      default: this.registrarTurno();
+      default: this.registrarSalon();
     }
   }
 
-  registrarTurno() {
-    this.colegioService.registrarTurno(this.turnoDTO).subscribe((resp: any) => {
+  registrarSalon() {
+    var sucursal = JSON.parse(localStorage.getItem('sucursalSeleccion'));
+    var dto = {
+      "salon": this.salon,
+      "sucursal": sucursal
+    }
+    this.colegioService.registrarSalon(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
         Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
         this.refrescar(this.router.url);
@@ -53,8 +55,8 @@ export class ConfirmarTurnoComponent implements OnInit {
     this.activemodal.dismiss();
   }
 
-  actualizarTurno() {
-    this.colegioService.actualizarTurno(this.turnoDTO).subscribe((resp: any) => {
+  actualizarSalon() {
+    this.colegioService.actualizarSalon(this.salon).subscribe((resp: any) => {
       if (resp.estado == 1) {
         Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
         this.refrescar(this.router.url);
@@ -66,8 +68,8 @@ export class ConfirmarTurnoComponent implements OnInit {
     this.activemodal.dismiss();
   }
 
-  eliminarTurno() {
-    this.colegioService.eliminarTurno(this.turnoDTO.idTurno).subscribe((resp: any) => {
+  eliminarSalon() {
+    this.colegioService.eliminarSalon(this.salon.idSalon).subscribe((resp: any) => {
       if (resp.estado == 1) {
         Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
         this.refrescar(this.router.url)
@@ -82,6 +84,10 @@ export class ConfirmarTurnoComponent implements OnInit {
   public refrescar(url) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
       this.router.navigate([url]));
+  }
+
+  close() {
+    this.activemodal.dismiss('Cancelado');
   }
 
 }

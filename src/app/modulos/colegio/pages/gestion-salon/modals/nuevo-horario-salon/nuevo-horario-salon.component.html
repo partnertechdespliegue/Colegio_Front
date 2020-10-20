@@ -1,0 +1,49 @@
+<form #temaForm="ngForm" ngNativeValidate>
+    <div class="modal-header color-page-modal">
+        <h2 class="modal-title text-center" style="color: white;">{{horarioSalon!=null?"Actualizar":"Registrar"}} horario</h2>
+    </div>
+    <div class="modal-body">
+        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+            <div class="form-row col-12">
+                <div class="col-4 mb-3">
+                    <label for="hodu">Duración horas:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="2" id="hodu" name="#horarioSalon.horaDuracion" [(ngModel)]="horarioSalon.horaDuracion" required>
+                </div>
+                <div class="col-4 mb-3">
+                    <label for="midu">Duración minutos:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="2" id="midu" name="#horarioSalon.minutoDuracion" [(ngModel)]="horarioSalon.minutoDuracion" required>
+                </div>
+
+                <div class="col-4">
+                    <label for="horainicio">Hora inicio:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un hora" [ngxTimepicker]="time" [format]="12" [min]="horaIni" [max]="horaFin" [(ngModel)]="horaInicio" name="#horaInicio" readonly required>
+                    <ngx-material-timepicker #time></ngx-material-timepicker>
+                </div>
+            </div>
+
+            <div class="form-row col-12">
+                <div class="col-4 mb-3">
+                    <label for="tipc">Filtrar por tipo curso:</label>
+                    <ng-select [items]="lsTipoCurso" bindLabel="descripcion" bindValue="idTipoCurso" placeholder="Seleccione.." id="tipc" [(ngModel)]="tipoCurso.idTipoCurso" name="#tipoCurso.idTipoCurso" style="width: 100%; margin-right: 10px;" (ngModelChange)="iniciarFiltro()"></ng-select>
+                </div>
+                <div class="col-8 mb-3">
+                    <label for="tipc">Filtrar por nivel educativo y grado:</label>
+                    <ng-select [items]="lsNivelEduc" bindLabel="descripcion" bindValue="idNivelEducativo" placeholder="Seleccione.." id="nivedu" name="#nivelEduc.idNivelEducativo" [(ngModel)]="nivelEduc.idNivelEducativo" style="width: 49%; display: inline-flex;" (ngModelChange)="listarGrado($event)"></ng-select>
+                    <ng-select [items]="lsGrado" bindLabel="descripcion" bindValue="idGrado" placeholder="Seleccione.." id="grado" name="#grado.idGrado" [(ngModel)]="grado.idGrado" style="width: 49%; display: inline-flex; margin-left: 4px;" (ngModelChange)="iniciarFiltro()"></ng-select>
+                </div>
+
+            </div>
+
+            <div class="form-row col-12">
+                <div class="col-12 mb-2">
+                    <label for="tipc">Curso:</label>
+                    <ng-select [items]="lsCurso" bindLabel="descripcion" bindValue="idCurso" placeholder="Ingrese la información de los filtros.." id="tipc" [(ngModel)]="curso.idCurso" name="#curso.idCurso" style="width: 100%; margin-right: 10px;" required></ng-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="temaForm.form.invalid" style="margin: 0px 5px; ">Confirmar</button>
+    </div>
+</form>

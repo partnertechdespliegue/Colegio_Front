@@ -1,5 +1,5 @@
 import { ColegioService } from './../../../../services/colegio/colegio.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Turno } from '../../../../../../models/Turno';
@@ -14,7 +14,7 @@ import { ConfirmarTurnoComponent } from '../confirmar-turno/confirmar-turno.comp
   templateUrl: './nuevo-turno.component.html',
   styles: []
 })
-export class NuevoTurnoComponent implements OnInit {
+export class NuevoTurnoComponent implements OnInit, OnDestroy {
 
   @Input() input_sucursal;
   @Input() input_turno;
@@ -45,7 +45,6 @@ export class NuevoTurnoComponent implements OnInit {
   constructor(
     public activemodal: NgbActiveModal,
     private modalService: NgbModal,
-    public router: Router,
     public colegioService: ColegioService
   ) { }
 
@@ -57,6 +56,12 @@ export class NuevoTurnoComponent implements OnInit {
     }
     // this.lsReceso.push(new Receso())
     this.settearRangoHora();
+  }
+
+  ngOnDestroy(): void {
+    if (this.modalRef != null) {
+      this.modalRef.close();
+    }
   }
 
   settearValores(){
