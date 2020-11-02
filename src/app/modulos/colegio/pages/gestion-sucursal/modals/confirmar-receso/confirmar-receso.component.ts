@@ -6,6 +6,7 @@ import { Turno } from '../../../../../../models/Turno';
 import { Receso } from '../../../../../../models/Receso';
 import Constantes from '../../../../../../models/Constantes';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-receso',
@@ -24,7 +25,8 @@ export class ConfirmarRecesoComponent implements OnInit {
     public activemodal: NgbActiveModal,
     private modalService: NgbModal,
     public router: Router,
-    public colegioService: ColegioService
+    public colegioService: ColegioService,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -53,12 +55,12 @@ export class ConfirmarRecesoComponent implements OnInit {
     }
     this.colegioService.registrarReceso(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -66,12 +68,12 @@ export class ConfirmarRecesoComponent implements OnInit {
   actualizarReceso() {
     this.colegioService.actualizarReceso(this.receso).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -79,12 +81,12 @@ export class ConfirmarRecesoComponent implements OnInit {
   eliminarReceso() {
     this.colegioService.eliminarReceso(this.receso.idReceso).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url)
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }

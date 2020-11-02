@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import Constantes from '../../../../../../models/Constantes';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-salon',
@@ -20,7 +21,8 @@ export class ConfirmarSalonComponent implements OnInit {
   constructor(
     public activemodal: NgbActiveModal,
     public router: Router,
-    public colegioService: ColegioService
+    public colegioService: ColegioService,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -45,12 +47,12 @@ export class ConfirmarSalonComponent implements OnInit {
     }
     this.colegioService.registrarSalon(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -58,12 +60,12 @@ export class ConfirmarSalonComponent implements OnInit {
   actualizarSalon() {
     this.colegioService.actualizarSalon(this.salon).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -71,12 +73,12 @@ export class ConfirmarSalonComponent implements OnInit {
   eliminarSalon() {
     this.colegioService.eliminarSalon(this.salon.idSalon).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url)
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }

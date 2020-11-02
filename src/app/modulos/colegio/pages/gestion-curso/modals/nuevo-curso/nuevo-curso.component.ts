@@ -9,6 +9,8 @@ import { TipoCurso } from '../../../../../../models/TipoCurso';
 import { NivelEducativo } from '../../../../../../models/NivelEducativo';
 import { Grado } from '../../../../../../models/Grado';
 import { Tema } from '../../../../../../models/Tema';
+import { ToastrService } from 'ngx-toastr';
+import Constantes from '../../../../../../models/Constantes';
 
 @Component({
   selector: 'app-nuevo-curso',
@@ -21,7 +23,7 @@ export class NuevoCursoComponent implements OnInit, OnDestroy {
   modalRef: NgbModalRef;
 
   curso: any = new Curso();
-  colegio = new Colegio();
+  colegio: any = new Colegio();
   lsTipoCurso: any[] = [];
   tipoCurso: TipoCurso = new TipoCurso();
   lsNivelEduc: any[] = [];
@@ -40,7 +42,8 @@ export class NuevoCursoComponent implements OnInit, OnDestroy {
   constructor(
     public activemodal: NgbActiveModal,
     private modalService: NgbModal,
-    public colegioService: ColegioService
+    public colegioService: ColegioService,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -140,7 +143,7 @@ export class NuevoCursoComponent implements OnInit, OnDestroy {
     if (this.idTemaTipCu != null) {
       for (let ta of this.lsTemaAgregado) {
         if (ta.idTema == this.idTemaTipCu) {
-          Swal.fire({ title: "El tema ya fue agregado", timer: 1500, showConfirmButton: false });
+          this.toast.info("El tema ya fue agregado", Constantes.INFO)
           return;
         }
       }
@@ -166,7 +169,7 @@ export class NuevoCursoComponent implements OnInit, OnDestroy {
       var patron = /[0-9]/;
       var tecla_final = String.fromCharCode(tecla);
       if (!patron.test(tecla_final)) {
-        Swal.fire({ title: "Solo se permiten caracteres numéricos", timer: 2000, showConfirmButton: false });
+        this.toast.info("Solo se permiten caracteres numéricos", Constantes.INFO)
         return false;
       }
     }

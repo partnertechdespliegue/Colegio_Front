@@ -9,8 +9,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MaterialModule } from '../../material.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GlobalInterceptor } from '../../global.interceptor';
-import { UsuarioService } from '../administracion/services/usuarios/usuario.service';
-import { RolService } from '../administracion/services/roles/roles.service';
 import { COLEGIO_ROUTES } from './colegio.routes';
 import { GestionColegioComponent } from './pages/gestion-colegio/gestion-colegio.component';
 import { NuevoColegioComponent } from './pages/gestion-colegio/modals/nuevo-colegio/nuevo-colegio.component';
@@ -40,6 +38,11 @@ import { GestionTemarioComponent } from './pages/gestion-curso/modals/gestion-te
 import { HorarioSalonComponent } from './pages/gestion-salon/modals/horario-salon/horario-salon.component';
 import { NuevoHorarioSalonComponent } from './pages/gestion-salon/modals/nuevo-horario-salon/nuevo-horario-salon.component';
 import { ConfirmarHorarioSalonComponent } from './pages/gestion-salon/modals/confirmar-horario-salon/confirmar-horario-salon.component';
+import { GestionSeccionComponent } from './pages/gestion-seccion/gestion-seccion.component';
+import { NuevaSeccionComponent } from './pages/gestion-seccion/modals/nueva-seccion/nueva-seccion.component';
+import { ConfirmarSeccionComponent } from './pages/gestion-seccion/modals/confirmar-seccion/confirmar-seccion.component';
+import { GestionSeccionEstudianteComponent } from './pages/gestion-seccion/modals/gestion-seccion-estudiante/gestion-seccion-estudiante.component';
+import { ConfirmarSeccionEstudianteComponent } from './pages/gestion-seccion/modals/confirmar-seccion-estudiante/confirmar-seccion-estudiante.component';
 
 @NgModule({
   imports: [
@@ -83,7 +86,12 @@ import { ConfirmarHorarioSalonComponent } from './pages/gestion-salon/modals/con
     GestionTemarioComponent,
     HorarioSalonComponent,
     NuevoHorarioSalonComponent,
-    ConfirmarHorarioSalonComponent],
+    ConfirmarHorarioSalonComponent,
+    GestionSeccionComponent,
+    NuevaSeccionComponent,
+    ConfirmarSeccionComponent,
+    GestionSeccionEstudianteComponent,
+    ConfirmarSeccionEstudianteComponent,],
 
   entryComponents: [
     NuevoColegioComponent,
@@ -108,8 +116,11 @@ import { ConfirmarHorarioSalonComponent } from './pages/gestion-salon/modals/con
     GestionTemarioComponent,
     HorarioSalonComponent,
     NuevoHorarioSalonComponent,
-    ConfirmarHorarioSalonComponent
-  ],
+    ConfirmarHorarioSalonComponent,
+    NuevaSeccionComponent,
+    ConfirmarSeccionComponent,
+    GestionSeccionEstudianteComponent,
+    ConfirmarSeccionEstudianteComponent],
 
   providers: [
     {
@@ -118,8 +129,6 @@ import { ConfirmarHorarioSalonComponent } from './pages/gestion-salon/modals/con
       multi: true,
     },
     DatePipe,
-    UsuarioService,
-    RolService
   ]
 })
 export class ColegioModule { }

@@ -1,0 +1,187 @@
+<form #estForm="ngForm" ngNativeValidate>
+    <div class="modal-header color-page-modal">
+        <h5 class="modal-title" style="color: white;">{{estudiante.accion=="U"?'Actualizar':'Registrar'}} estudiante</h5>
+    </div>
+    <div class="modal-body">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-personal-tab" data-toggle="tab" href="#nav-personal" role="tab" aria-controls="nav-personal" aria-selected="true">Personal</a>
+                <a class="nav-item nav-link" id="nav-ubigeo-tab" data-toggle="tab" href="#nav-ubigeo" role="tab" aria-controls="nav-ubigeo" aria-selected="true">Ubigeo</a>
+                <a class="nav-item nav-link" id="nav-foto-tab" data-toggle="tab" href="#nav-foto" role="tab" aria-controls="nav-foto" aria-selected="true">Foto</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-personal" role="tabpanel" aria-labelledby="nav-personal-tab">
+                <div class="form-row col-12">
+                    <div class="col-12 mt-3" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px;flex: 0 0 100%; margin: 0 7px;">
+                        <div class="form-row col-12  mt-3">
+                            <div class="col-4 mb-3">
+                                <label for="nom">Nombres *</label>
+                                <input class="form-control form-control-sm verf" type="text" placeholder="Nom." id="nom" [(ngModel)]="estudiante.nombres" name="#estudiante.nombres" maxlength="80" (keypress)="verificarString($event)" required>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="apepat">Apellido Paterno *</label>
+                                <input class="form-control form-control-sm verf" type="text" placeholder="Ape. Pat." id="apepat" [(ngModel)]="estudiante.apePaterno" name="#estudiante.apePaterno" maxlength="80" (keypress)="verificarString($event)" required>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="apemat">Apellido Materno *</label>
+                                <input class="form-control form-control-sm verf" type="text" placeholder="Ape. Mat." id="apemat" [(ngModel)]="estudiante.apeMaterno" name="#estudiante.apeMaterno" maxlength="80" (keypress)="verificarString($event)" required>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-4 mb-3">
+                                <label for="nom">Tipo Documento *</label>
+                                <ng-select [items]="lsTipoDoc" bindLabel="descripcion" bindValue="idTipoDoc" placeholder="T. Doc." id="tdoc" [(ngModel)]="tipoDoc.idTipoDoc" name="#tipoDoc.idTipoDoc" (ngModelChange)="revisarTipoDoc($event)" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                            <div class="col-4 mb-3" [ngSwitch]="tipoDoc.idTipoDoc">
+                                <div *ngSwitchCase="1">
+                                    <label for="ndoc">Nro. Documento *</label>
+                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. DNI" id="ndoc" name="#estudiante.nroDoc" [(ngModel)]="estudiante.nroDoc" name="#estudiante.nroDoc" (keypress)="verificarNumero($event,'dni')" (blur)="validarData('dni')"
+                                        required>
+                                </div>
+                                <!-- <div *ngSwitchCase="2">
+                                    <label for="nruc">Nro. RUC *</label>
+                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Ruc." id="nruc" [(ngModel)]="estudiante.nroDoc" name="#estudiante.nroDoc" (keypress)="verificarNumero($event,'ruc')" (blur)="validarData('ruc')"
+                                        required>
+                                </div> -->
+                                <div *ngSwitchCase="3">
+                                    <label for="npas">Nro. Pasaporte *</label>
+                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Pasaporte" id="npas" [(ngModel)]="estudiante.nroDoc" name="#estudiante.nroDoc" required>
+                                </div>
+                                <div *ngSwitchCase="4">
+                                    <label for="ncarext">Nro. Carnet Extranejeria *</label>
+                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Carnet extrangeria" id="ncarext" [(ngModel)]="estudiante.nroDoc" name="#estudiante.nroDoc" required>
+                                </div>
+                                <div *ngSwitchDefault>
+                                    <label>Seleccione tipo documento *</label>
+                                    <input class="form-control form-control-sm" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="col-4 mb-3" *ngIf="verPais">
+                                <label for="pem">País Emisor *</label>
+                                <ng-select [items]="lsPais" bindLabel="descripcion" bindValue="idPais" placeholder="P. Emisor Doc" id="pais" [(ngModel)]="pais.idPais" name="#pais.idPais" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+
+                        <div class="form-row col-12">
+                            <div class="col-4 mb-3">
+                                <label for="secu">Sucursal *</label>
+                                <ng-select [items]="lsSucursal" bindLabel="direccion" bindValue="idSucursal" placeholder="Sucursal" id="secu" [(ngModel)]="sucursal.idSucursal" name="#sucursal.idSucursal" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="nivedu">Nivel educativo *</label>
+                                <ng-select [items]="lsNivelEduc" bindLabel="descripcion" bindValue="idNivelEducativo" placeholder="Seleccione.." id="nivedu" name="#nivelEduc.idNivelEducativo" [(ngModel)]="nivelEduc.idNivelEducativo" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarGrado($event)"
+                                    required></ng-select>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="grado">Grado *</label>
+                                <ng-select [items]="lsGrado" bindLabel="descripcion" bindValue="idGrado" placeholder="Seleccione.." id="grado" name="#grado.idGrado" [(ngModel)]="grado.idGrado" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-4 mb-3">
+                                <label>Fecha Nacimiento *</label>
+                                <ejs-datepicker format='dd-MM-yyyy' type="datepicker" placeholder='Elige una fecha' [(ngModel)]="estudiante.fechaNacimiento" name="#estudiante.fechaNacimiento" required> </ejs-datepicker>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="sexo">Sexo *</label>
+                                <ng-select [items]="lsSexo" bindLabel="descripcion" bindValue="abrev" placeholder="Sexo" id="sexo" [(ngModel)]="estudiante.sexo" name="#estudiante.sexo" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-4 mb-3">
+                                <label for="corr">Correo</label>
+                                <input class="form-control form-control-sm" type="email" placeholder="Correo" id="corr" [(ngModel)]="estudiante.correo" name="#estudiante.correo" maxlength="80" (blur)="verificarCorreo(estudiante.correo)" email>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="cel">Celular</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Celular" id="cel" [(ngModel)]="estudiante.nroCelular" name="#estudiante.nroCel" maxlength="9" (keypress)="verificarNumero($event,'cel')" (blur)="validarData('cel')">
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="tel">Telefono</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Teléfono" id="tel" [(ngModel)]="estudiante.nroTelefono" name="#estudiante.nroTelefono" maxlength="10" (keypress)="verificarNumero($event,'tel')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-ubigeo" role="tabpanel" aria-labelledby="nav-ubigeo-tab">
+                <div class="form-row col-12">
+                    <div class="col-6 mt-3 mb-3" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; flex: 0 0 48%; margin: 0px 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="dep">Departamento *</label>
+                                <ng-select [items]="lsDepartamento" bindLabel="descripcion" bindValue="idDepartamento" placeholder="Departamento" id="dep" [(ngModel)]="departamento.idDepartamento" name="#departamento.idDepartamento" (ngModelChange)="listarProvincias($event)" style="width: 100%; margin-right: 10px;"
+                                    required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="prov">Provincia *</label>
+                                <ng-select [items]="lsProvincia" bindLabel="descripcion" bindValue="idProvincia" placeholder="Provincia" id="prov" [(ngModel)]="provincia.idProvincia" name="#provincia.idProvincia" (ngModelChange)="listarDistrito($event)" style="width: 100%; margin-right: 10px;"
+                                    required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="dis">Distrito *</label>
+                                <ng-select [items]="lsDistrito" bindLabel="descripcion" bindValue="idDistrito" placeholder="Distrito" id="dis" [(ngModel)]="distrito.idDistrito" name="#distrito.idDistrito" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3 mb-3" style="border:1px solid #d6d6d6; border-radius: 15px;flex: 0 0 48%; padding: 10px; margin: 0px 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="dirr">Dirección *</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Dirección" id="dirr" [(ngModel)]="estudiante.direccion" name="#estudiante.direccion" maxlength="100" required>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="tzon">Tipo Zona</label>
+                                <ng-select [items]="lsTipoZona" bindLabel="descripcion" bindValue="idTipoZona" placeholder="T. Zona" id="tzon" [(ngModel)]="tipoZona.idTipoZona" name="tipoZona.idTipoZona" style="width: 100%; margin-right: 10px;"></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="ref">Referencia</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Referencia" id="ref" [(ngModel)]="estudiante.referencia" name="#estudiante.referencia" maxlength="200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-foto" role="tabpanel" aria-labelledby="nav-foto-tab">
+                <div class="form-row col-12">
+                    <div class="col-10" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; margin: 1% 10%;">
+                        <div class="container" style="padding-top:10px;">
+                            <div class="form-row col-12 justify-content-center" style="height: 300px;">
+                                <img *ngIf="imgURL" height="290" style="max-height: 290px; max-width: 400px;" [src]="imgURL" alt="">
+                            </div>
+                            <div class="form-row col-12" align="center">
+                                <div class="col-12 mb-1 mt-2 align-content-center">
+                                    <div *ngIf="!fotoSeleccionada && !tieneFoto">
+                                        <input class="form-control form-control-sm input-button-z" style="width: 50px !important;" type="file" id="subir" (change)="escogerFoto($event)" accept="image/x-png,image/gif,image/jpeg">
+                                        <button type="button" class="btn btn-outline-info btn-sm" style="width: 30%; margin: 0px 10px; padding: 0px;">
+                                          <i class="mdi mdi-camera" style="font-size: 18px;"></i>
+                                        </button>
+                                    </div>
+                                    <button *ngIf="!fotoSeleccionada && tieneFoto" (click)="eliminarFoto()" type="button" class="btn btn-outline-red btn-sm" style="width: auto; margin: 0px 2px; padding: 0px 10px;">
+                                      <label style="font-weight: bold;margin: 0px;font-size: 18px; cursor: pointer">Eliminar</label>
+                                    </button>
+                                    <button *ngIf="fotoSeleccionada" (click)="cargarImgDefault()" type="button" class="btn btn-outline-red btn-sm" style="width: auto; margin: 0px 2px; padding: 0px 10px;">
+                                      <label style="font-weight: bold;margin: 0px;font-size: 18px; cursor: pointer">X</label>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" modal-footer ">
+        <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button " id="confirmar" class="btn btn-info btn-sm min " [disabled]="estForm.form.invalid" style="margin: 0px 5px; ">Continuar</button>
+    </div>
+</form>

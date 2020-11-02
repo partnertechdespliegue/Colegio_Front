@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import Constantes from '../../../../../../models/Constantes';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-colegio',
@@ -18,6 +19,7 @@ export class ConfirmarColegioComponent implements OnInit {
     public activemodal: NgbActiveModal,
     public colegioService: ColegioService,
     public router: Router,
+    public toast: ToastrService
   ) { }
 
   public colegio: Colegio;
@@ -32,49 +34,49 @@ export class ConfirmarColegioComponent implements OnInit {
 
   crud() {
     switch (this.colegio.accion) {
-      case Constantes.ACTUALIZAR: this.actualizarEmpresa();
+      case Constantes.ACTUALIZAR: this.actualizarColegio();
         break;
-      case Constantes.ELIMINAR: this.eliminarEmpresa();
+      case Constantes.ELIMINAR: this.eliminarColegio();
         break;
-      default: this.registrarEmpresa();
+      default: this.registrarColegio();
     }
   }
 
-  registrarEmpresa() {
+  registrarColegio() {
     this.colegioService.registrarColegio(this.colegio).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
 
-  actualizarEmpresa() {
+  actualizarColegio() {
     this.colegioService.actualizarColegio(this.colegio).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
 
-  eliminarEmpresa() {
+  eliminarColegio() {
     this.colegioService.eliminarColegio(this.colegio.idColegio).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url)
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }

@@ -66,7 +66,6 @@ export class EditarGestionPaginasComponent implements OnInit, OnDestroy {
             }
           }
         }
-        // console.log(this.lsPaginas)
       }, 100);
     })
   }
@@ -75,7 +74,6 @@ export class EditarGestionPaginasComponent implements OnInit, OnDestroy {
     var checkND: any = document.getElementById('input' + index);
     var estado: boolean = checkND.checked;
     this.lsPaginas[index].asignado = estado;
-    // console.log(this.lsPaginas)
   }
 
   guardarGestion() {

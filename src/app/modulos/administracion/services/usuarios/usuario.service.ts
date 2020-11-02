@@ -5,9 +5,10 @@ import { URL_SERVICIOSBACK, URL_BASICO } from '../../../../config/config';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-import Constantes from '../../../../models/Constantes';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UsuarioService {
   usuario: Usuario = new Usuario();
   token: string;
@@ -129,10 +130,10 @@ export class UsuarioService {
     return this.http.post(URL_SERVICIOSBACK + 'asistencia/marcarAsistencia', asistencia);
   }
 
-  descargarTodo(){
-    return this.http.get(URL_SERVICIOSBACK+"utilitario/descargar", {
+  descargarTodo() {
+    return this.http.get(URL_SERVICIOSBACK + "utilitario/descargar", {
       responseType: "arraybuffer"
-      });
+    });
   }
 
 }

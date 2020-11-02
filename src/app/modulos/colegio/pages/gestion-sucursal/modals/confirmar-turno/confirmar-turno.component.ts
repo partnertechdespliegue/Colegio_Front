@@ -22,7 +22,7 @@ export class ConfirmarTurnoComponent implements OnInit {
     public colegioService: ColegioService
   ) { }
 
-  ngOnInit() { debugger
+  ngOnInit() {
     this.turnoDTO = this.input_turnoDTO;
   }
 

@@ -190,6 +190,16 @@ const Constantes = {
       "descripcion": "5ta"
     }
   ],
+  "sexo":[
+    {
+      "abrev": "M",
+      "descripcion": "Masculino"
+    },
+    {
+      "abrev": "F",
+      "descripcion": "Femenino"
+    }
+  ],
 
 }
 export default Constantes;

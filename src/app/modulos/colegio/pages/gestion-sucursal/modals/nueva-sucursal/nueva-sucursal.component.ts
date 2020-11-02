@@ -7,6 +7,7 @@ import { ConfirmarSucursalComponent } from '../confirmar-sucursal/confirmar-sucu
 import Swal from 'sweetalert2';
 import Constantes from '../../../../../../models/Constantes';
 import { min, timestamp } from 'rxjs/operators';
+import { UbigeoService } from '../../../../../estudiante/services/ubigeo/ubigeo.service';
 
 @Component({
   selector: 'app-nueva-sucursal',
@@ -36,6 +37,7 @@ export class NuevaSucursalComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     public router: Router,
     public colegioService: ColegioService,
+    public ubigeoService: UbigeoService
   ) { }
 
   ngOnInit() {
@@ -62,11 +64,11 @@ export class NuevaSucursalComponent implements OnInit, OnDestroy {
     this.horaFin = this.retornarHora(this.sucursal.horaFinAtencion);
   }
 
-  retornarHora(hora){
+  retornarHora(hora) {
     var hr = new Date(hora);
-    var h: number = hr.getHours();
+    var h: number = hr.getHours() == 0 ? 24 : hr.getHours();
     var m: string = "" + hr.getMinutes();
-    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + (h > 12 ? " PM" : " AM");
+    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + ((h >= 12 && h != 24) ? " PM" : " AM");
   }
 
   close() {
@@ -89,7 +91,7 @@ export class NuevaSucursalComponent implements OnInit, OnDestroy {
   }
 
   obtenerDepartamento() {
-    this.colegioService.listarDepartamento().subscribe((resp: any) => {
+    this.ubigeoService.listarDepartamento().subscribe((resp: any) => {
       if (resp.estado == 1) {
         this.lsDepartamento = resp.aaData;
       }
@@ -105,7 +107,7 @@ export class NuevaSucursalComponent implements OnInit, OnDestroy {
       var tmp_depa = {
         "idDepartamento": departamento
       };
-      this.colegioService.listarProvincia(tmp_depa).subscribe((resp: any) => {
+      this.ubigeoService.listarProvincia(tmp_depa).subscribe((resp: any) => {
         if (resp.estado == 1) {
           this.lsProvincia = resp.aaData;
         }
@@ -121,7 +123,7 @@ export class NuevaSucursalComponent implements OnInit, OnDestroy {
       var tmp_prov = {
         "idProvincia": provincia
       }
-      this.colegioService.listarDistrito(tmp_prov).subscribe((resp: any) => {
+      this.ubigeoService.listarDistrito(tmp_prov).subscribe((resp: any) => {
         if (resp.estado == 1) {
           this.lsDistrito = resp.aaData;
         }
@@ -141,7 +143,7 @@ export class NuevaSucursalComponent implements OnInit, OnDestroy {
 
   armarSucural() {
     return {
-      "idSucursal":this.input_sucursal == null? null : this.sucursal.idSucursal,
+      "idSucursal": this.input_sucursal == null ? null : this.sucursal.idSucursal,
       "direccion": this.sucursal.direccion,
       "horaInicioAtencion": this.retornarDate(this.horaIni),
       "horaFinAtencion": this.retornarDate(this.horaFin),

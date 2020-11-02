@@ -29,7 +29,7 @@ export class NuevoTurnoComponent implements OnInit, OnDestroy {
   horaFin: string;
   modalRef: NgbModalRef;
 
-  lsReceso: Receso [] = []
+  lsReceso: Receso[] = []
 
   horaIni1: string;
   horaFin1: string;
@@ -64,7 +64,7 @@ export class NuevoTurnoComponent implements OnInit, OnDestroy {
     }
   }
 
-  settearValores(){
+  settearValores() {
     this.horaIni = this.retornarHora(this.turno.horaInicio);
     this.horaFin = this.retornarHora(this.turno.horaFin);
   }
@@ -74,14 +74,14 @@ export class NuevoTurnoComponent implements OnInit, OnDestroy {
     this.horaFinSucu = this.retornarHora(this.sucursal.horaFinAtencion);
   }
 
-  retornarHora(hora){
+  retornarHora(hora) {
     var hr = new Date(hora);
-    var h: number = hr.getHours();
+    var h: number = hr.getHours() == 0 ? 24 : hr.getHours();
     var m: string = "" + hr.getMinutes();
-    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + (h > 12 ? " PM" : " AM");
+    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + ((h >= 12 && h != 24) ? " PM" : " AM");
   }
 
-  agregarReceso(){
+  agregarReceso() {
     if (this.lsReceso.length <= 4) {
       this.lsReceso.push(new Receso())
     } else {
@@ -101,7 +101,7 @@ export class NuevoTurnoComponent implements OnInit, OnDestroy {
         size: 'sm'
       }
     );
-    this.modalRef.componentInstance.input_turnoDTO = this.input_turno==null?this.armarDTO():this.armarTurnoAct();
+    this.modalRef.componentInstance.input_turnoDTO = this.input_turno == null ? this.armarDTO() : this.armarTurnoAct();
     this.modalRef.result.then((result) => {
     }, (reason) => {
       this.activemodal.dismiss();
@@ -113,11 +113,11 @@ export class NuevoTurnoComponent implements OnInit, OnDestroy {
       "sucursal": this.sucursal,
       "turno": this.armarTurno(),
       "lsReceso": this.armarArreglo(),
-      "accion": this.input_turno==null?"R":this.turno.accion
+      "accion": this.input_turno == null ? "R" : this.turno.accion
     }
   }
 
-  armarArreglo(){
+  armarArreglo() {
     for (var i = 0; i < this.lsReceso.length; i++) {
       switch (i) {
         case 0:
@@ -145,7 +145,7 @@ export class NuevoTurnoComponent implements OnInit, OnDestroy {
     return this.lsReceso;
   }
 
-  armarTurnoAct () { debugger
+  armarTurnoAct() {
     this.turno.horaInicio = this.retornarDate(this.horaIni)
     this.turno.horaFin = this.retornarDate(this.horaFin)
     return this.turno;

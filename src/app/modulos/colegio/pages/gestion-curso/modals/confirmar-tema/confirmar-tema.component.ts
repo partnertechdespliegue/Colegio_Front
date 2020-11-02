@@ -6,6 +6,7 @@ import Constantes from '../../../../../../models/Constantes';
 import Swal from 'sweetalert2';
 import { Tema } from '../../../../../../models/Tema';
 import { TipoCurso } from '../../../../../../models/TipoCurso';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-tema',
@@ -23,7 +24,9 @@ export class ConfirmarTemaComponent implements OnInit {
   constructor(
     public activemodal: NgbActiveModal,
     public colegioService: ColegioService,
-    public router: Router) { }
+    public router: Router,
+    public toast: ToastrService
+    ) { }
 
   ngOnInit() {
     this.tema = this.input_tema;
@@ -51,12 +54,12 @@ export class ConfirmarTemaComponent implements OnInit {
     }
     this.colegioService.registrarTema(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -65,12 +68,12 @@ export class ConfirmarTemaComponent implements OnInit {
     this.tema.tipoCurso = this.tipoCurso;
     this.colegioService.actualizarTema(this.tema).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -78,12 +81,12 @@ export class ConfirmarTemaComponent implements OnInit {
   eliminarTema() {
     this.colegioService.eliminarTema(this.tema.idTema).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url)
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }

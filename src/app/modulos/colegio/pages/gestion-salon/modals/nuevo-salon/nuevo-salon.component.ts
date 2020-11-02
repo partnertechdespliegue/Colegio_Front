@@ -6,6 +6,7 @@ import { ConfirmarSalonComponent } from '../confirmar-salon/confirmar-salon.comp
 import { Salon } from '../../../../../../models/Salon';
 import Constantes from '../../../../../../models/Constantes';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nuevo-salon',
@@ -25,6 +26,7 @@ export class NuevoSalonComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     public router: Router,
     public colegioService: ColegioService,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class NuevoSalonComponent implements OnInit, OnDestroy {
       var patron = /[0-9]/;
       var tecla_final = String.fromCharCode(tecla);
       if (!patron.test(tecla_final)) {
-        Swal.fire({ title: "Solo se permiten caracteres numéricos", timer: 2000, showConfirmButton: false });
+        this.toast.info("Solo se permiten caracteres numéricos", Constantes.INFO)
         return false;
       }
     }

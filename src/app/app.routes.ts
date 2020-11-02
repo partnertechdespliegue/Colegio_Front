@@ -6,6 +6,7 @@ import { InicioComponent } from './shared/Inicio/inicio.component';
 import { AdministracionComponent } from './modulos/administracion/administracion.component';
 import { GestionColegioComponent } from './modulos/colegio/pages/gestion-colegio/gestion-colegio.component';
 import { ColegioComponent } from './modulos/colegio/colegio.component';
+import { EstudianteComponent } from './modulos/estudiante/estudiante.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,11 @@ const appRoutes: Routes = [
     path: '',
     component: AdministracionComponent,
     loadChildren: './modulos/administracion/administracion.module#AdministracionModule'
+  },
+  {
+    path: '',
+    component: EstudianteComponent,
+    loadChildren: './modulos/estudiante/estudiante.module#EstudianteModule'
   },
   {
     path: '',

@@ -39,15 +39,15 @@
                             <span class="hide-menu ml-2">{{menu.descripcion}}</span>
                         </a>
                         <ul [class.collapse]="!menu.open" aria-expanded="false" class="collapse">
-                            <cdk-virtual-scroll-viewport [itemSize]="18 * 9" class="example-viewport">
-                                <li *ngFor="let submenu of menu.lspagina">
-                                    <a routerLinkActive="active" [routerLink]="[ submenu.url ]">
-                                        <!-- <i [class]="submenu.icono"></i> -->
-                                        <img src="../../assets/images/icon/svg/paginaSVG/{{submenu.icono}}" alt="i" style="width: 30px; opacity: 0.7" />
-                                        <span class="ml-2" style="color: white;">{{submenu.descripcion}}</span>
-                                    </a>
-                                </li>
-                            </cdk-virtual-scroll-viewport>
+                            <!-- <cdk-virtual-scroll-viewport [itemSize]="18 * 9" class="example-viewport"> -->
+                            <li *ngFor="let submenu of menu.lspagina">
+                                <a routerLinkActive="active" [routerLink]="[ submenu.url ]">
+                                    <!-- <i [class]="submenu.icono"></i> -->
+                                    <img src="../../assets/images/icon/svg/paginaSVG/{{submenu.icono}}" alt="i" style="width: 30px; opacity: 0.7" />
+                                    <span class="ml-2" style="color: white;">{{submenu.descripcion}}</span>
+                                </a>
+                            </li>
+                            <!-- </cdk-virtual-scroll-viewport> -->
                         </ul>
                     </li>
                 </ul>

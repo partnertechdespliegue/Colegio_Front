@@ -1,8 +1,7 @@
 
-export class	Pagination{
-    
-    public	limit:Number;
-    public	offset:Number;
- 
-    
-    }
+export class Pagination {
+
+  public limit: Number;
+  public offset: Number;
+
+}

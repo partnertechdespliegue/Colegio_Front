@@ -56,18 +56,18 @@ export class NuevoRecesoComponent implements OnInit, OnDestroy {
     this.horaFinTur = this.retornarHora(this.turno.horaFin);
   }
 
-  retornarHora(hora){
+  retornarHora(hora) {
     var hr = new Date(hora);
-    var h: number = hr.getHours();
+    var h: number = hr.getHours() == 0 ? 24 : hr.getHours();
     var m: string = "" + hr.getMinutes();
-    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + (h > 12 ? " PM" : " AM");
+    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + ((h >= 12 && h != 24) ? " PM" : " AM");
   }
 
   close() {
     this.activemodal.dismiss('Cancelado');
   }
 
-  armarReceso () {
+  armarReceso() {
     this.receso.horaInicio = this.retornarDate(this.horaIni)
     this.receso.horaFin = this.retornarDate(this.horaFin)
     return this.receso;

@@ -9,6 +9,7 @@ import { NivelEducativo } from '../../../../../../models/NivelEducativo';
 import { Tema } from '../../../../../../models/Tema';
 import { Grado } from '../../../../../../models/Grado';
 import { TipoCurso } from '../../../../../../models/TipoCurso';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-curso',
@@ -33,7 +34,8 @@ export class ConfirmarCursoComponent implements OnInit {
   constructor(
     public activemodal: NgbActiveModal,
     public colegioService: ColegioService,
-    public router: Router
+    public router: Router,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -68,30 +70,30 @@ export class ConfirmarCursoComponent implements OnInit {
     }
     this.colegioService.registrarCurso(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
 
   actualizarCurso() {
-      // this.curso = this.input_curso;
-      this.curso.tipoCurso = this.tipoCurso;
-      this.curso.nivelEducativo = this.nivelEduc;
-      this.curso.grado = this.grado;
+    // this.curso = this.input_curso;
+    this.curso.tipoCurso = this.tipoCurso;
+    this.curso.nivelEducativo = this.nivelEduc;
+    this.curso.grado = this.grado;
 
     this.colegioService.actualizarCurso(this.curso).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -99,12 +101,12 @@ export class ConfirmarCursoComponent implements OnInit {
   eliminarCurso() {
     this.colegioService.eliminarCurso(this.curso.idCurso).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url)
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }

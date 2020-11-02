@@ -35,12 +35,12 @@ export class GestionUsuariosComponent implements OnInit, OnDestroy {
     public _usuarioService: UsuarioService
   ) { }
 
-  ngOnInit() { debugger
+  ngOnInit() {
     var idPerfil = JSON.parse(localStorage.getItem("InfoToken")).id_perfil;
     if (idPerfil == 1) {
       this.listarUsuarios();
     } else {
-this.listarUsuariosPorEmpresa();
+      this.listarUsuariosPorEmpresa();
     }
   }
 
@@ -62,7 +62,7 @@ this.listarUsuariosPorEmpresa();
   }
 
   listarUsuariosPorEmpresa() {
-    var empresa =  JSON.parse(localStorage.getItem('objEmpresaSeleccion'));
+    var empresa = JSON.parse(localStorage.getItem('objEmpresaSeleccion'));
     this._usuarioService.listarUsuariosPorEmpresa(empresa).subscribe((resp: any) => {
       if (resp.estado == 1) {
         let lsUsuariosFilter: Usuario[] = [];

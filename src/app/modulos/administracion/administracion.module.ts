@@ -28,45 +28,43 @@ import { GestionUtilitarioComponent } from './pages/utilitario/gestion-utilitari
 import { MaterialModule } from '../../material.module';
 
 @NgModule({
-    imports:[
-        CommonModule,
-        ADMINISTRACION_ROUTES,
-        SharedModule,
-        NgbModule,
-        FormsModule,
-        NgSelectModule,
-        TimePickerModule,
-        NgxPaginationModule,
-        MaterialModule
-    ],
-    declarations:[
-        GestionUsuariosComponent,
-        NuevoUsuarioComponent,
-        NuevoUsuarioConfirmarComponent,
-        NuevoPasswordComponent,
-        NuevoPasswordConfirmarComponent,
-        GestionUtilitarioComponent,
-        GestionPaginasComponent,
-        EditarGestionPaginasComponent,
-        ConfirmarGestionPaginasComponent,
-    ],
-    entryComponents:[
-        NuevoUsuarioComponent,
-        NuevoUsuarioConfirmarComponent,
-        NuevoPasswordComponent,
-        NuevoPasswordConfirmarComponent,
-        EditarGestionPaginasComponent,
-        ConfirmarGestionPaginasComponent
-    ],
-    providers:[
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: GlobalInterceptor,
-            multi: true,
-          },
-          DatePipe,
-          UsuarioService,
-          RolService
-    ]
+  imports: [
+    CommonModule,
+    ADMINISTRACION_ROUTES,
+    SharedModule,
+    NgbModule,
+    FormsModule,
+    NgSelectModule,
+    TimePickerModule,
+    NgxPaginationModule,
+    MaterialModule
+  ],
+  declarations: [
+    GestionUsuariosComponent,
+    NuevoUsuarioComponent,
+    NuevoUsuarioConfirmarComponent,
+    NuevoPasswordComponent,
+    NuevoPasswordConfirmarComponent,
+    GestionUtilitarioComponent,
+    GestionPaginasComponent,
+    EditarGestionPaginasComponent,
+    ConfirmarGestionPaginasComponent,
+  ],
+  entryComponents: [
+    NuevoUsuarioComponent,
+    NuevoUsuarioConfirmarComponent,
+    NuevoPasswordComponent,
+    NuevoPasswordConfirmarComponent,
+    EditarGestionPaginasComponent,
+    ConfirmarGestionPaginasComponent
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: GlobalInterceptor,
+      multi: true,
+    },
+    DatePipe
+  ]
 })
-export class AdministracionModule{ }
+export class AdministracionModule { }

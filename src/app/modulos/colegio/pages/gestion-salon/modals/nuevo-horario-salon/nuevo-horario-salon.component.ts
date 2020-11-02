@@ -12,6 +12,7 @@ import { Colegio } from '../../../../../../models/Colegio';
 import { TipoCurso } from '../../../../../../models/TipoCurso';
 import Swal from 'sweetalert2';
 import Constantes from '../../../../../../models/Constantes';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nuevo-horario-salon',
@@ -47,7 +48,8 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
   constructor(
     public activemodal: NgbActiveModal,
     private modalService: NgbModal,
-    public colegioService: ColegioService
+    public colegioService: ColegioService,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -74,11 +76,11 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
     this.horaFin = this.retornarHora(this.salon.sucursal.horaFinAtencion);
   }
 
-  retornarHora(hora){
+  retornarHora(hora) {
     var hr = new Date(hora);
-    var h: number = hr.getHours();
+    var h: number = hr.getHours() == 0 ? 24 : hr.getHours();
     var m: string = "" + hr.getMinutes();
-    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + (h > 12 ? " PM" : " AM");
+    return (h > 12 ? (h - 12) : h) + ":" + (m.length == 1 ? "0" + m : m) + ((h >= 12 && h != 24) ? " PM" : " AM");
   }
 
   retornarDate(horaDate: string): Date {
@@ -133,26 +135,24 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
     }
   }
 
-  iniciarFiltro(){
+  iniciarFiltro() {
     if (this.tipoCurso.idTipoCurso != null && this.grado.idGrado != null) {
-      console.log("hola");
       this.listarCursoPorTipoCursoYGrado();
-    }else {
+    } else {
       this.lsCurso = []
-      console.log("hola");
     }
   }
 
   listarCursoPorTipoCursoYGrado() {
     var dto = {
       "tipoCurso": this.tipoCurso,
-      "grado":this.grado
+      "grado": this.grado
     }
     this.colegioService.listarCursoPorTipoCursoYGrado(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
         this.lsCurso = resp.aaData;
         if (this.lsCurso.length == 0) {
-          Swal.fire(Constantes.INFO, "No hay ningún curso registrado con las caracteristicas seleccionadas", "info");
+          this.toast.info("No hay ningún curso registrado con las caracteristicas seleccionadas", Constantes.INFO)
         }
       }
     })
@@ -170,8 +170,8 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
     );
     this.modalRef.componentInstance.input_horarioSalon = this.horarioSalon;
     this.modalRef.componentInstance.input_diaLaboral = this.diaLaboral;
-      this.modalRef.componentInstance.input_salon = this.salon;
-      this.modalRef.componentInstance.input_curso = this.curso;
+    this.modalRef.componentInstance.input_salon = this.salon;
+    this.modalRef.componentInstance.input_curso = this.curso;
     this.modalRef.result.then((result) => {
     }, (reason) => {
       this.activemodal.dismiss();

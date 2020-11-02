@@ -5,6 +5,7 @@ import { ColegioService } from '../../../../services/colegio/colegio.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { TipoCurso } from '../../../../../../models/TipoCurso';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-tipo-curso',
@@ -20,7 +21,8 @@ export class ConfirmarTipoCursoComponent implements OnInit {
   constructor(
     public activemodal: NgbActiveModal,
     public colegioService: ColegioService,
-    public router: Router
+    public router: Router,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -49,12 +51,12 @@ export class ConfirmarTipoCursoComponent implements OnInit {
     }
     this.colegioService.registrarTipoCurso(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -62,12 +64,12 @@ export class ConfirmarTipoCursoComponent implements OnInit {
   actualizarTipoCurso() {
     this.colegioService.actualizarTipoCurso(this.tipoCurso).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
@@ -75,12 +77,12 @@ export class ConfirmarTipoCursoComponent implements OnInit {
   eliminarTipoCurso() {
     this.colegioService.eliminarTipoCurso(this.tipoCurso.idTipoCurso).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url)
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }

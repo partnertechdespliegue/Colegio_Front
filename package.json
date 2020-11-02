@@ -51,6 +51,7 @@
         "ngx-filter-pipe": "2.1.2",
         "ngx-material-timepicker": "^5.5.3",
         "ngx-pagination": "^5.0.0",
+        "ngx-toastr": "11.3.3",
         "public-ip": "^4.0.1",
         "rxjs": "6.5.4",
         "sweetalert": "2.1.2",

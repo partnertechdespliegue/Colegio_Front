@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Sucursal } from '../../../../../../models/Sucursal';
 import { ConfirmarDiaLaboralComponent } from '../confirmar-dia-laboral/confirmar-dia-laboral.component';
+import Constantes from '../../../../../../models/Constantes';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-gestion-dia-laboral',
@@ -28,7 +30,9 @@ export class GestionDiaLaboralComponent implements OnInit {
   constructor(
     public activemodal: NgbActiveModal,
     private modalService: NgbModal,
-    public colegioService: ColegioService) { }
+    public colegioService: ColegioService,
+    public toast: ToastrService
+    ) { }
 
   ngOnInit() {
     this.sucursal = this.input_sucursal;
@@ -75,7 +79,10 @@ export class GestionDiaLaboralComponent implements OnInit {
         "sucursal": this.sucursal
       }
       this.colegioService.registrarDiaLaboral(diaLaboralDTO).subscribe((resp: any) => {
-        this.listarDias()
+        if (resp.estado == 1) {
+          this.listarDias()
+          this.toast.success(resp.msg, Constantes.SUCCESS)
+        }
       })
     } else {
       for (const dia of this.lsDiaLaborar) {

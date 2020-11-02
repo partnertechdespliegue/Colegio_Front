@@ -43,18 +43,6 @@ export class ColegioService {
     return this.http.delete(URL_SERVICIOSBACK + 'sucursal/' + idSucursal)
   }
 
-  listarDepartamento() {
-    return this.http.get(URL_SERVICIOSBACK + 'ubigeo/listar')
-  }
-
-  listarProvincia(departamento) {
-    return this.http.post(URL_SERVICIOSBACK + 'ubigeo/porDepartamento', departamento)
-  }
-
-  listarDistrito(provincia) {
-    return this.http.post(URL_SERVICIOSBACK + 'ubigeo/porProvincia', provincia)
-  }
-
   listarDiaLaboral(sucursal) {
     return this.http.post(URL_SERVICIOSBACK + 'diaLaboral/listar', sucursal)
   }
@@ -100,6 +88,10 @@ export class ColegioService {
 
   listarSalon(sucursal) {
     return this.http.post(URL_SERVICIOSBACK + 'salon/listar', sucursal)
+  }
+
+  listarSalonPorTipo(sucursal, tipoSalon) {
+    return this.http.post(URL_SERVICIOSBACK + 'salon/listarPorTipo/' + tipoSalon, sucursal)
   }
 
   registrarSalon(salonDTO) {

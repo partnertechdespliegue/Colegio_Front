@@ -4,6 +4,7 @@ import { NgbModal, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstra
 import Constantes from '../../../../../../models/Constantes';
 import { Curso } from '../../../../../../models/Curso';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-gestion-temario',
@@ -24,7 +25,8 @@ export class GestionTemarioComponent implements OnInit, OnDestroy {
   constructor(
     public activemodal: NgbActiveModal,
     private modalService: NgbModal,
-    public colegioService: ColegioService
+    public colegioService: ColegioService,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -59,13 +61,13 @@ export class GestionTemarioComponent implements OnInit, OnDestroy {
     if (this.idTema != null) {
       for (const tmr of this.lsTemario) {
         if (tmr.tema.idTema == this.idTema) {
-          Swal.fire({ title: "El tema ya fue agregado", timer: 1500, showConfirmButton: false });
+          this.toast.info("El tema ya fue agregado", Constantes.INFO)
           return;
         }
       }
       this.nuevoTemario()
     } else {
-      Swal.fire({ title: "Debe escoger un tema primero", timer: 1500, showConfirmButton: false });
+      this.toast.info("Debe escoger un tema primero", Constantes.INFO)
     }
   }
 
@@ -76,35 +78,25 @@ export class GestionTemarioComponent implements OnInit, OnDestroy {
     }
     this.colegioService.registrarTemario(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.listarTemario();
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
   }
 
   eliminarTemario(temario) {
     this.colegioService.eliminarTemario(temario.idTemario).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.listarTemario();
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
-  }
-
-  openModal(indice) {
-    // this.modalRef = this.modalService.open(ConfirmarTurnoComponent,
-    //   {
-    //     backdrop: 'static',
-    //     keyboard: false,
-    //     size: 'sm'
-    //   })
-    // this.modalRef.componentInstance.input_curso = indice;
   }
 
   close() {

@@ -9,6 +9,7 @@ import { Curso } from '../../../../../../models/Curso';
 import { HorarioSalon } from '../../../../../../models/HorarioSalon';
 import { DiaLaboral } from '../../../../../../models/DiaLaboral';
 import { Colegio } from '../../../../../../models/Colegio';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-confirmar-horario-salon',
@@ -31,7 +32,8 @@ export class ConfirmarHorarioSalonComponent implements OnInit {
   constructor(
     public activemodal: NgbActiveModal,
     public colegioService: ColegioService,
-    public router: Router
+    public router: Router,
+    public toast: ToastrService
   ) { }
 
   ngOnInit() {
@@ -66,44 +68,30 @@ export class ConfirmarHorarioSalonComponent implements OnInit {
     }
     this.colegioService.registrarHorarioSalon(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url);
         this.activemodal.dismiss();
       } else if (resp.estado == 3) {
-        Swal.fire(Constantes.INFO, resp.msg, 'info');
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+        this.toast.info(resp.msg, Constantes.INFO)
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
   }
 
   eliminarHorarioSalon() {
     this.colegioService.eliminarHorarioSalon(this.horarioSalon.idHorarioSalon).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
+        this.toast.success(resp.msg, Constantes.SUCCESS)
         this.refrescar(this.router.url)
-      } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
+      } else { this.toast.error(resp.msg, Constantes.ERROR); }
     },
       (err) => {
-        Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
+        this.toast.error(err.status + " " + err.error.error, Constantes.ERROR);
       });
     this.activemodal.dismiss();
   }
-
-  // actualizarTema() {
-  //   this.tema.tipoCurso = this.tipoCurso;
-  //   this.colegioService.actualizarTema(this.tema).subscribe((resp: any) => {
-  //     if (resp.estado == 1) {
-  //       Swal.fire(Constantes.SUCCESS, resp.msg, 'success');
-  //       this.refrescar(this.router.url);
-  //     } else { Swal.fire(Constantes.ERROR, resp.msg, 'error'); }
-  //   },
-  //     (err) => {
-  //       Swal.fire(Constantes.ERROR, err.status + " " + err.error.error, 'error');
-  //     });
-  //   this.activemodal.dismiss();
-  // }
 
   public refrescar(url) {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
