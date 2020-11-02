@@ -134,4 +134,16 @@ export class EstudianteService {
   eliminarEstudianteSeccion(lsSeccionEstudiante) {
     return this.http.post(URL_SERVICIOSBACK + 'seccionEstudiante/eliminar', lsSeccionEstudiante);
   }
+
+  listarHorarioSeccion(seccionDTO) {
+    return this.http.post(URL_SERVICIOSBACK + 'horarioSeccion/listarporSeccionYDia', seccionDTO)
+  }
+
+  registrarHorarioSeccion(seccionDTO) {
+    return this.http.post(URL_SERVICIOSBACK + 'horarioSeccion/registrar', seccionDTO)
+  }
+
+  eliminarHorarioSeccion(idHorarioSeccion) {
+    return this.http.delete(URL_SERVICIOSBACK + 'horarioSeccion/'+ idHorarioSeccion)
+  }
 }

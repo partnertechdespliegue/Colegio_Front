@@ -15,10 +15,10 @@ export class HorarioSalonComponent implements OnInit, OnDestroy {
 
   @Input() input_salon;
 
-  lsDiaLaboral: any[] = [];
 
   modalRef: NgbModalRef;
   salon: any = new Salon();
+  lsDiaLaboral: any[] = [];
 
   lunes = false;
   martes = false;
@@ -53,7 +53,7 @@ export class HorarioSalonComponent implements OnInit, OnDestroy {
     }
   }
 
-  nuevoHorarioSalon(numDia:number) {
+  nuevoHorarioSalon(numDia: number) {
     let indice = null;
     var diaLaboral: any = this.retornarDiaLab(numDia);
     this.openModal(indice, diaLaboral);
@@ -61,9 +61,9 @@ export class HorarioSalonComponent implements OnInit, OnDestroy {
 
   retornarDiaLab(numDia: number): any {
     for (const dia of this.lsDiaLaboral) {
-        if (dia.numDia == numDia) {
-          return dia;
-        }
+      if (dia.numDia == numDia) {
+        return dia;
+      }
     }
   }
 
@@ -79,7 +79,7 @@ export class HorarioSalonComponent implements OnInit, OnDestroy {
         {
           backdrop: 'static',
           keyboard: false,
-          windowClass:'modalMDD'
+          windowClass: 'modalMDD'
         })
       this.modalRef.componentInstance.input_horarioSalon = indice;
       this.modalRef.componentInstance.input_diaLaboral = diaLaboral;

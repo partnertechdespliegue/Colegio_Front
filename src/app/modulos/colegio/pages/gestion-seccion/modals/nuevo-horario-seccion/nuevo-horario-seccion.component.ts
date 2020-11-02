@@ -1,35 +1,34 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ColegioService } from '../../../../services/colegio/colegio.service';
-import { NgbModal, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit } from '@angular/core';
+import { HorarioSeccion } from '../../../../../../models/HorarioSeccion';
 import { DiaLaboral } from '../../../../../../models/DiaLaboral';
-import { HorarioSalon } from '../../../../../../models/HorarioSalon';
-import { ConfirmarHorarioSalonComponent } from '../confirmar-horario-salon/confirmar-horario-salon.component';
-import { Salon } from '../../../../../../models/Salon';
+import { Seccion } from '../../../../../../models/Seccion';
 import { Curso } from '../../../../../../models/Curso';
+import { TipoCurso } from '../../../../../../models/TipoCurso';
 import { NivelEducativo } from '../../../../../../models/NivelEducativo';
 import { Grado } from '../../../../../../models/Grado';
 import { Colegio } from '../../../../../../models/Colegio';
-import { TipoCurso } from '../../../../../../models/TipoCurso';
-import Swal from 'sweetalert2';
-import Constantes from '../../../../../../models/Constantes';
 import { ToastrService } from 'ngx-toastr';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ColegioService } from '../../../../services/colegio/colegio.service';
+import { ConfirmarHorarioSeccionComponent } from '../confirmar-horario-seccion/confirmar-horario-seccion.component';
+import Constantes from '../../../../../../models/Constantes';
 
 @Component({
-  selector: 'app-nuevo-horario-salon',
-  templateUrl: './nuevo-horario-salon.component.html',
+  selector: 'app-nuevo-horario-seccion',
+  templateUrl: './nuevo-horario-seccion.component.html',
   styles: []
 })
-export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
+export class NuevoHorarioSeccionComponent implements OnInit {
 
-  @Input() input_horarioSalon;
+  @Input() input_horarioSeccion;
   @Input() input_diaLaboral;
-  @Input() input_salon;
+  @Input() input_seccion;
 
   modalRef: NgbModalRef;
 
-  horarioSalon: any = new HorarioSalon();
+  horarioSeccion: any = new HorarioSeccion();
   diaLaboral: any = new DiaLaboral();
-  salon: any = new Salon();
+  seccion: any = new Seccion();
   curso: Curso = new Curso();
 
   lsHoras = Constantes.horas;
@@ -38,10 +37,6 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
   lsCurso: any[] = [];
   lsTipoCurso: any[] = [];
   tipoCurso: TipoCurso = new TipoCurso();
-  lsNivelEduc: any[] = [];
-  nivelEduc: NivelEducativo = new NivelEducativo();
-  lsGrado: any[] = [];
-  grado: Grado = new Grado();
   colegio: any = new Colegio();
 
   horaInicio: string;
@@ -58,25 +53,18 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.colegio = JSON.parse(localStorage.getItem('colegioSeleccion'));
     this.listarTipoCurso()
-    this.listarNivelEducativo();
-    if (this.input_horarioSalon != null) {
-      this.horarioSalon = this.input_horarioSalon
+    if (this.input_horarioSeccion != null) {
+      this.horarioSeccion = this.input_horarioSeccion
     }
     this.diaLaboral = this.input_diaLaboral
-    this.salon = this.input_salon
+    this.seccion = this.input_seccion
 
     this.settearRangoHora();
   }
 
-  ngOnDestroy() {
-    if (this.modalRef != null) {
-      this.modalRef.close();
-    }
-  }
-
   settearRangoHora() {
-    this.horaIni = this.retornarHora(this.salon.sucursal.horaInicioAtencion);
-    this.horaFin = this.retornarHora(this.salon.sucursal.horaFinAtencion);
+    this.horaIni = this.retornarHora(this.seccion.turno.horaInicio);
+    this.horaFin = this.retornarHora(this.seccion.turno.horaFin);
   }
 
   retornarHora(hora) {
@@ -115,31 +103,8 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
     })
   }
 
-  listarNivelEducativo() {
-    this.colegioService.listarNivelEducativo(this.colegio).subscribe((resp: any) => {
-      if (resp.estado == 1) {
-        this.lsNivelEduc = resp.aaData;
-      }
-    })
-  }
-
-  listarGrado(idNivEdu) {
-    if (idNivEdu != null) {
-      this.grado.idGrado = null;
-      var nivEdu = { "idNivelEducativo": idNivEdu }
-      this.colegioService.listarGrado(nivEdu).subscribe((resp: any) => {
-        if (resp.estado == 1) {
-          this.lsGrado = resp.aaData;
-        }
-      })
-    } else {
-      this.grado.idGrado = null;
-      this.lsGrado = [];
-    }
-  }
-
   iniciarFiltro() {
-    if (this.tipoCurso.idTipoCurso != null && this.grado.idGrado != null) {
+    if (this.tipoCurso.idTipoCurso != null) {
       this.listarCursoPorTipoCursoYGrado();
     } else {
       this.lsCurso = []
@@ -149,7 +114,7 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
   listarCursoPorTipoCursoYGrado() {
     var dto = {
       "tipoCurso": this.tipoCurso,
-      "grado": this.grado
+      "grado": this.seccion.grado
     }
     this.colegioService.listarCursoPorTipoCursoYGrado(dto).subscribe((resp: any) => {
       if (resp.estado == 1) {
@@ -162,18 +127,17 @@ export class NuevoHorarioSalonComponent implements OnInit, OnDestroy {
   }
 
   openModalConfirmar() {
-    this.horarioSalon.horaInicio = this.retornarDate(this.horaInicio);
-
-    this.modalRef = this.modalService.open(ConfirmarHorarioSalonComponent,
+    this.horarioSeccion.horaInicio = this.retornarDate(this.horaInicio);
+    this.modalRef = this.modalService.open(ConfirmarHorarioSeccionComponent,
       {
         backdrop: 'static',
         keyboard: false,
         size: 'sm'
       }
     );
-    this.modalRef.componentInstance.input_horarioSalon = this.horarioSalon;
+    this.modalRef.componentInstance.input_horarioSeccion = this.horarioSeccion;
     this.modalRef.componentInstance.input_diaLaboral = this.diaLaboral;
-    this.modalRef.componentInstance.input_salon = this.salon;
+    this.modalRef.componentInstance.input_seccion = this.seccion;
     this.modalRef.componentInstance.input_curso = this.curso;
     this.modalRef.result.then((result) => {
     }, (reason) => {

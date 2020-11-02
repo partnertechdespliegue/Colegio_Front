@@ -8,6 +8,7 @@ import Constantes from '../../../../models/Constantes';
 import { NuevaSeccionComponent } from './modals/nueva-seccion/nueva-seccion.component';
 import { ConfirmarSeccionComponent } from './modals/confirmar-seccion/confirmar-seccion.component';
 import { GestionSeccionEstudianteComponent } from './modals/gestion-seccion-estudiante/gestion-seccion-estudiante.component';
+import { HorarioSeccionComponent } from './modals/horario-seccion/horario-seccion.component';
 
 @Component({
   selector: 'app-gestion-seccion',
@@ -31,6 +32,7 @@ export class GestionSeccionComponent implements OnInit, OnDestroy {
     'nivEdu',
     'grado',
     'estudiantes',
+    'gestHorario',
     'actualizar',
     'eliminar',
   ];
@@ -89,6 +91,12 @@ export class GestionSeccionComponent implements OnInit, OnDestroy {
     this.openModal(tmp);
   }
 
+  gestionHorarioSeccion(seccion) {
+    var tmp = Object.assign({}, seccion);
+    tmp.accion = "HS";
+    this.openModal(tmp);
+  }
+
   public openModal(indice) {
     if (indice == null || indice.accion == Constantes.ACTUALIZAR) {
       this.modalRef = this.modalService.open(NuevaSeccionComponent,
@@ -106,7 +114,15 @@ export class GestionSeccionComponent implements OnInit, OnDestroy {
           size: 'lg'
         })
       this.modalRef.componentInstance.input_seccion = indice;
-    } else {
+    } else if (indice.accion == "HS") {
+      this.modalRef = this.modalService.open(HorarioSeccionComponent,
+        {
+          backdrop: 'static',
+          keyboard: false,
+         windowClass: 'modalLG'
+        })
+      this.modalRef.componentInstance.input_seccion = indice;
+    }else {
       this.modalRef = this.modalService.open(ConfirmarSeccionComponent,
         {
           backdrop: 'static',

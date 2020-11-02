@@ -43,6 +43,9 @@ import { NuevaSeccionComponent } from './pages/gestion-seccion/modals/nueva-secc
 import { ConfirmarSeccionComponent } from './pages/gestion-seccion/modals/confirmar-seccion/confirmar-seccion.component';
 import { GestionSeccionEstudianteComponent } from './pages/gestion-seccion/modals/gestion-seccion-estudiante/gestion-seccion-estudiante.component';
 import { ConfirmarSeccionEstudianteComponent } from './pages/gestion-seccion/modals/confirmar-seccion-estudiante/confirmar-seccion-estudiante.component';
+import { HorarioSeccionComponent } from './pages/gestion-seccion/modals/horario-seccion/horario-seccion.component';
+import { NuevoHorarioSeccionComponent } from './pages/gestion-seccion/modals/nuevo-horario-seccion/nuevo-horario-seccion.component';
+import { ConfirmarHorarioSeccionComponent } from './pages/gestion-seccion/modals/confirmar-horario-seccion/confirmar-horario-seccion.component';
 
 @NgModule({
   imports: [
@@ -91,7 +94,10 @@ import { ConfirmarSeccionEstudianteComponent } from './pages/gestion-seccion/mod
     NuevaSeccionComponent,
     ConfirmarSeccionComponent,
     GestionSeccionEstudianteComponent,
-    ConfirmarSeccionEstudianteComponent,],
+    ConfirmarSeccionEstudianteComponent,
+    HorarioSeccionComponent,
+    NuevoHorarioSeccionComponent,
+    ConfirmarHorarioSeccionComponent,],
 
   entryComponents: [
     NuevoColegioComponent,
@@ -120,7 +126,10 @@ import { ConfirmarSeccionEstudianteComponent } from './pages/gestion-seccion/mod
     NuevaSeccionComponent,
     ConfirmarSeccionComponent,
     GestionSeccionEstudianteComponent,
-    ConfirmarSeccionEstudianteComponent],
+    ConfirmarSeccionEstudianteComponent,
+    HorarioSeccionComponent,
+    NuevoHorarioSeccionComponent,
+    ConfirmarHorarioSeccionComponent,],
 
   providers: [
     {
