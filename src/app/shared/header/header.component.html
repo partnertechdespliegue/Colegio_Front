@@ -12,15 +12,15 @@
                 <b>
                   <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                   <!-- Dark Logo icon -->
-                  <img src="../../../assets/images/background/icon-planillas.svg" style="width: 38px;height: 28px;margin-top: -20%;" alt="homepage" class="dark-logo" />
+                  <img src="../../../assets/images/background/icon-abc.svg" style="height: 40px; margin-left: 5px; margin-top: -20%;" alt="homepage" class="dark-logo" />
                   <!-- Light Logo icon -->
-                  <img src="../../../assets/images/background/icon-planillas.svg" alt="homepage" class="light-logo" />
+                  <img src="../../../assets/images/background/icon-abc.svg" alt="homepage" class="light-logo" />
                 </b>
                 <!--End Logo icon -->
                 <!-- Logo text -->
                 <span>
                   <!-- dark Logo text -->
-                  <a style="font-weight: bold;color: #fff;font-size: 25px;margin-left: 0px;padding-top: 10px;" class="dark-logo" alt="homepage">COLEGIO</a>
+                  <a style="font-weight: bold;color: #fff;font-size: 25px;margin-left: 15px;padding-top: 10px;" class="dark-logo" alt="homepage">COLEGIO</a>
                   <!-- <img src="Planilla/assets/images/logo-text.png" alt="homepage" class="dark-logo" /> -->
                   <!-- Light Logo text -->
                   <a style="font-weight: bold;color: #fff;font-size: 25px;margin-left: 9px;padding-top: 10px;" class="light-logo" alt="homepage">COLEGIO</a>
@@ -47,17 +47,17 @@
                          MODULO
                     </a>
                 </li> -->
-                <li style="width: 241px;">
+                <li style="width: 240px; margin-left: 10px">
                     <div class="form-group row" style="width: 260px">
-                        <label class="col-4 col-form-label" style="color:#fff">Colegio:</label>
-                        <ng-select style="width: 150px;" [items]="lsColegio" bindLabel="nombre" bindValue="idColegio" placeholder="seleccione" [(ngModel)]="colegio.idColegio" name="#colegio.idColegio" (ngModelChange)="setColegio($event)"></ng-select>
+                        <label class="col-form-label" style="color:#fff">Colegio:</label>
+                        <ng-select style="width: 155px; margin-left: 10px;" [items]="lsColegio" bindLabel="nombre" bindValue="idColegio" placeholder="seleccione" [(ngModel)]="colegio.idColegio" name="#colegio.idColegio" (ngModelChange)="setColegio($event)"></ng-select>
                     </div>
                 </li>
 
-                <li style="width: 241px;">
+                <li style="width: 240px;">
                     <div class="form-group row" style="width: 260px">
-                        <label class="col-4 col-form-label" style="color:#fff">Sucursal:</label>
-                        <ng-select style="width: 150px;" [items]="lsSucursal" bindLabel="direccion" bindValue="idSucursal" placeholder="seleccione" [(ngModel)]="sucursal.idSucursal" name="#sucursal.idSucursal" (ngModelChange)="setSucursal($event)"></ng-select>
+                        <label class="col-form-label" style="color:#fff">Sucursal:</label>
+                        <ng-select style="width: 155px; margin-left: 10px;" [items]="lsSucursal" bindLabel="direccion" bindValue="idSucursal" placeholder="seleccione" [(ngModel)]="sucursal.idSucursal" name="#sucursal.idSucursal" (ngModelChange)="setSucursal($event)"></ng-select>
                     </div>
                 </li>
                 <!-- <li style="width: 241px;">

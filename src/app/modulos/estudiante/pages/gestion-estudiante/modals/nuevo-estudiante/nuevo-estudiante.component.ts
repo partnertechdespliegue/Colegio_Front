@@ -120,6 +120,9 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
   listarSucursal() {
     this.colegioService.listarSucursal(this.colegio).subscribe((resp:any) => {
       this.lsSucursal = resp.aaData;
+      if (this.lsSucursal.length == 0) {
+        this.toast.info("El colegio no cuenta con ninguna sucursal registrada", Constantes.INFO)
+      }
     })
   }
 

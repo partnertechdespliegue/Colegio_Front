@@ -1,0 +1,119 @@
+<hr>
+<div [hidden]="colegio!=null">
+    <div style="text-align: center; font-size: 22px; margin: 0px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+        Seleccione un colegio
+    </div>
+</div>
+<div [hidden]="colegio==null">
+    <nav class="mt-lg-1 mb-1">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active color-page-i" style="font-size: 12px; font-weight: bold;" id="nav-puesto" data-toggle="tab" href="#puesto" role="tab" aria-controls="nav-puesto" aria-selected="true">Puesto</a>
+            <a class="nav-item nav-link  color-page-i" style="font-size: 12px; font-weight: bold;" id="nav-depart" data-toggle="tab" href="#depart" role="tab" aria-controls="nav-depart" aria-selected="false">Departamento</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="puesto" role="tabpanel" aria-labelledby="puesto">
+            <div class="col-12" style="margin-bottom: 10px;">
+                <div class="card-header row" style="border:1px solid #d6d6d6; border-radius: 10px; padding: 10px; margin: 10px;">
+                    <div class="col-6" style="margin: 0;">
+                        <mat-form-field style="width: 335px; margin-right: 50px;">
+                            <mat-label>Buscar...</mat-label>
+                            <input matInput (keyup)="applyFilter($event)" #input>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6" style="margin: 0;">
+                        <div class="form-group mt-3 mb-2">
+                            <button class="btn btn-sm color-page-button" (click)="nuevoPuesto()" id="nuevo" style="width: auto; border-radius: 28px;color: #ffffff;">Nuevo Puesto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive" style="opacity: 0.9; border-radius: 15px; box-shadow: 2px 1px 26px 0px rgba(0,0,0,0.35);">
+                    <table mat-table [dataSource]="lsPuesto" style="width: 100%;">
+
+                        <ng-container matColumnDef="descripcion">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Descripcion </th>
+                            <td mat-cell *matCellDef="let element">{{element.descripcion}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="departamento">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Departamento </th>
+                            <td mat-cell *matCellDef="let element">{{element.departamentoColegio.descripcion}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actualizar">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Actualizar </th>
+                            <td mat-cell *matCellDef="let element">
+                                <i class="mdi mdi-pencil color-page-i" (click)="actualizarPuesto(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;" [hidden]="element.codPuesto==1"></i>
+                                <i class="mdi mdi-pencil" aria-hidden="true" style="font-size: 25px; color: grey;" [hidden]="element.codPuesto!=1"></i>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="eliminar">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Eliminar </th>
+                            <td mat-cell *matCellDef="let element">
+                                <i class="mdi mdi-delete color-page-i" (click)="eliminarPuesto(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;" [hidden]="element.codPuesto==1"></i>
+                                <i class="mdi mdi-delete" aria-hidden="true" style="font-size: 25px; color: grey;" [hidden]="element.codPuesto!=1"></i>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="color-page-tr"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <mat-paginator #paglsPuesto [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="depart" role="tabpanel" aria-labelledby="depart">
+            <div class="col-12" style="margin-bottom: 10px;">
+                <div class="card-header row" style="border:1px solid #d6d6d6; border-radius: 10px; padding: 10px; margin: 10px;">
+                    <div class="col-6" style="margin: 0;">
+                        <mat-form-field style="width: 335px; margin-right: 50px;">
+                            <mat-label>Buscar...</mat-label>
+                            <input matInput (keyup)="applyFilter2($event)" #input>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6" style="margin: 0;">
+                        <div class="form-group mt-3 mb-2">
+                            <button class="btn btn-sm color-page-button" (click)="nuevoDepartamento()" id="nuevo" style="width: auto; border-radius: 28px;color: #ffffff;">Nuevo Departamento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive" style="opacity: 0.9; border-radius: 15px; box-shadow: 2px 1px 26px 0px rgba(0,0,0,0.35);">
+                    <table mat-table [dataSource]="lsDepartamento" style="width: 100%;">
+
+                        <ng-container matColumnDef="descripcion">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Descripcion </th>
+                            <td mat-cell *matCellDef="let element">{{element.descripcion}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="actualizar">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Actualizar </th>
+                            <td mat-cell *matCellDef="let element">
+                                <i class="mdi mdi-pencil color-page-i" (click)="actualizarDepartamento(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;" [hidden]="element.codDepartamento==1"></i>
+                                <i class="mdi mdi-pencil" aria-hidden="true" style="font-size: 25px; color: grey;" [hidden]="element.codDepartamento!=1"></i>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="eliminar">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Eliminar </th>
+                            <td mat-cell *matCellDef="let element">
+                                <i class="mdi mdi-delete color-page-i" (click)="eliminarDepartamento(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;" [hidden]="element.codDepartamento==1"></i>
+                                <i class="mdi mdi-delete" aria-hidden="true" style="font-size: 25px; color: grey;" [hidden]="element.codDepartamento!=1"></i>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayed2Columns" class="color-page-tr"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayed2Columns;"></tr>
+                    </table>
+
+                    <mat-paginator #paglsDepartamento [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

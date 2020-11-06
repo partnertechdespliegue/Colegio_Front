@@ -7,6 +7,8 @@ import { AdministracionComponent } from './modulos/administracion/administracion
 import { GestionColegioComponent } from './modulos/colegio/pages/gestion-colegio/gestion-colegio.component';
 import { ColegioComponent } from './modulos/colegio/colegio.component';
 import { EstudianteComponent } from './modulos/estudiante/estudiante.component';
+import { ConfiguracionComponent } from './modulos/configuracion/configuracion.component';
+import { EmpleadoComponent } from './modulos/empleado/empleado.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,8 +26,18 @@ const appRoutes: Routes = [
   },
   {
     path: '',
+    component: EmpleadoComponent,
+    loadChildren: './modulos/empleado/empleado.module#EmpleadoModule'
+  },
+  {
+    path: '',
     component: ColegioComponent,
     loadChildren: './modulos/colegio/colegio.module#ColegioModule'
+  },
+  {
+    path: '',
+    component: ConfiguracionComponent,
+    loadChildren: './modulos/configuracion/configuracion.module#ConfiguracionModule'
   },
   { path: '**', component: NopagefoundComponent }
 ];

@@ -5,6 +5,7 @@ import Constantes from '../../../../../../models/Constantes';
 import { Curso } from '../../../../../../models/Curso';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-gestion-temario',
@@ -17,10 +18,15 @@ export class GestionTemarioComponent implements OnInit, OnDestroy {
 
   curso: any = new Curso();
   modalRef: NgbModalRef;
-  lsTemario: any[] = [];
+  lsTemario = null;
+  lsTemarioFilter: any[] = [];
   lsTema: any[] = [];
-
   idTema;
+
+  displayedColumns: string[] = [
+    'tema',
+    'eliminar'
+  ];
 
   constructor(
     public activemodal: NgbActiveModal,
@@ -52,14 +58,16 @@ export class GestionTemarioComponent implements OnInit, OnDestroy {
   listarTemario() {
     this.colegioService.listarTemario(this.curso).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        this.lsTemario = resp.aaData;
+        // this.lsRelacionFilter = resp.aaData;
+        this.lsTemarioFilter = resp.aaData;
+        this.lsTemario = new MatTableDataSource<any>(this.lsTemarioFilter);
       }
     })
   }
 
   validarNuevoTemario() {
     if (this.idTema != null) {
-      for (const tmr of this.lsTemario) {
+      for (const tmr of this.lsTemarioFilter) {
         if (tmr.tema.idTema == this.idTema) {
           this.toast.info("El tema ya fue agregado", Constantes.INFO)
           return;

@@ -6,6 +6,7 @@ import Constantes from '../../../../../../models/Constantes';
 import { Apoderado } from '../../../../../../models/Apoderado';
 import { NuevaRelacionComponent } from '../nueva-relacion/nueva-relacion.component';
 import { ConfirmarRelacionComponent } from '../confirmar-relacion/confirmar-relacion.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-apoderado-gestion',
@@ -19,9 +20,25 @@ export class ApoderadoGestionComponent implements OnInit, OnDestroy {
 
   modalRef: NgbModalRef;
 
-  lsRelacion: any[] = [];
+  lsRelacion = null;
+  lsRelacionFilter: any[] = [];
   estudiante: any = new Estudiante();
   apoderado: any = new Apoderado();
+
+  displayedColumns: string[] = [
+    'tipRelacion',
+    'nomApe',
+    'nroDoc',
+    'nroCelular',
+    'eliminar'
+  ];
+
+  displayed2Columns: string[] = [
+    'tipRelacion',
+    'nomApe',
+    'nroDoc',
+    'eliminar'
+  ];
 
   constructor(
     public activemodal: NgbActiveModal,
@@ -49,13 +66,15 @@ export class ApoderadoGestionComponent implements OnInit, OnDestroy {
 
   listarRelacionPorEstudiante() {
     this.estudianteService.listarRelacionPorEstudiante(this.estudiante).subscribe((resp: any) => {
-      this.lsRelacion = resp.aaData;
+      this.lsRelacionFilter = resp.aaData;
+      this.lsRelacion = new MatTableDataSource<any>(this.lsRelacionFilter);
     })
   }
 
   listarRelacionPorApoderado() {
     this.estudianteService.listarRelacionPorApoderado(this.apoderado).subscribe((resp: any) => {
-      this.lsRelacion = resp.aaData;
+      this.lsRelacionFilter = resp.aaData;
+      this.lsRelacion = new MatTableDataSource<any>(this.lsRelacionFilter);
     })
   }
 

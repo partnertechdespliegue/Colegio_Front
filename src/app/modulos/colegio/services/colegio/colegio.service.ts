@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOSBACK } from '../../../../config/config';
-import { Sucursal } from '../../../../models/Sucursal';
 
 @Injectable({
   providedIn: 'root'

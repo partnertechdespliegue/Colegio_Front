@@ -37,6 +37,7 @@
                             <!-- <i [class]="menu.icono"></i> -->
                             <img src="../../assets/images/icon/svg/{{menu.icono}}" alt="i" style="width: 30px; opacity: 0.7" />
                             <span class="hide-menu ml-2">{{menu.descripcion}}</span>
+                            <span class="mt-2 badge badge-pill badge-dark float-right">{{menu.lspagina.length}}</span>
                         </a>
                         <ul [class.collapse]="!menu.open" aria-expanded="false" class="collapse">
                             <!-- <cdk-virtual-scroll-viewport [itemSize]="18 * 9" class="example-viewport"> -->

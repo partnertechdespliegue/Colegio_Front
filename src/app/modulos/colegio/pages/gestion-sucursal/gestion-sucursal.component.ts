@@ -19,7 +19,7 @@ export class GestionSucursalComponent implements OnInit,  OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   lsSucursal = null;
-  lsColegioFilter: any[] = [];
+  lsSucursalFilter: any[] = [];
   modalRef: NgbModalRef;
   colegio : any = new Colegio();
 
@@ -55,8 +55,8 @@ export class GestionSucursalComponent implements OnInit,  OnDestroy {
   listarSucursal() {
     this.colegioService.listarSucursal(this.colegio).subscribe((resp: any) => {
       if (resp.estado == 1) {
-        this.lsColegioFilter = resp.aaData;
-        this.lsSucursal = new MatTableDataSource<any>(this.lsColegioFilter);
+        this.lsSucursalFilter = resp.aaData;
+        this.lsSucursal = new MatTableDataSource<any>(this.lsSucursalFilter);
         this.lsSucursal.paginator = this.paginator;
       }
     })

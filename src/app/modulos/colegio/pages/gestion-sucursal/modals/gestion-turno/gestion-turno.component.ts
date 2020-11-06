@@ -7,19 +7,47 @@ import { NuevoTurnoComponent } from '../nuevo-turno/nuevo-turno.component';
 import { ConfirmarTurnoComponent } from '../confirmar-turno/confirmar-turno.component';
 import { NuevoRecesoComponent } from '../nuevo-receso/nuevo-receso.component';
 import { ConfirmarRecesoComponent } from '../confirmar-receso/confirmar-receso.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-gestion-turno',
   templateUrl: './gestion-turno.component.html',
-  styles: []
+  styleUrls: ['gestion-turno.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
+
 })
 export class GestionTurnoComponent implements OnInit, OnDestroy {
 
   @Input() input_sucursal;
 
-  sucursal: any = new Sucursal();
-  lsTurno: any[] = [];
   modalRef: NgbModalRef;
+  sucursal: any = new Sucursal();
+  lsTurno = null ;
+  lsTurnoFilter: any[] = [];
+  expandedElement: Object | null;
+
+  displayedColumns: string[] = [
+    'descripcion',
+    'horaInicio',
+    'horaFin',
+    'actualizar',
+    'eliminar'
+  ];
+
+  // displayed2Columns: string[] = [
+  //   'descripcion',
+  //   'horaInicio',
+  //   'horaFin',
+  //   'actualizar',
+  //   'eliminar'
+  // ];
 
   constructor(
     public activemodal: NgbActiveModal,
@@ -40,14 +68,19 @@ export class GestionTurnoComponent implements OnInit, OnDestroy {
 
   listarTurno(){
     this.colegioService.listarTurno(this.sucursal).subscribe((resp: any) => {
-      this.lsTurno = resp.aaData;
+      // this.lsTurno = resp.aaData;
+      this.lsTurnoFilter = resp.aaData;
+        this.lsTurno = new MatTableDataSource<any>(this.lsTurnoFilter);
     })
   }
 
   listarReceso(turno){
-    this.colegioService.listarReceso(turno).subscribe((resp: any) => {
-      turno.lsReceso=resp.aaData;
-    })
+    if (turno.lsReceso == null) {
+      this.colegioService.listarReceso(turno).subscribe((resp: any) => {
+        turno.lsReceso = resp.aaData;
+        // turno.lsReceso = new MatTableDataSource<any>(resp.aaData);
+      })
+    }
   }
 
   nuevoTurno() {
