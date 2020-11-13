@@ -2,8 +2,184 @@
     <div class="modal-header color-page-modal">
         <h2 class="modal-title text-center" style="color: white;">{{curso!=null?"Actualizar":"Registrar"}} Curso</h2>
     </div>
-    <div class="modal-body">
-        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
+
+    <nav class="mt-lg-1 mb-1">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active color-page-i" style="font-size: 12px; font-weight: bold;" id="nav-curso" data-toggle="tab" href="#curso" role="tab" aria-controls="nav-curso" aria-selected="true">Curso</a>
+            <a class="nav-item nav-link color-page-i" style="font-size: 12px; font-weight: bold;" id="nav-maestro" data-toggle="tab" href="#maestro" role="tab" aria-controls="nav-maestro" aria-selected="false">Maestro</a>
+            <a class="nav-item nav-link color-page-i" (click)="validarTipoCurso()" style="font-size: 12px; font-weight: bold;" id="nav-temario" data-toggle="tab" href="#temario" role="tab" aria-controls="nav-temario" aria-selected="false">Temario</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="curso" role="tabpanel" aria-labelledby="curso">
+            <div class="form-row" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 20px; margin: 20px;">
+                <div class="form-row col-12">
+                    <div class="col-6 mb-2">
+                        <label for="desc">Descripcion:</label>
+                        <input class="form-control form-control-sm" type="text" maxlength="150" id="desc" name="#curso.descripcion" [(ngModel)]="curso.descripcion" required>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <label for="hrsem">Horas semanales:</label>
+                        <input class="form-control form-control-sm" type="text" maxlength="2" id="hrsem" name="#curso.horaSemanal" [(ngModel)]="curso.horaSemanal" (keypress)="verificarNumero($event)" required>
+                    </div>
+                </div>
+                <div class="form-row col-12">
+                    <div class="col-6 mb-2">
+                        <label for="tipc">Tipo curso:</label>
+                        <ng-select [items]="lsTipoCurso" bindLabel="descripcion" bindValue="idTipoCurso" placeholder="Seleccione.." id="tipc" [(ngModel)]="tipoCurso.idTipoCurso" name="#tipoCurso.idTipoCurso" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarTemaPorTipoCurso($event)"
+                            required></ng-select>
+                    </div>
+                </div>
+                <div class="form-row col-12">
+                    <div class="col-6 mb-2">
+                        <label for="nivedu">Nivel educativo:</label>
+                        <ng-select [items]="lsNivelEduc" bindLabel="descripcion" bindValue="idNivelEducativo" placeholder="Seleccione.." id="nivedu" name="#nivelEduc.idNivelEducativo" [(ngModel)]="nivelEduc.idNivelEducativo" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarGrado($event)"
+                            required></ng-select>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <label for="grado">Grado:</label>
+                        <ng-select [items]="lsGrado" bindLabel="descripcion" bindValue="idGrado" placeholder="Seleccione.." id="grado" name="#grado.idGrado" [(ngModel)]="grado.idGrado" style="width: 100%; margin-right: 10px;" required></ng-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="maestro" role="tabpanel" aria-labelledby="maestro">
+            <div class="form-row" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 20px; margin: 20px;">
+                <div class="form-row col-12">
+                    <div class="col-7" style="margin-bottom: 10px;">
+                        <div class="card-header row" style="border:1px solid #d6d6d6; border-radius: 10px; padding: 10px 10px 0px 10px; margin: 0px;">
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Buscar...</mat-label>
+                                    <input matInput (keyup)="applyFilter($event)" #input>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <label for="maes">Maestro:</label>
+                        <input class="form-control form-control-sm" type="text" maxlength="150" id="maes" name="#maestro.datos" [(ngModel)]="maestro.datos" readonly required>
+                    </div>
+                    <div class="col-12 table-responsive" style="opacity: 0.9; border-radius: 15px; box-shadow: 2px 1px 26px 0px rgba(0,0,0,0.35);">
+                        <table mat-table [dataSource]="lsMaestro" style="width: 100%;">
+
+                            <ng-container matColumnDef="nomApe">
+                                <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Nombres / Apellidos </th>
+                                <td mat-cell *matCellDef="let element">{{element.nombres}} {{element.apePaterno}} {{element.apeMaterno}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="nroDoc">
+                                <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Nro. Documento </th>
+                                <td mat-cell *matCellDef="let element">{{element.nroDoc}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="asignar">
+                                <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Escoger </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <i class="mdi mdi-check-circle color-page-i" (click)="asignarMaestro(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns" class="color-page-tr"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <mat-paginator #paglsMaestro [pageSize]="3"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="temario" role="tabpanel" aria-labelledby="temario">
+            <div [hidden]="input_curso == null" class="form-row" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px 20px; margin: 20px;">
+                <div class="form-row col-12" style="padding: 10px 15px 0px 15px; margin: 0px;">
+                    <div class="col-2">
+                        <p class="modal-title">Temas:</p>
+                    </div>
+                    <div class="col-8">
+                        <!-- <label for="temtc">Tema:</label> -->
+                        <ng-select [items]="lsTemaTipoCurso" bindLabel="descripcion" bindValue="idTema" placeholder="Seleccione un tipo curso" id="temtc" name="#idTema" [(ngModel)]="idTema" style="width: 100%; margin-right: 10px;"></ng-select>
+                    </div>
+                    <div class="col-2">
+                        <i class="mdi mdi-plus-circle float-right color-page-i" (click)="validarNuevoTemario()" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <hr style="margin: 0px  0px  10px  0px; padding: 0px;">
+                    <div *ngIf="lsTemarioFilter?.length == 0">
+                        <div style="text-align: center; font-size: 18px; margin: 10px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            No hay ningún tema registrado
+                        </div>
+                    </div>
+                    <div [hidden]="lsTemarioFilter?.length == 0" class="table-responsive" style="opacity: 0.9; border-radius: 15px; box-shadow: 2px 1px 26px 0px rgba(0,0,0,0.35);">
+                        <table mat-table [dataSource]="lsTemario" style="width: 100%;">
+                            <ng-container matColumnDef="tema">
+                                <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Tema </th>
+                                <td mat-cell *matCellDef="let element">{{element.tema.descripcion}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="eliminar">
+                                <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff; width: 50px;"> Eliminar </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <i class="mdi mdi-delete color-page-i" (click)="eliminarTemario(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayed2Columns" class="color-page-tr"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayed2Columns;"></tr>
+                        </table>
+                        <mat-paginator #paglsTemario [pageSize]="3"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+
+            <div [hidden]="input_curso != null" class="form-row" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 20px; margin: 20px;">
+                <div class="form-row col-12" style="padding: 10px 5px; margin: 0px;">
+                    <div class="col-2">
+                        <p class="modal-title">Temas:</p>
+                    </div>
+                    <div class="col-8">
+                        <!-- <label for="temtc">Tema:</label> -->
+                        <ng-select [items]="lsTemaTipoCurso" bindLabel="descripcion" bindValue="idTema" placeholder="Seleccione un tipo curso" id="temtc" name="#idTemaTipCu" [(ngModel)]="idTemaTipCu" style="width: 100%; padding-right: 10px;"></ng-select>
+                    </div>
+                    <div class="col-2">
+                        <i class="mdi mdi-plus-circle float-right color-page-i" (click)="agregarTema()" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </div>
+                </div>
+                <div class="form-row col-12 mt-2">
+                    <!-- <hr style="margin: 0px  0px  10px  0px; padding: 0px;"> -->
+                    <div class="col-12" *ngIf="lsTemaAgregado?.length == 0">
+                        <div style="text-align: center; font-size: 18px; margin: 10px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            No hay ningún tema registrado
+                        </div>
+                    </div>
+                    <div class="card example-1 square" style="height: 150px;">
+                        <div>
+                            <div class="form-row col-12" *ngFor="let tema of lsTemaAgregado; let i = index">
+                                <div class="form-row col-12" style="width: 500px; border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; margin-bottom: 5px;">
+                                    <div class="col-10">
+                                        <p style="margin: 10px ; font-size: 14px;">{{tema.descripcion}}</p>
+                                    </div>
+                                    <div class="col-2">
+                                        <i class="mdi mdi-close float-right color-page-i" (click)="quitarTema(i)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button (click)="close()" id="cerrar" type="button" class="btn btn-warning btn-sm min" style="margin: 0px 5px;">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="turnoForm.form.invalid" style="margin: 0px 5px;">Confirmar</button>
+    </div>
+</form>
+
+
+<!-- <div class="modal-body">
+        <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 20px;">
             <div class="form-row col-12">
                 <div class="col-4 mb-2">
                     <label for="desc">Descripcion:</label>
@@ -21,6 +197,10 @@
             </div>
             <div class="form-row col-12">
                 <div class="col-4 mb-2">
+                    <label for="maes">Maestro:</label>
+                    <input class="form-control form-control-sm" type="text" maxlength="150" id="maes" name="#maestro.datos" [(ngModel)]="maestro.datos" readonly required>
+                </div>
+                <div class="col-4 mb-2">
                     <label for="nivedu">Nivel educativo:</label>
                     <ng-select [items]="lsNivelEduc" bindLabel="descripcion" bindValue="idNivelEducativo" placeholder="Seleccione.." id="nivedu" name="#nivelEduc.idNivelEducativo" [(ngModel)]="nivelEduc.idNivelEducativo" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarGrado($event)"
                         required></ng-select>
@@ -29,52 +209,121 @@
                     <label for="grado">Grado:</label>
                     <ng-select [items]="lsGrado" bindLabel="descripcion" bindValue="idGrado" placeholder="Seleccione.." id="grado" name="#grado.idGrado" [(ngModel)]="grado.idGrado" style="width: 100%; margin-right: 10px;" required></ng-select>
                 </div>
-                <div class="col-4 mb-2">
-                    <label for="prof">Profesor:</label>
-                    <ng-select [items]="lsProfesor" bindLabel="nombre" bindValue="id" placeholder="Seleccione.." id="prof" style="width: 100%; margin-right: 10px;" required></ng-select>
+            </div>
+            <div class="form-row col-6" style="border:1px solid #d6d6d6; border-radius: 15px; padding-top: 10px; flex: 0 0 49%; margin-right: 5px;">
+                <div class="col-12" style="margin-bottom: 10px;">
+                    <div class="card-header row" style="border:1px solid #d6d6d6; border-radius: 10px; padding: 10px 10px 0px 10px; margin: 0px;">
+                        <div class="col-12">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>Buscar...</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 table-responsive" style="height: 220px; opacity: 0.9; border-radius: 15px; box-shadow: 2px 1px 4px 0px rgba(0,0,0,0.35);">
+                    <table mat-table [dataSource]="lsMaestro" style="width: 100%;">
+
+                        <ng-container matColumnDef="nomApe">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Nombres / Apellidos </th>
+                            <td mat-cell *matCellDef="let element">{{element.nombres}} {{element.apePaterno}} {{element.apeMaterno}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="nroDoc">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Nro. Documento </th>
+                            <td mat-cell *matCellDef="let element">{{element.nroDoc}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="asignar">
+                            <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Escoger </th>
+                            <td mat-cell *matCellDef="let element">
+                                <i class="mdi mdi-check-circle color-page-i" (click)="asignarMaestro(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="color-page-tr"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <mat-paginator #paglsApoderado [pageSize]="2"></mat-paginator>
                 </div>
             </div>
-            <div *ngIf="input_curso == null" class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding:20px;">
-                <div class="form-row col-12" style="padding: 0px 0px 5px 0px; margin: 0px;">
-                    <div class="col-4 mt-1">
-                        <h2 class="modal-title">Gestion Temas:</h2>
+
+            <div *ngIf="input_curso != null" class="form-row col-6" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 0px; flex: 0 0 49%; margin-left: 5px;">
+                <div class="form-row col-12" style="padding: 20px 15px 0px 15px; margin: 0px;">
+                    <div class="col-2 mt-1">
+                        <p class="modal-title">Temas:</p>
                     </div>
-                    <div class="col-6">
-                        <!-- <label for="temtc">Tema:</label> -->
-                        <ng-select [items]="lsTemaTipoCurso" bindLabel="descripcion" bindValue="idTema" placeholder="Seleccione un tipo curso" id="temtc" name="#idTemaTipCu" [(ngModel)]="idTemaTipCu" style="width: 100%; margin-right: 10px;"></ng-select>
+                    <div class="col-8">
+                        <ng-select [items]="lsTemaTipoCurso" bindLabel="descripcion" bindValue="idTema" placeholder="Seleccione un tipo curso" id="temtc" name="#idTema" [(ngModel)]="idTema" style="width: 100%; margin-right: 10px;"></ng-select>
                     </div>
-                    <div class="col-2 pr-5">
+                    <div class="col-2">
+                        <i class="mdi mdi-plus-circle float-right color-page-i" (click)="validarNuevoTemario()" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <hr style="margin: 0px  0px  10px  0px; padding: 0px;">
+                    <div *ngIf="lsTemarioFilter?.length == 0">
+                        <div style="text-align: center; font-size: 18px; margin: 10px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                            No hay ningún tema registrado
+                        </div>
+                    </div>
+                    <div [hidden]="lsTemarioFilter?.length == 0" class="table-responsive" style="opacity: 0.9; border-radius: 15px; box-shadow: 2px 1px 26px 0px rgba(0,0,0,0.35);">
+                        <div class="card example-1 square" style="height: 200px;">
+
+                            <table mat-table [dataSource]="lsTemario" style="width: 100%;">
+                                <ng-container matColumnDef="tema">
+                                    <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff;"> Tema </th>
+                                    <td mat-cell *matCellDef="let element">{{element.tema.descripcion}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="eliminar">
+                                    <th mat-header-cell *matHeaderCellDef style="font-weight: normal; font-size: 12px; color: #ffffff; width: 50px;"> Eliminar </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <i class="mdi mdi-delete color-page-i" (click)="eliminarTemario(element)" aria-hidden="true" style="cursor: pointer; font-size: 25px;"></i>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayed2Columns" class="color-page-tr"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayed2Columns;"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="input_curso == null" class="form-row col-6" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; flex: 0 0 49%; margin-left: 5px;">
+                <div class="form-row col-12" style="padding: 10px 5px; margin: 0px;">
+                    <div class="col-2 mt-1">
+                        <p class="modal-title">Temas:</p>
+                    </div>
+                    <div class="col-8">
+                        <ng-select [items]="lsTemaTipoCurso" bindLabel="descripcion" bindValue="idTema" placeholder="Seleccione un tipo curso" id="temtc" name="#idTemaTipCu" [(ngModel)]="idTemaTipCu" style="width: 100%; padding-right: 10px;"></ng-select>
+                    </div>
+                    <div class="col-2">
                         <i class="mdi mdi-plus-circle float-right color-page-i" (click)="agregarTema()" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
                     </div>
                 </div>
-                <div class="col-12 modal-body">
-                    <hr style="margin: 0px  0px  10px  0px; padding: 0px;">
-                    <div class="card example-1 square scrollbar-cyan bordered-cyan" style="height: 160px;">
-                        <div style="padding: 0px 10px;">
+                <div class="form-row col-12 mt-2">
+                    <div class="card example-1 square" style="height: 180px;">
+                        <div style="padding: 0px 5px;">
                             <div *ngIf="lsTemaAgregado?.length == 0">
-                                <div style="text-align: center; font-size: 20px; margin: 10px;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
-                                    No ha agregado ningún tema aún
+                                <div style="text-align: center; font-size: 18px; margin: 10px 20px ;padding:15px 0px; border-radius: 20px ;border-style: dotted; color: gray;">
+                                    No hay ningún tema registrado
                                 </div>
                             </div>
                             <div class="form-row col-12" *ngFor="let tema of lsTemaAgregado; let i = index">
-                                <div class="form-row col-12" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px 20px; margin-bottom: 5px;">
+                                <div class="form-row col-12" style="width: 500px; border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; margin-bottom: 5px;">
                                     <div class="col-10">
-                                        <p style="margin: 10px 30px; font-size: 14px;">{{tema.descripcion}}</p>
+                                        <p style="margin: 10px ; font-size: 14px;">{{tema.descripcion}}</p>
                                     </div>
                                     <div class="col-2">
                                         <i class="mdi mdi-close float-right color-page-i" (click)="quitarTema(i)" aria-hidden="true" style="cursor: pointer; font-size: 30px;"></i>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button (click)="close()" id="cerrar" type="button" class="btn btn-warning btn-sm min" style="margin: 0px 5px;">Cancelar</button>
-        <button (click)="openModalConfirmar()" type="button" id="continuar" class="btn btn-sm min color-page-button" [disabled]="turnoForm.form.invalid" style="margin: 0px 5px;">Confirmar</button>
-    </div>
-</form>
+    </div> -->

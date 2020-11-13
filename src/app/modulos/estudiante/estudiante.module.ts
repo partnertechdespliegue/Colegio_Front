@@ -20,6 +20,7 @@ import { ConfirmarApoderadoComponent } from './pages/gestion-apoderado/modals/co
 import { ApoderadoGestionComponent } from './pages/gestion-estudiante/modals/apoderado-gestion/apoderado-gestion.component';
 import { NuevaRelacionComponent } from './pages/gestion-estudiante/modals/nueva-relacion/nueva-relacion.component';
 import { ConfirmarRelacionComponent } from './pages/gestion-estudiante/modals/confirmar-relacion/confirmar-relacion.component';
+import { VideollamadaEstudianteComponent } from './pages/videollamada-estudiante/videollamada-estudiante.component';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { ConfirmarRelacionComponent } from './pages/gestion-estudiante/modals/co
     ConfirmarApoderadoComponent,
     ApoderadoGestionComponent,
     NuevaRelacionComponent,
-    ConfirmarRelacionComponent],
+    ConfirmarRelacionComponent,
+   VideollamadaEstudianteComponent],
 
   entryComponents: [
     NuevoEstudianteComponent,

@@ -86,17 +86,6 @@ const Constantes = {
     'descripcion': 'Recibo por Honorarios'
   }],
 
-  "CATEGORIAPUESTO": [{
-    'idCategoria': "M",
-    'descripcion': 'Masivo'
-  }, {
-    'idCategoria': "E",
-    'descripcion': 'Especializado'
-  }, {
-    'idCategoria': "G",
-    'descripcion': 'Gerencial'
-  }],
-
   "ESTADO": [{
     "descripcion": "ACTIVO",
     "valor": true
@@ -105,6 +94,7 @@ const Constantes = {
     "descripcion": "INACTIVO",
     "valor": false
   }],
+
   "TIPOTARDANZA": [
     {
       "val": "1",
@@ -115,6 +105,7 @@ const Constantes = {
       "descripcion": "Rango minutos"
     }
   ],
+
   "TIPORANGO": [
     {
       "val": "1",
@@ -125,41 +116,38 @@ const Constantes = {
       "descripcion": "Rango completo"
     }
   ],
-  "DerechoHab": [
-    {
-      "idTipoDH": 1,
-      "descripcion": "Cónyugue"
-    },
-    {
-      "idTipoDH": 2,
-      "descripcion": "Hijo incapacitado completamente"
-    },
-    {
-      "idTipoDH": 3,
-      "descripcion": "Madre gestante"
-    }
-  ],
-  "tipoAdeSue": [
+
+  "tipoPago": [
     {
       "id": 1,
-      "descripcion": "Proporcional"
+      "descripcion": "DEPOSITO CUENTA"
     },
     {
       "id": 2,
-      "descripcion": "Emergencia"
+      "descripcion": "EFECTIVO"
+    },
+    {
+      "id": 3,
+      "descripcion": "OTRO"
+    }
+  ],
+
+  "tipoCuenta": [
+    {
+      "id": 1,
+      "descripcion": "AHORRO"
+    },
+    {
+      "id": 2,
+      "descripcion": "CORRIENTE"
+    },
+    {
+      "id": 3,
+      "descripcion": "INTERBANCARIA"
     }
 
   ],
-  "tipoSalon":[
-    {
-      "id":1,
-      "desc":"Unico"
-    },
-    {
-      "id":2,
-      "desc":"Compartido"
-    }
-  ],
+
   "tipoModena":[
     {
       "id":1,
@@ -170,6 +158,18 @@ const Constantes = {
       "descripcion":"DOLARES ($)"
     }
   ],
+
+  "tipoSalon":[
+    {
+      "id":1,
+      "desc":"Unico"
+    },
+    {
+      "id":2,
+      "desc":"Compartido"
+    }
+  ],
+
   "sectorEmpresa":[
     {
       "id":1,

@@ -9,6 +9,7 @@ import { ColegioComponent } from './modulos/colegio/colegio.component';
 import { EstudianteComponent } from './modulos/estudiante/estudiante.component';
 import { ConfiguracionComponent } from './modulos/configuracion/configuracion.component';
 import { EmpleadoComponent } from './modulos/empleado/empleado.component';
+import { MaestroComponent } from './modulos/maestro/maestro.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,6 +24,11 @@ const appRoutes: Routes = [
     path: '',
     component: EstudianteComponent,
     loadChildren: './modulos/estudiante/estudiante.module#EstudianteModule'
+  },
+  {
+    path: '',
+    component: MaestroComponent,
+    loadChildren: './modulos/maestro/maestro.module#MaestroModule'
   },
   {
     path: '',

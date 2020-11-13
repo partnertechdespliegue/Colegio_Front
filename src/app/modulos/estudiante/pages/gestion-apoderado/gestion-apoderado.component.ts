@@ -58,6 +58,9 @@ export class GestionApoderadoComponent implements OnInit, OnDestroy {
     this.estudianteService.listarApoderadoPorColegio(this.colegio).subscribe((resp: any) => {
       if (resp.estado == 1) {
         this.lsApoderadoFilter = resp.aaData;
+        this.lsApoderadoFilter.map((x) => {
+          x.datos = x.nombres + ' ' + x.apePaterno + ' ' + x.apeMaterno;
+        });
         this.lsApoderado = new MatTableDataSource<any>(this.lsApoderadoFilter);
         this.lsApoderado.paginator = this.paginator;
       }
@@ -68,6 +71,9 @@ export class GestionApoderadoComponent implements OnInit, OnDestroy {
     this.estudianteService.listarApoderadoPorSucursal(this.sucursal).subscribe((resp: any) => {
       if (resp.estado == 1) {
         this.lsApoderadoFilter = resp.aaData;
+        this.lsApoderadoFilter.map((x) => {
+          x.datos = x.nombres + ' ' + x.apePaterno + ' ' + x.apeMaterno;
+        });
         this.lsApoderado = new MatTableDataSource<any>(this.lsApoderadoFilter);
         this.lsApoderado.paginator = this.paginator;
       }

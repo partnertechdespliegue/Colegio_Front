@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOSBACK } from '../../../../config/config';
+import { DepartamentoColegio } from '../../../../models/DepartamentoColegio';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class OrganigramaService {
 
   listarPuesto(colegio) {
     return this.http.post(URL_SERVICIOSBACK + 'puestoColegio/listar', colegio);
+  }
+
+  listarPuestoPorDepartamento(departamentoColegio) {
+    return this.http.post(URL_SERVICIOSBACK + 'puestoColegio/listarPorDepartamento', departamentoColegio);
   }
 
   registrarPuesto(departamentoDTO) {

@@ -1,79 +1,123 @@
-import { Component, OnInit } from '@angular/core';
-import '../../../../../vendor/jitsi/external_api.js';
-
-declare var JitsiMeetExternalAPI: any;
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatPaginator } from '@angular/material/paginator';
+import { EmpleadoService } from '../../services/empleado/empleado.service';
+import { Sucursal } from '../../../../models/Sucursal';
+import { Colegio } from '../../../../models/Colegio';
+import { MatTableDataSource } from '@angular/material/table';
+import Constantes from '../../../../models/Constantes';
+import { NuevoEmpleadoComponent } from './modals/nuevo-empleado/nuevo-empleado.component';
+import { ConfirmarEmpleadoComponent } from './modals/confirmar-empleado/confirmar-empleado.component';
 
 @Component({
   selector: 'app-gestion-empleado',
   templateUrl: './gestion-empleado.component.html',
   styles: []
 })
-export class GestionEmpleadoComponent implements OnInit {
+export class GestionEmpleadoComponent implements OnInit, OnDestroy {
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  title = 'ADRIAN';
-  domain: string = "meet.jit.si";
-  options: any;
-  api: any;
+  modalRef: NgbModalRef;
+  lsEmpleado = null;
+  lsEmpleadoFilter: any[] = [];
 
+  colegio: any = new Colegio()
+  sucursal: any = new Sucursal()
 
-  participantId;
+  displayedColumns: string[] = [
+    'nomApe',
+    'nroDoc',
+    'sexo',
+    'actualizar',
+    'eliminar',
+  ];
 
-  constructor() {
+  constructor(
+    public modalService: NgbModal,
+    public empleadoService: EmpleadoService
+  ) {}
+
+  ngOnInit() {
+    this.colegio = JSON.parse(localStorage.getItem('colegioSeleccion'));
+    this.sucursal = JSON.parse(localStorage.getItem('sucursalSeleccion'));
+    if (this.sucursal != null) {
+      this.listarEstudiantePorSucursal();
+    } else {
+      this.listarEstudiantePorColegio();
+    }
   }
 
-  ngOnInit(): void {
-
-    this.options = {
-      roomName: "nosenoseno",
-      width: 1000,
-      height: 450,
-      interfaceConfigOverwrite: {
-        TILE_VIEW_MAX_COLUMNS: 3, // de 1 a 5 como maximo
-        CONNECTION_INDICATOR_AUTO_HIDE_TIMEOUT: 5000,
-        DEFAULT_LOCAL_DISPLAY_NAME: 'Yo',
-        TOOLBAR_TIMEOUT: 100,
-
-        TOOLBAR_BUTTONS: [
-          'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
-          'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-          'etherpad', 'settings', 'raisehand',
-          'videoquality', 'filmstrip', 'shortcuts',
-          'tileview', 'download', 'mute-everyone', 'security'
-        ],
-      },
-
-      configOverwrite: { startWithAudioMuted: true },
-      // userInfo: {
-      //   email: 'email@jitsiexamplemail.com',
-      //   displayName: 'John Doe'
-      // },
-      parentNode: document.querySelector('#meet')
+  ngOnDestroy(): void {
+    if (this.modalRef != null) {
+      this.modalRef.close();
     }
-
-    this.api = new JitsiMeetExternalAPI(this.domain, this.options);
-    this.api.executeCommand('displayName', 'Adrian');
-
-
-    this.api.addEventListener('displayNameChange', (jaja:any)=> { debugger
-      console.log("ACAAA"+jaja);
-      this.participantId = jaja.id;
-    });
-    // this.api.addEventListener('participantLeft', (e)=> { debugger
-    //   console.log("LA CONTRAAA" + e) ;window.location.href="https://www.google.com";
-    // });
-    this.api.addEventListener('readyToClose', ()=> { debugger
-      console.log("LA CONTRAAA") ;
-      window.location.href="https://www.google.com";
-    });
-
-
   }
 
-  mostrarAPI() {debugger
-    // this.api.dispose();
+  listarEstudiantePorColegio() {
+    this.empleadoService.listarEmpleadoPorColegio(this.colegio).subscribe((resp: any) => {
+      if (resp.estado == 1) {
+        this.lsEmpleadoFilter = resp.aaData;
+        this.lsEmpleadoFilter.map((x) => {
+          x.datos = x.nombres + ' ' + x.apePaterno + ' ' + x.apeMaterno;
+        });
+        this.lsEmpleado = new MatTableDataSource<any>(this.lsEmpleadoFilter);
+        this.lsEmpleado.paginator = this.paginator;
+      }
+    })
+  }
 
-    console.log(this.api.getDisplayName(this.participantId));
+  listarEstudiantePorSucursal() {
+    this.empleadoService.listarEmpleadoPorSucursal(this.sucursal).subscribe((resp: any) => {
+      if (resp.estado == 1) {
+        this.lsEmpleadoFilter = resp.aaData;
+        this.lsEmpleadoFilter.map((x) => {
+          x.datos = x.nombres + ' ' + x.apePaterno + ' ' + x.apeMaterno;
+        });
+        this.lsEmpleado = new MatTableDataSource<any>(this.lsEmpleadoFilter);
+        this.lsEmpleado.paginator = this.paginator;
+      }
+    })
+  }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.lsEmpleado.filter = filterValue.trim().toLowerCase();
+  }
+
+  nuevoEmpleado() {
+    let indice = null;
+    this.openModal(indice);
+  }
+
+  actualizarEmpleado(estudiante) {
+    var tmp = Object.assign({}, estudiante);
+    tmp.accion = Constantes.ACTUALIZAR;
+    this.openModal(tmp);
+  }
+
+  eliminarEmpleado(estudiante) {
+    var tmp = Object.assign({}, estudiante);
+    tmp.accion = Constantes.ELIMINAR;
+    this.openModal(tmp);
+  }
+
+  public openModal(indice) {
+    if (indice == null || indice.accion == Constantes.ACTUALIZAR) {
+      this.modalRef = this.modalService.open(NuevoEmpleadoComponent,
+        {
+          backdrop: 'static',
+          keyboard: false,
+          size: 'lg'
+        })
+      this.modalRef.componentInstance.input_empleado = indice;
+    } else {
+      this.modalRef = this.modalService.open(ConfirmarEmpleadoComponent,
+        {
+          backdrop: 'static',
+          keyboard: false,
+          size: 'sm'
+        })
+      this.modalRef.componentInstance.input_empleadoDTO = { "empleado": indice };
     }
-
+  }
 }

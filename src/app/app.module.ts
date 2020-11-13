@@ -41,6 +41,7 @@ import { EstudianteComponent } from './modulos/estudiante/estudiante.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ConfiguracionComponent } from './modulos/configuracion/configuracion.component';
 import { EmpleadoComponent } from './modulos/empleado/empleado.component';
+import { MaestroComponent } from './modulos/maestro/maestro.component';
 
 registerLocaleData(localesPE, 'es-Pe');
 
@@ -51,9 +52,10 @@ registerLocaleData(localesPE, 'es-Pe');
     InicioComponent,
     //modulos
     AdministracionComponent,
-    ColegioComponent,
     EstudianteComponent,
+    MaestroComponent,
     EmpleadoComponent,
+    ColegioComponent,
     ConfiguracionComponent
   ],
   imports: [

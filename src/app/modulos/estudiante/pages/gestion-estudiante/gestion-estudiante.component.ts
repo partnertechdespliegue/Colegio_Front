@@ -9,6 +9,7 @@ import { Sucursal } from '../../../../models/Sucursal';
 import { NuevoEstudianteComponent } from './modals/nuevo-estudiante/nuevo-estudiante.component';
 import { ConfirmarEstudianteComponent } from './modals/confirmar-estudiante/confirmar-estudiante.component';
 import { ApoderadoGestionComponent } from './modals/apoderado-gestion/apoderado-gestion.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gestion-estudiante',
@@ -37,6 +38,7 @@ export class GestionEstudianteComponent implements OnInit, OnDestroy {
   constructor(
     public modalService: NgbModal,
     public estudianteService: EstudianteService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -59,6 +61,9 @@ export class GestionEstudianteComponent implements OnInit, OnDestroy {
     this.estudianteService.listarEstudiantePorColegio(this.colegio).subscribe((resp: any) => {
       if (resp.estado == 1) {
         this.lsEstudianteFilter = resp.aaData;
+        this.lsEstudianteFilter.map((x) => {
+          x.datos = x.nombres + ' ' + x.apePaterno + ' ' + x.apeMaterno;
+        });
         this.lsEstudiante = new MatTableDataSource<any>(this.lsEstudianteFilter);
         this.lsEstudiante.paginator = this.paginator;
       }
@@ -69,6 +74,9 @@ export class GestionEstudianteComponent implements OnInit, OnDestroy {
     this.estudianteService.listarEstudiantePorSucursal(this.sucursal).subscribe((resp: any) => {
       if (resp.estado == 1) {
         this.lsEstudianteFilter = resp.aaData;
+        this.lsEstudianteFilter.map((x) => {
+          x.datos = x.nombres + ' ' + x.apePaterno + ' ' + x.apeMaterno;
+        });
         this.lsEstudiante = new MatTableDataSource<any>(this.lsEstudianteFilter);
         this.lsEstudiante.paginator = this.paginator;
       }
@@ -131,4 +139,7 @@ export class GestionEstudianteComponent implements OnInit, OnDestroy {
     }
   }
 
+  videoLlamada(){
+    this.router.navigate(["/videollamadaestudiante"])
+  }
 }

@@ -19,11 +19,11 @@
                             <span class="hide-menu text-active" style="margin-right: 22px;">Perfil:</span>
                             <span class="hide-menu pl-4">{{token.nombre_perfil}}</span>
                         </a>
-                        <a *ngIf="token.id_perfil!=1" class="waves-effect waves-dark">
-                            <!-- <img [src]="usuario.img | imagen:'usuario':usuario._id" alt="user" /> -->
-                            <span class="hide-menu  text-active">Empresa:</span>
+                        <!-- <a *ngIf="token.id_perfil!=1" class="waves-effect waves-dark"> -->
+                        <!-- <img [src]="usuario.img | imagen:'usuario':usuario._id" alt="user" /> -->
+                        <!-- <span class="hide-menu  text-active">Empresa:</span>
                             <span class="hide-menu pl-4">{{token.empresa.razonSocial}}</span>
-                        </a>
+                        </a> -->
                         <ul aria-expanded="false" class="collapse" [class.collapse]="openPerfil">
                             <li><a (click)="_usuarioService.logout()" class="pointer">Salir</a></li>
                         </ul>

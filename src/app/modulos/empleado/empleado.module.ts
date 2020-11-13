@@ -18,6 +18,8 @@ import { NuevoDepartamentoComponent } from './pages/gestion-organigrama/modals/n
 import { ConfirmarDepartamentoComponent } from './pages/gestion-organigrama/modals/confirmar-departamento/confirmar-departamento.component';
 import { ConfirmarPuestoComponent } from './pages/gestion-organigrama/modals/confirmar-puesto/confirmar-puesto.component';
 import { NuevoPuestoComponent } from './pages/gestion-organigrama/modals/nuevo-puesto/nuevo-puesto.component';
+import { NuevoEmpleadoComponent } from './pages/gestion-empleado/modals/nuevo-empleado/nuevo-empleado.component';
+import { ConfirmarEmpleadoComponent } from './pages/gestion-empleado/modals/confirmar-empleado/confirmar-empleado.component';
 
 @NgModule({
   imports: [
@@ -40,13 +42,17 @@ import { NuevoPuestoComponent } from './pages/gestion-organigrama/modals/nuevo-p
     NuevoDepartamentoComponent,
     ConfirmarDepartamentoComponent,
     ConfirmarPuestoComponent,
-    NuevoPuestoComponent],
+    NuevoPuestoComponent,
+    NuevoEmpleadoComponent,
+    ConfirmarEmpleadoComponent],
 
   entryComponents: [
     NuevoDepartamentoComponent,
     ConfirmarDepartamentoComponent,
     ConfirmarPuestoComponent,
-    NuevoPuestoComponent
+    NuevoPuestoComponent,
+    NuevoEmpleadoComponent,
+    ConfirmarEmpleadoComponent
   ],
 
   providers: [

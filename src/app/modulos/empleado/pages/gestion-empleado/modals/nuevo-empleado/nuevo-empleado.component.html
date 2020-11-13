@@ -1,0 +1,277 @@
+<form #estForm="ngForm" ngNativeValidate>
+    <div class="modal-header color-page-modal">
+        <h5 class="modal-title" style="color: white;">{{empleado.accion=="U"?'Actualizar':'Registrar'}} empleado</h5>
+    </div>
+    <div class="modal-body">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-personal-tab" data-toggle="tab" href="#nav-personal" role="tab" aria-controls="nav-personal" aria-selected="true">Personal</a>
+                <a class="nav-item nav-link" id="nav-ubigeo-tab" data-toggle="tab" href="#nav-ubigeo" role="tab" aria-controls="nav-ubigeo" aria-selected="true">Ubigeo</a>
+                <a class="nav-item nav-link" id="nav-contrato-tab" data-toggle="tab" href="#nav-contrato" role="tab" aria-controls="nav-contrato" aria-selected="true">Contrato</a>
+                <a class="nav-item nav-link" id="nav-foto-tab" data-toggle="tab" href="#nav-foto" role="tab" aria-controls="nav-foto" aria-selected="true">Foto</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-personal" role="tabpanel" aria-labelledby="nav-personal-tab">
+                <div class="form-row col-12">
+                    <div class="col-12 mt-3" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px;flex: 0 0 100%; margin: 0 7px;">
+                        <div class="form-row col-12  mt-3">
+                            <div class="col-4 mb-3">
+                                <label for="nom">Nombres *</label>
+                                <input class="form-control form-control-sm verf" type="text" placeholder="Nom." id="nom" [(ngModel)]="empleado.nombres" name="#empleado.nombres" maxlength="80" (keypress)="verificarString($event)" required>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="apepat">Apellido Paterno *</label>
+                                <input class="form-control form-control-sm verf" type="text" placeholder="Ape. Pat." id="apepat" [(ngModel)]="empleado.apePaterno" name="#empleado.apePaterno" maxlength="80" (keypress)="verificarString($event)" required>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="apemat">Apellido Materno *</label>
+                                <input class="form-control form-control-sm verf" type="text" placeholder="Ape. Mat." id="apemat" [(ngModel)]="empleado.apeMaterno" name="#empleado.apeMaterno" maxlength="80" (keypress)="verificarString($event)" required>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-4 mb-3">
+                                <label for="nom">Tipo Documento *</label>
+                                <ng-select [items]="lsTipoDoc" bindLabel="descripcion" bindValue="idTipoDoc" placeholder="T. Doc." id="tdoc" [(ngModel)]="tipoDoc.idTipoDoc" name="#tipoDoc.idTipoDoc" (ngModelChange)="revisarTipoDoc($event)" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                            <div class="col-4 mb-3" [ngSwitch]="tipoDoc.idTipoDoc">
+                                <div *ngSwitchCase="1">
+                                    <label for="ndoc">Nro. Documento *</label>
+                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. DNI" id="ndoc" name="#empleado.nroDoc" [(ngModel)]="empleado.nroDoc" name="#empleado.nroDoc" (keypress)="verificarNumero($event,'dni')" (blur)="validarData('dni')"
+                                        required>
+                                </div>
+                                <!-- <div *ngSwitchCase="2">
+                                  <label for="nruc">Nro. RUC *</label>
+                                  <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Ruc." id="nruc" [(ngModel)]="empleado.nroDoc" name="#empleado.nroDoc" (keypress)="verificarNumero($event,'ruc')" (blur)="validarData('ruc')"
+                                      required>
+                              </div> -->
+                                <div *ngSwitchCase="3">
+                                    <label for="npas">Nro. Pasaporte *</label>
+                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Pasaporte" id="npas" [(ngModel)]="empleado.nroDoc" name="#empleado.nroDoc" required>
+                                </div>
+                                <div *ngSwitchCase="4">
+                                    <label for="ncarext">Nro. Carnet Extranejeria *</label>
+                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Carnet extrangeria" id="ncarext" [(ngModel)]="empleado.nroDoc" name="#empleado.nroDoc" required>
+                                </div>
+                                <div *ngSwitchDefault>
+                                    <label>Seleccione tipo documento *</label>
+                                    <input class="form-control form-control-sm" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="col-4 mb-3" *ngIf="verPais">
+                                <label for="pem">País Emisor *</label>
+                                <ng-select [items]="lsPais" bindLabel="descripcion" bindValue="idPais" placeholder="P. Emisor Doc" id="pais" [(ngModel)]="pais.idPais" name="#pais.idPais" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-row col-12"> -->
+                        <!-- <div class="col-4 mb-3">
+                                <label for="secu">Sucursal *</label>
+                                <ng-select [items]="lsSucursal" bindLabel="direccion" bindValue="idSucursal" placeholder="Sucursal" id="secu" [(ngModel)]="sucursal.idSucursal" name="#sucursal.idSucursal" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div> -->
+                        <!-- <div class="col-4 mb-3">
+                              <label for="nivedu">Nivel educativo *</label>
+                              <ng-select [items]="lsNivelEduc" bindLabel="descripcion" bindValue="idNivelEducativo" placeholder="Seleccione.." id="nivedu" name="#nivelEduc.idNivelEducativo" [(ngModel)]="nivelEduc.idNivelEducativo" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarGrado($event)"
+                                  required></ng-select>
+                          </div>
+                          <div class="col-4 mb-3">
+                              <label for="grado">Grado *</label>
+                              <ng-select [items]="lsGrado" bindLabel="descripcion" bindValue="idGrado" placeholder="Seleccione.." id="grado" name="#grado.idGrado" [(ngModel)]="grado.idGrado" style="width: 100%; margin-right: 10px;" required></ng-select>
+                          </div> -->
+                        <!-- </div> -->
+                        <div class="form-row col-12">
+                            <div class="col-4 mb-3">
+                                <label>Fecha Nacimiento *</label>
+                                <ejs-datepicker format='dd-MM-yyyy' type="datepicker" placeholder='Elige una fecha' [(ngModel)]="empleado.fechaNacimiento" name="#empleado.fechaNacimiento" required> </ejs-datepicker>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="sexo">Sexo *</label>
+                                <ng-select [items]="lsSexo" bindLabel="descripcion" bindValue="abrev" placeholder="Sexo" id="sexo" [(ngModel)]="empleado.sexo" name="#empleado.sexo" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="secu">Sucursal *</label>
+                                <ng-select [items]="lsSucursal" bindLabel="direccion" bindValue="idSucursal" placeholder="Sucursal" id="secu" [(ngModel)]="sucursal.idSucursal" name="#sucursal.idSucursal" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-4 mb-3">
+                                <label for="corr">Correo</label>
+                                <input class="form-control form-control-sm" type="email" placeholder="Correo" id="corr" [(ngModel)]="empleado.correo" name="#empleado.correo" maxlength="80" (blur)="verificarCorreo(empleado.correo)" email>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="cel">Celular *</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Celular" id="cel" [(ngModel)]="empleado.nroCelular" name="#empleado.nroCel" maxlength="9" (keypress)="verificarNumero($event,'cel')" (blur)="validarData('cel')" required>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <label for="canHi">Cantidad Hijos *</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Cantidad Hijos" id="canHi" [(ngModel)]="empleado.nroHijo" name="#empleado.nroHijo" maxlength="2" (keypress)="verificarNumero($event,'nroHijo')">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-ubigeo" role="tabpanel" aria-labelledby="nav-ubigeo-tab">
+                <div class="form-row col-12">
+                    <div class="col-6 mt-3 mb-3" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; flex: 0 0 48%; margin: 0px 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3 mt-2">
+                                <label for="dep">Departamento *</label>
+                                <ng-select [items]="lsDepartamento" bindLabel="descripcion" bindValue="idDepartamento" placeholder="Departamento" id="dep" [(ngModel)]="departamento.idDepartamento" name="#departamento.idDepartamento" (ngModelChange)="listarProvincias($event)" style="width: 100%; margin-right: 10px;"
+                                    required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="prov">Provincia *</label>
+                                <ng-select [items]="lsProvincia" bindLabel="descripcion" bindValue="idProvincia" placeholder="Provincia" id="prov" [(ngModel)]="provincia.idProvincia" name="#provincia.idProvincia" (ngModelChange)="listarDistrito($event)" style="width: 100%; margin-right: 10px;"
+                                    required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="dis">Distrito *</label>
+                                <ng-select [items]="lsDistrito" bindLabel="descripcion" bindValue="idDistrito" placeholder="Distrito" id="dis" [(ngModel)]="distrito.idDistrito" name="#distrito.idDistrito" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3 mb-3" style="border:1px solid #d6d6d6; border-radius: 15px;flex: 0 0 48%; padding: 10px; margin: 0px 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3 mt-2">
+                                <label for="dirr">Dirección *</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Dirección" id="dirr" [(ngModel)]="empleado.direccion" name="#empleado.direccion" maxlength="100" required>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="tzon">Tipo Zona</label>
+                                <ng-select [items]="lsTipoZona" bindLabel="descripcion" bindValue="idTipoZona" placeholder="T. Zona" id="tzon" [(ngModel)]="tipoZona.idTipoZona" name="tipoZona.idTipoZona" style="width: 100%; margin-right: 10px;"></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="ref">Referencia</label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Referencia" id="ref" [(ngModel)]="empleado.referencia" name="#empleado.referencia" maxlength="200">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-contrato" role="tabpanel" aria-labelledby="nav-contrato-tab">
+                <div class="form-row col-12">
+                    <div class="col-6 mt-3 mb-3" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; flex: 0 0 48%; margin: 0px 5px;">
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3 mt-2">
+                                <label for="depCol">Departamento *</label>
+                                <ng-select [items]="lsDepartamentoCole" bindLabel="descripcion" bindValue="idDepartamentoColegio" placeholder="Departamento" id="depCol" [(ngModel)]="departamentoCole.idDepartamentoColegio" name="#departamentoCole.idDepartamentoColegio" (ngModelChange)="listarPuestoColegio($event)"
+                                    style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+                        <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="pues">Puesto *</label>
+                                <ng-select [items]="lsPuestoCole" bindLabel="descripcion" bindValue="idPuestoColegio" placeholder="Puesto" id="pues" [(ngModel)]="puestoCole.idPuestoColegio" name="#puestoCole.idPuestoColegio" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div>
+                        <!-- <div class="form-row col-12">
+                            <div class="col-12 mb-3">
+                                <label for="dis">Distrito *</label>
+                                <ng-select [items]="lsDistrito" bindLabel="descripcion" bindValue="idDistrito" placeholder="Distrito" id="dis" [(ngModel)]="distrito.idDistrito" name="#distrito.idDistrito" style="width: 100%; margin-right: 10px;" required></ng-select>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-6 mt-3 mb-3" style="border:1px solid #d6d6d6; border-radius: 15px;flex: 0 0 48%; padding: 10px; margin: 0px 5px;">
+                        <div class="example-2 square">
+                            <div class="card">
+                                <div class="form-row col-12">
+                                    <div class="col-12 mb-3 mt-2">
+                                        <label>Fecha Inicio *</label>
+                                        <ejs-datepicker format='dd-MM-yyyy' type="text" placeholder='Elige una fecha' name="#contrato.fechaInicio" [(ngModel)]="contrato.fechaInicio" (ngModelChange)="validarFechaFin($event)" required> </ejs-datepicker>
+                                    </div>
+                                </div>
+
+                                <div class="form-row col-12">
+                                    <div class="col-12 mb-3">
+                                        <label>Fecha Fin</label>
+                                        <ejs-datepicker format='dd-MM-yyyy' type="text" placeholder='Elige una fecha' name="#contrato.fechaFin" [(ngModel)]="contrato.fechaFin" [min]="minFecFin" [disabled]="fecFinDis"> </ejs-datepicker>
+                                    </div>
+                                </div>
+
+                                <div class="form-row col-12">
+                                    <div class="col-12 mb-3">
+                                        <label for="sueBa">Sueldo Base *</label>
+                                        <input class="form-control form-control-sm" type="text" placeholder="Sueldo Base" id="sueBa" [(ngModel)]="contrato.sueldoBase" name="#contrato.sueldoBase" maxlength="100" (keypress)="verificarDecimal($event,'nroHijo')">
+                                    </div>
+                                </div>
+                                <div class="form-row col-12">
+                                    <div class="col-12 mb-3">
+                                        <label for="tipPa">Tipo Pago *</label>
+                                        <ng-select [items]="lsTipoPago" bindLabel="descripcion" bindValue="id" placeholder="Tipo Pago" id="tipPa" [(ngModel)]="contrato.tipoPago" name="#contrato.tipoPago" style="width: 100%; margin-right: 10px;" required></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-row col-12">
+                                    <div class="col-12 mb-3">
+                                        <label for="ban">Banco *</label>
+                                        <ng-select [items]="lsBancoSueldo" bindLabel="descripcion" bindValue="idBanco" placeholder="Banco" id="ban" [(ngModel)]="banco.idBanco" name="#banco.idBanco" style="width: 100%; margin-right: 10px;" required></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-row col-12">
+                                    <div class="col-6 mb-3">
+                                        <label for="tipCue">Tipo Cuenta *</label>
+                                        <ng-select [items]="lsTipoCuenta" bindLabel="descripcion" bindValue="id" placeholder="Tipo Cuenta" id="tipCue" [(ngModel)]="contrato.tipoCuenta" name="#contrato.tipoCuenta" style="width: 100%; margin-right: 10px;" required></ng-select>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label for="tipMon">Tipo Moneda *</label>
+                                        <ng-select [items]="lsTipoMoneda" bindLabel="descripcion" bindValue="id" placeholder="Tipo Moneda" id="tipMon" [(ngModel)]="contrato.tipoMoneda" name="#contrato.tipoMoneda" style="width: 100%; margin-right: 10px;" required></ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-row col-12">
+                                    <div class="col-12 mb-3">
+                                        <label for="nroCue">Nro Cuenta *</label>
+                                        <input class="form-control form-control-sm" type="text" placeholder="Nro Cuenta" id="nroCue" [(ngModel)]="contrato.nroCta" name="#contrato.nroCta" maxlength="200" required>
+                                    </div>
+                                </div>
+                                <div class="form-row col-12">
+                                    <div class="col-12 mb-3">
+                                        <label for="nroCueInt">Nro Cuenta Interbancaria</label>
+                                        <input class="form-control form-control-sm" type="text" placeholder="Nro Cuenta Interbancaria" id="nroCueInt" [(ngModel)]="contrato.nroCtaInter" name="#contrato.nroCtaInter" maxlength="200">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-foto" role="tabpanel" aria-labelledby="nav-foto-tab">
+                <div class="form-row col-12">
+                    <div class="col-10" style="border:1px solid #d6d6d6; border-radius: 15px; padding: 10px; margin: 1% 10%;">
+                        <div class="container" style="padding-top:10px;">
+                            <div class="form-row col-12 justify-content-center" style="height: 300px;">
+                                <img *ngIf="imgURL" height="290" style="max-height: 290px; max-width: 400px;" [src]="imgURL" alt="">
+                            </div>
+                            <div class="form-row col-12" align="center">
+                                <div class="col-12 mb-1 mt-2 align-content-center">
+                                    <div *ngIf="!fotoSeleccionada && !tieneFoto">
+                                        <input class="form-control form-control-sm input-button-z" style="width: 50px !important;" type="file" id="subir" (change)="escogerFoto($event)" accept="image/x-png,image/gif,image/jpeg">
+                                        <button type="button" class="btn btn-outline-info btn-sm" style="width: 30%; margin: 0px 10px; padding: 0px;">
+                                        <i class="mdi mdi-camera" style="font-size: 18px;"></i>
+                                      </button>
+                                    </div>
+                                    <button *ngIf="!fotoSeleccionada && tieneFoto" (click)="eliminarFoto()" type="button" class="btn btn-outline-red btn-sm" style="width: auto; margin: 0px 2px; padding: 0px 10px;">
+                                    <label style="font-weight: bold;margin: 0px;font-size: 18px; cursor: pointer">Eliminar</label>
+                                  </button>
+                                    <button *ngIf="fotoSeleccionada" (click)="cargarImgDefault()" type="button" class="btn btn-outline-red btn-sm" style="width: auto; margin: 0px 2px; padding: 0px 10px;">
+                                    <label style="font-weight: bold;margin: 0px;font-size: 18px; cursor: pointer">X</label>
+                                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" modal-footer ">
+        <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
+        <button (click)="openModalConfirmar()" type="button " id="confirmar" class="btn btn-info btn-sm min " [disabled]="estForm.form.invalid" style="margin: 0px 5px; ">Continuar</button>
+    </div>
+</form>

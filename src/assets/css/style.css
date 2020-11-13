@@ -118,8 +118,8 @@ File: scss
 }
 
 .modalLG>.modal-dialog {
-    max-width: 1090px !important;
-    min-width: 790px !important;
+    max-width: 900px !important;
+    min-width: 700px !important;
     top: 7% !important;
     width: 60% !important;
     margin-bottom: 4px !important;

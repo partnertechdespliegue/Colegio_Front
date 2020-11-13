@@ -1,6 +1,6 @@
+import { Empleado } from './../../../../../../models/Empleado';
 import { Component, Input, OnInit } from '@angular/core';
 import { Curso } from '../../../../../../models/Curso';
-import Swal from 'sweetalert2';
 import Constantes from '../../../../../../models/Constantes';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,12 +22,14 @@ export class ConfirmarCursoComponent implements OnInit {
   @Input() input_tipoCurso;
   @Input() input_nivelEducativo
   @Input() input_grado
+  @Input() input_maestro
   @Input() input_lsTema
 
   curso: any = new Curso();
   tipoCurso: TipoCurso = new TipoCurso();
   nivelEduc: NivelEducativo = new NivelEducativo();
   grado: Grado = new Grado();
+  maestro: any = new Empleado();
 
   lsTemaAgregado: Tema[] = [];
 
@@ -43,6 +45,7 @@ export class ConfirmarCursoComponent implements OnInit {
     this.tipoCurso = this.input_tipoCurso;
     this.nivelEduc = this.input_nivelEducativo
     this.grado = this.input_grado
+    this.maestro = this.input_maestro
     this.lsTemaAgregado = this.input_lsTema
   }
 
@@ -66,6 +69,7 @@ export class ConfirmarCursoComponent implements OnInit {
       "tipoCurso": this.tipoCurso,
       "nivelEducativo": this.nivelEduc,
       "grado": this.grado,
+      "empleado":this.maestro,
       "lsTema": this.lsTemaAgregado
     }
     this.colegioService.registrarCurso(dto).subscribe((resp: any) => {
@@ -85,6 +89,7 @@ export class ConfirmarCursoComponent implements OnInit {
     this.curso.tipoCurso = this.tipoCurso;
     this.curso.nivelEducativo = this.nivelEduc;
     this.curso.grado = this.grado;
+    this.curso.empleado = this.maestro;
 
     this.colegioService.actualizarCurso(this.curso).subscribe((resp: any) => {
       if (resp.estado == 1) {

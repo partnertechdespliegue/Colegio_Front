@@ -39,7 +39,7 @@ export class GestionCursoComponent implements OnInit, OnDestroy {
     'nivelEducativo',
     'grado',
     'tipoCurso',
-    'temario',
+    // 'temario',
     'actualizar',
     'eliminar',
   ];
@@ -226,7 +226,8 @@ export class GestionCursoComponent implements OnInit, OnDestroy {
         {
           backdrop: 'static',
           keyboard: false,
-          size: 'lg'
+          // windowClass: 'modalLG'
+          windowClass: 'modalMD'
         })
       this.modalRef.componentInstance.input_curso = indice;
     } else if (indice.accion == "GT") {

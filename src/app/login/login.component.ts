@@ -45,21 +45,4 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  // tipoPerfil(data) {
-  //   if (data.id_perfil != 1 || data.empresa != null) {
-  //     localStorage.setItem("objEmpresaSeleccion", JSON.stringify(data.empresa));
-  //     if (data.id_perfil == 2) {
-  //       this.asociarHuellero(data.empresa);
-  //     }
-  //   }
-  // }
-
-  asociarHuellero(empresa: Empresa) {
-    empresa.ruc = this.ipPublica;
-    this._usuarioService.asignarHuellero(empresa).subscribe((resp: any) => {
-      if (resp.estado == 1) {
-        Swal.fire(Constantes.SUCCESS, resp.msg, "success");
-      }
-    });
-  }
 }
