@@ -59,6 +59,7 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
   lsTipoZona: any[] = [];
   lsTipoDoc: any[] = [];
   lsSexo: any[] = Constantes.sexo;
+  nroDocOk: number = 3;
 
   constructor(
     public activemodal: NgbActiveModal,
@@ -77,7 +78,7 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
       this.llenarInformacion();
     } else {
       var scs = JSON.parse(localStorage.getItem('sucursalSeleccion'));
-      if (scs != null) {this.sucursal = scs;}
+      if (scs != null) { this.sucursal = scs; }
     }
     this.cargarFoto();
   }
@@ -118,7 +119,7 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
   }
 
   listarSucursal() {
-    this.colegioService.listarSucursal(this.colegio).subscribe((resp:any) => {
+    this.colegioService.listarSucursal(this.colegio).subscribe((resp: any) => {
       this.lsSucursal = resp.aaData;
       if (this.lsSucursal.length == 0) {
         this.toast.info("El colegio no cuenta con ninguna sucursal registrada", Constantes.INFO)
@@ -247,8 +248,8 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
       "estudiante": this.estudiante,
       "colegio": this.colegio,
       "sucursal": this.sucursal,
-      "nivelEducativo":this.nivelEduc,
-      "grado":this.grado,
+      "nivelEducativo": this.nivelEduc,
+      "grado": this.grado,
       "tipoZona": this.tipoZona.idTipoZona == null ? null : this.tipoZona,
       "pais": this.pais.idPais == null ? null : this.pais,
       "tipoDoc": this.tipoDoc,
@@ -267,8 +268,8 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
     }
   }
 
-  eliminarFoto(){
-    this.estudianteService.eliminarFotoEstudiante(this.estudiante.idEstudiante).subscribe((resp:any) => {
+  eliminarFoto() {
+    this.estudianteService.eliminarFotoEstudiante(this.estudiante.idEstudiante).subscribe((resp: any) => {
       if (resp.estado == 1) {
         this.toast.success(resp.msg, Constantes.SUCCESS)
         this.estudiante = resp.defaultObj;
@@ -341,7 +342,13 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
         var cant_dig = this.cantidadDigitos(this.estudiante.nroDoc);
         if (cant_dig < 8 && this.estudiante.nroDoc != null) {
           Swal.fire({ title: "DNI debe contener 8 digitos", timer: 2000, showConfirmButton: false });
+          this.nroDocOk = 3;
           return false;
+        } else if (cant_dig == 8) {
+          this.estudianteService.existeEstudiantePorNroDoc(this.estudiante.nroDoc).subscribe((resp: boolean) => {
+            if (resp) { this.nroDocOk = 2; return false;
+            } else { this.nroDocOk = 1; return true; }
+          });
         }
         break;
       case 'cel': var cont = 0; var cant_dig = this.cantidadDigitos(this.estudiante.nroCelular);
@@ -349,6 +356,12 @@ export class NuevoEstudianteComponent implements OnInit, OnDestroy {
           Swal.fire({ title: "Numero celular debe contener 9 digitos", timer: 2000, showConfirmButton: false });
           return false;
         } break;
+
+      default:
+        this.estudianteService.existeEstudiantePorNroDoc(this.estudiante.nroDoc).subscribe((resp: boolean) => {
+          if (resp) { this.nroDocOk = 2; return false;
+          } else { this.nroDocOk = 1; return true; }
+        });
     }
   }
 

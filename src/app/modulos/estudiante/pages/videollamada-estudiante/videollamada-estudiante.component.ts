@@ -57,8 +57,7 @@ export class VideollamadaEstudianteComponent implements OnInit {
     this.api.executeCommand('displayName', 'Partner Tech');
 
 
-    this.api.addEventListener('displayNameChange', (jaja:any)=> { debugger
-      // console.log("ACAAA"+jaja);
+    this.api.addEventListener('displayNameChange', (jaja:any)=> {
       this.participantId = jaja.id;
     });
     this.api.addEventListener('participantLeft', (e)=> {

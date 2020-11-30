@@ -202,6 +202,9 @@ const Constantes = {
   ],
   "horas":[
     {
+      "id":0
+    },
+    {
       "id":1
     },
     {

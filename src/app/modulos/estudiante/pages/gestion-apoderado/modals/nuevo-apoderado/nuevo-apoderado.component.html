@@ -36,8 +36,15 @@
                             <div class="col-4 mb-3" [ngSwitch]="tipoDoc.idTipoDoc">
                                 <div *ngSwitchCase="1">
                                     <label for="ndoc">Nro. Documento *</label>
-                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. DNI" id="ndoc" name="#apoderado.nroDoc" [(ngModel)]="apoderado.nroDoc" name="#apoderado.nroDoc" (keypress)="verificarNumero($event,'dni')" (blur)="validarData('dni')"
-                                        required>
+                                    <div class="input-group">
+                                        <input class="form-control form-control-sm" type="text" autocomplete="off" minlength="8" maxlength="10" placeholder="Nro. DNI" id="ndoc" name="#apoderado.nroDoc" [(ngModel)]="apoderado.nroDoc" name="#apoderado.nroDoc" (keypress)="verificarNumero($event,'dni')"
+                                            (blur)="validarData('dni')" required>
+                                        <span class="input-group-addon form-control-sm">
+                                          <i *ngIf="nroDocOk == 1" class="mdi mdi-check-circle" style="color: green; font-size: 16px;"></i>
+                                          <i *ngIf="nroDocOk == 2" class="mdi mdi-close-circle" style="color: red; font-size: 16px;"></i>
+                                          <i *ngIf="nroDocOk == 3" class="mdi mdi-timer-sand-empty" style="color: blue; font-size: 16px;"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 <!-- <div *ngSwitchCase="2">
                                   <label for="nruc">Nro. RUC *</label>
@@ -46,15 +53,34 @@
                               </div> -->
                                 <div *ngSwitchCase="3">
                                     <label for="npas">Nro. Pasaporte *</label>
-                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Pasaporte" id="npas" [(ngModel)]="apoderado.nroDoc" name="#apoderado.nroDoc" required>
+                                    <div class="input-group">
+                                        <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Pasaporte" id="npas" [(ngModel)]="apoderado.nroDoc" name="#apoderado.nroDoc" (blur)="validarData('')" required>
+                                        <span class="input-group-addon form-control-sm">
+                                        <i *ngIf="nroDocOk == 1" class="mdi mdi-check-circle" style="color: green; font-size: 16px;"></i>
+                                        <i *ngIf="nroDocOk == 2" class="mdi mdi-close-circle" style="color: red; font-size: 16px;"></i>
+                                        <i *ngIf="nroDocOk == 3" class="mdi mdi-timer-sand-empty" style="color: blue; font-size: 16px;"></i>
+                                      </span>
+                                    </div>
                                 </div>
                                 <div *ngSwitchCase="4">
                                     <label for="ncarext">Nro. Carnet Extranejeria *</label>
-                                    <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Carnet extrangeria" id="ncarext" [(ngModel)]="apoderado.nroDoc" name="#apoderado.nroDoc" required>
+                                    <div class="input-group">
+                                        <input class="form-control form-control-sm" type="text" autocomplete="off" maxlength="80" placeholder="Nro. Carnet extrangeria" id="ncarext" [(ngModel)]="apoderado.nroDoc" name="#apoderado.nroDoc" (blur)="validarData('')" required>
+                                        <span class="input-group-addon form-control-sm">
+                                        <i *ngIf="nroDocOk == 1" class="mdi mdi-check-circle" style="color: green; font-size: 16px;"></i>
+                                        <i *ngIf="nroDocOk == 2" class="mdi mdi-close-circle" style="color: red; font-size: 16px;"></i>
+                                        <i *ngIf="nroDocOk == 3" class="mdi mdi-timer-sand-empty" style="color: blue; font-size: 16px;"></i>
+                                      </span>
+                                    </div>
                                 </div>
                                 <div *ngSwitchDefault>
                                     <label>Seleccione tipo documento *</label>
-                                    <input class="form-control form-control-sm" type="text" disabled>
+                                    <div class="input-group">
+                                        <input class="form-control form-control-sm" type="text" disabled>
+                                        <span class="input-group-addon form-control-sm" id="basic-addon1">
+                                          <i class="mdi mdi-timer-sand-empty" style="font-size: 16px;"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-4 mb-3" *ngIf="verPais">
@@ -172,6 +198,6 @@
     </div>
     <div class=" modal-footer ">
         <button (click)="close()" id="cerrar" type="button " class="btn btn-warning btn-sm min " style="margin: 0px 5px; ">Cancelar</button>
-        <button (click)="openModalConfirmar()" type="button " id="confirmar" class="btn btn-info btn-sm min " [disabled]="estForm.form.invalid" style="margin: 0px 5px; ">Continuar</button>
+        <button (click)="openModalConfirmar()" type="button " id="confirmar" class="btn btn-info btn-sm min " [disabled]="estForm.form.invalid || nroDocOk != 1" style="margin: 0px 5px; ">Continuar</button>
     </div>
 </form>

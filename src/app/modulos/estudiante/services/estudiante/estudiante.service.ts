@@ -13,6 +13,10 @@ export class EstudianteService {
     public http: HttpClient
   ) { }
 
+  existeEstudiantePorNroDoc(nroDoc:string) {
+    return this.http.post(URL_SERVICIOSBACK + 'estudiante/existePorNroDoc', nroDoc);
+  }
+
   listarEstudiantePorColegio(colegio) {
     return this.http.post(URL_SERVICIOSBACK + 'estudiante/listarPorColegio', colegio);
   }
@@ -50,6 +54,10 @@ export class EstudianteService {
 
   eliminarFotoEstudiante(idEstudiante) {
     return this.http.post(URL_SERVICIOSBACK + 'estudiante/eliminarFoto', idEstudiante);
+  }
+
+  existeApoderadoPorNroDoc(nroDoc:string) {
+    return this.http.post(URL_SERVICIOSBACK + 'apoderado/existePorNroDoc', nroDoc);
   }
 
   listarApoderadoPorColegio(colegio) {
@@ -145,5 +153,13 @@ export class EstudianteService {
 
   eliminarHorarioSeccion(idHorarioSeccion) {
     return this.http.delete(URL_SERVICIOSBACK + 'horarioSeccion/'+ idHorarioSeccion)
+  }
+
+  listarAsistenciaEstudiante(horarioMaestro) {
+    return this.http.post(URL_SERVICIOSBACK + 'asistenciaEstudiante/listarAsistenciaEstudiante', horarioMaestro)
+  }
+
+  registrarAsistenciaMasivaEstudiante(lsAsistenciaEstudiante: any[]) {
+    return this.http.post(URL_SERVICIOSBACK + 'asistenciaEstudiante/registrarMasivo', lsAsistenciaEstudiante)
   }
 }

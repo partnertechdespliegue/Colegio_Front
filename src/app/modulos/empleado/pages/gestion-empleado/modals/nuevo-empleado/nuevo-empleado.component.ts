@@ -75,6 +75,8 @@ export class NuevoEmpleadoComponent implements OnInit, OnDestroy {
   lsTipoCuenta: any[] = Constantes.tipoCuenta
   lsTipoMoneda: any[] = Constantes.tipoModena
 
+  nroDocOk: number = 3;
+
   constructor(
     public activemodal: NgbActiveModal,
     private modalService: NgbModal,
@@ -368,6 +370,12 @@ export class NuevoEmpleadoComponent implements OnInit, OnDestroy {
             Swal.fire({ title: "El numero celular no puede exceder de 9 digitos", timer: 2000, showConfirmButton: false });
             return false;
           } else { return true; }
+          case 'nrocta':
+            if (this.contrato.nroCta.length == 4 || this.contrato.nroCta.length == 9 || this.contrato.nroCta.length == 14) {
+              this.contrato.nroCta += "-"
+            } else if (this.contrato.nroCta.length == 19) {
+              Swal.fire({ title: "El numero de cuenta no puede exceder de 16 digitos", timer: 2000, showConfirmButton: false });
+            } else { return true; }
         }
       }
     }
@@ -399,18 +407,32 @@ export class NuevoEmpleadoComponent implements OnInit, OnDestroy {
   validarData(campo) {
     switch (campo) {
       case 'dni':
-        var cont = 0;
         var cant_dig = this.cantidadDigitos(this.empleado.nroDoc);
         if (cant_dig < 8 && this.empleado.nroDoc != null) {
           Swal.fire({ title: "DNI debe contener 8 digitos", timer: 2000, showConfirmButton: false });
+          this.nroDocOk = 3;
           return false;
+        } else if (cant_dig == 8) {
+          this.empleadoService.existeEmpleadoPorNroDoc(this.empleado.nroDoc).subscribe((resp: boolean) => {
+            if (resp) { this.nroDocOk = 2; return false;
+            } else { this.nroDocOk = 1; return true; }
+          });
         }
         break;
-      case 'cel': var cont = 0; var cant_dig = this.cantidadDigitos(this.empleado.nroCelular);
+
+      case 'cel':
+        var cant_dig = this.cantidadDigitos(this.empleado.nroCelular);
         if (cant_dig < 9 && this.empleado.nroCelular != null) {
           Swal.fire({ title: "Numero celular debe contener 9 digitos", timer: 2000, showConfirmButton: false });
           return false;
         } break;
+
+      default:
+        this.empleadoService.existeEmpleadoPorNroDoc(this.empleado.nroDoc).subscribe((resp: boolean) => {
+          if (resp) {
+            this.nroDocOk = 2; return false;
+          } else { this.nroDocOk = 1; return true; }
+        });
     }
   }
 

@@ -11,18 +11,18 @@
                     <input class="form-control form-control-sm" type="text" maxlength="150" id="desc" name="#seccion.descripcion" [(ngModel)]="seccion.descripcion" required>
                 </div>
                 <div class="col-6 mb-3">
-                    <label for="capsal">Capacidad salon:</label>
-                    <input class="form-control form-control-sm" placeholder="Seleccione un salon" type="text" maxlength="150" id="capsal" name="#seccion.capacidadSalon" [(ngModel)]="seccion.capacidadSalon" readonly required>
+                    <label for="tur">Turno:</label>
+                    <ng-select [items]="lsTurno" bindLabel="descripcion" bindValue="idTurno" placeholder="Seleccione.." id="tur" name="#turno.idTurno" [(ngModel)]="turno.idTurno" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarGrado($event)" required></ng-select>
                 </div>
             </div>
             <div class="form-row col-12">
                 <div class="col-6 mb-3">
-                    <label for="tur">Turno:</label>
-                    <ng-select [items]="lsTurno" bindLabel="descripcion" bindValue="idTurno" placeholder="Seleccione.." id="tur" name="#turno.idTurno" [(ngModel)]="turno.idTurno" style="width: 100%; margin-right: 10px;" (ngModelChange)="listarGrado($event)" required></ng-select>
-                </div>
-                <div class="col-6 mb-3">
                     <label for="sal">Salon:</label>
                     <ng-select [items]="lsSalon" bindLabel="descripcion" bindValue="idSalon" placeholder="Seleccione.." id="sal" name="#salon.idSalon" [(ngModel)]="salon.idSalon" style="width: 100%; margin-right: 10px;" (ngModelChange)="asignarCapacidadSalon($event)" required></ng-select>
+                </div>
+                <div class="col-6 mb-3">
+                    <label for="capsal">Capacidad salon:</label>
+                    <input class="form-control form-control-sm" placeholder="Seleccione un salon" type="text" maxlength="150" id="capsal" name="#seccion.capacidadSalon" [(ngModel)]="seccion.capacidadSalon" readonly required>
                 </div>
             </div>
             <div class="form-row col-12">

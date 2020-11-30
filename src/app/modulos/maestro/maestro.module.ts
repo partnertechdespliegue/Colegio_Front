@@ -12,6 +12,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MaterialModule } from '../../material.module';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { GestionMaestroComponent } from './pages/gestion-maestro/gestion-maestro.component';
+import { HorarioMaestroComponent } from './pages/horario-maestro/horario-maestro.component';
+import { MarcarAsistenciaEstudianteComponent } from './pages/horario-maestro/modals/marcar-asistencia-estudiante/marcar-asistencia-estudiante.component';
+import { ConfirmarAsistenciaEstudianteComponent } from './pages/horario-maestro/modals/confirmar-asistencia-estudiante/confirmar-asistencia-estudiante.component';
 
 @NgModule({
   imports: [
@@ -29,11 +32,15 @@ import { GestionMaestroComponent } from './pages/gestion-maestro/gestion-maestro
   ],
 
   declarations: [
-    GestionMaestroComponent
+    GestionMaestroComponent,
+    HorarioMaestroComponent,
+    MarcarAsistenciaEstudianteComponent,
+    ConfirmarAsistenciaEstudianteComponent
   ],
 
   entryComponents: [
-
+    MarcarAsistenciaEstudianteComponent,
+    ConfirmarAsistenciaEstudianteComponent
   ],
 
   providers: [

@@ -11,6 +11,10 @@ export class EmpleadoService {
     public http: HttpClient,
   ) { }
 
+  existeEmpleadoPorNroDoc(nroDoc:string) {
+    return this.http.post(URL_SERVICIOSBACK + 'empleado/existePorNroDoc', nroDoc);
+  }
+
   listarEmpleadoPorColegio(colegio) {
     return this.http.post(URL_SERVICIOSBACK + 'empleado/listarPorColegio', colegio);
   }
@@ -56,5 +60,9 @@ export class EmpleadoService {
 
   listarBanco() {
     return this.http.get(URL_SERVICIOSBACK + 'banco/listar');
+  }
+
+  listarHorarioMaestro(empleadoDTO) {
+    return this.http.post(URL_SERVICIOSBACK + 'horarioMaestro/listarporEmpleadoYDia', empleadoDTO)
   }
 }

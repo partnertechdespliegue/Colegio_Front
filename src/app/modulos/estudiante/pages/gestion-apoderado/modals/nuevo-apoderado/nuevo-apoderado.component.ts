@@ -53,6 +53,7 @@ export class NuevoApoderadoComponent implements OnInit, OnDestroy {
   lsTipoZona: any[] = [];
   lsTipoDoc: any[] = [];
   lsSexo: any[] = Constantes.sexo;
+  nroDocOk: number = 3;
 
   constructor(
     public activemodal: NgbActiveModal,
@@ -307,6 +308,11 @@ export class NuevoApoderadoComponent implements OnInit, OnDestroy {
         if (cant_dig < 8 && this.apoderado.nroDoc != null) {
           Swal.fire({ title: "DNI debe contener 8 digitos", timer: 2000, showConfirmButton: false });
           return false;
+        } else if (cant_dig == 8) {
+          this.estudianteService.existeApoderadoPorNroDoc(this.apoderado.nroDoc).subscribe((resp: boolean) => {
+            if (resp) { this.nroDocOk = 2; return false;
+            } else { this.nroDocOk = 1; return true; }
+          });
         }
         break;
       case 'cel': var cont = 0; var cant_dig = this.cantidadDigitos(this.apoderado.nroCelular);
@@ -314,6 +320,12 @@ export class NuevoApoderadoComponent implements OnInit, OnDestroy {
           Swal.fire({ title: "Numero celular debe contener 9 digitos", timer: 2000, showConfirmButton: false });
           return false;
         } break;
+
+        default:
+        this.estudianteService.existeApoderadoPorNroDoc(this.apoderado.nroDoc).subscribe((resp: boolean) => {
+          if (resp) { this.nroDocOk = 2; return false;
+          } else { this.nroDocOk = 1; return true; }
+        });
     }
   }
 
